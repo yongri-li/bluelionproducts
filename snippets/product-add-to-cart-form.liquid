@@ -1,0 +1,821 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign allow_wholesale = false %}
+{% assign alt_purchase = false %}
+{% if customer %}
+{% if customer.tags != '' %}
+{% assign allow_wholesale = true %}
+      {% capture ctags %}
+      {{- customer.tags | split: ","  | replace: '"', "" | replace: "]", "" | replace: "[", "" | replace: "\", "" | replace: ",", "" | replace: "default_order", "" -}}
+      {% endcapture %}
+  {% assign show_collection = ctags | strip %}
+{% if customer.tags contains 'default_order' %}
+{% assign alt_purchase = true %}
+{% endif %}
+{% endif %}
+{% endif %}
+<style>
+  .wholesalehidebtn {
+    display:none !important;
+  }
+  #wholesale_question {
+    display: none;
+  }
+  #wholesale_moreinfo {
+    display:none;
+  }
+  #wholesale_moreinfo_confirm_btn {
+    display:none;
+  }
+  #delivery_method_container {
+      display:none;
+  }
+  #text_preview {
+    padding-bottom: .5rem!important;
+    padding-top: .5rem!important;
+    margin-bottom: 0!important;
+    overflow-wrap: break-word;
+  }
+.discount_percentage_text_badge {
+ color: {{section.settings.discount_percentage_text_badge_color}};
+ padding-top: 7px !important;
+ padding-bottom: 5px !important;
+}
+.discount_before {
+ color: {{section.settings.discount_before_color}};
+}
+.discount_each {
+ color: {{section.settings.discount_each_color}};
+}
+
+.discount_total {
+ color: {{section.settings.discount_total_color}};
+}
+
+.discount_percentage_text {
+    color: {{section.settings.discount_percentage_text_color}};
+}
+.discount_text_before_all {
+    color:{{section.settings.discount_text_before_all_color}};
+}
+</style>
+<div
+    class="product-add-to-cart-form-wrapper"
+    data-product-id="{{ product.id }}"
+    data-product-variants="{{ product.variants | json | escape }}"
+    data-history-mode="{{ history_mode | default: false }}">
+
+    <p
+        class="product-price-area lead mb-3"
+        data-text-old-price="{{ 'product.old_price' | t }}"
+        data-text-unavailable="{{ 'product.unavailable' | t }}">
+        {% if product.compare_at_price > product.price %}
+            <s>
+                <span class="sr-only">
+                    {{ 'product.old_price' | t }}
+                </span>
+                {{ product.compare_at_price | money }}
+            </s>
+        {% endif %}
+        <span class="product-price-final">
+            {% if product.price_varies %}
+                <span>
+                    {{ 'product.from' | t }}
+                </span>
+            {% endif %}
+            {{ product.price | money }}
+        </span>
+    </p>
+
+
+    {% assign form_class = 'product-add-to-cart-form rounded mb-4' %}
+    {% if settings.product_add_to_cart_form_bg_color %}
+        {% assign form_class = 'bg-light py-4 px-2 px-lg-4 ' | append: form_class %}
+    {% endif %}
+
+    {% form 'product', product, class: form_class %}
+  
+   {% if template contains 'with-name' %}
+<p class="line-item-property__field">
+ <label class="header" for="more-info">***Engraving Instructions***</label>
+  <div class="col-12 text-center bg-white rounded border mb-3">
+    <p id="text_preview" style="font-size: 1.5rem;">Font Preview</p>
+</div>
+   <div class="input-group input-group-lg mb-3">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="Product-customization-option">Font</span>
+  </div>
+<select class="form-control form-control-lg" id="font_Select" name="properties[Font]">
+{%- assign font_loop_index = 0 -%}
+{% for block in section.blocks %}
+{% if block.type == 'font' %}
+{%- assign font_loop_index = font_loop_index | plus: 1 -%}
+<option {{font_loop_index}} {% if font_loop_index == 1 %}selected="selected"{% endif %} value="{{block.settings.font}}" style="font-family: '{{block.settings.font}}'" data-font="{{block.settings.font | replace: " ", ""}}">{{block.settings.font}}</option>
+{% endif %}
+{% endfor %}		
+ </select>
+  </div>
+ <div class="input-group input-group-lg">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="Product-customization-option">Engrave</span>
+  </div>
+    <input placeholder="Tell Us Your Engraving Instructions!" required class="required form-control" id="more-info" type="text" maxlength=50 name="properties[Additional Info]" aria-label="Product-customization-option" aria-describedby="Product-customization-option">
+</div>
+</p>
+{% endif %}
+   {% if template contains 'normal-engrave' %}
+<p class="line-item-property__field">
+ <label class="header" for="more-info">***Engraving Instructions***</label>
+ <div class="input-group input-group-lg">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="Product-customization-option">Engrave</span>
+  </div>
+    <input placeholder="Engraving text" required class="required form-control" id="normal-engrave-more-info" type="text" maxlength=50 name="properties[Additional Info]" aria-label="Product-customization-option" aria-describedby="Product-customization-option">
+</div>
+</p>
+{% endif %}
+    {% if product.has_only_default_variant %}
+        <input  id="hidden_variant" type="hidden" name="id" value="{{ current_variant.id }}">
+    {% else %}
+        <!-- No javascript -->
+        <div class="no-js form-group">
+        <select
+                id="hidden_variant"
+            name="id"
+            class="custom-select">
+            {% for variant in product.variants %}
+            <option
+                {% if variant == current_variant %}selected{% endif %}
+                data-options="{{ variant.options | join: '-' }}"
+                value="{{ variant.id }}">
+                {{ variant.title }} - {{ variant.price | money }}
+            </option>
+            {% endfor %}
+        </select>
+        </div>
+
+        <!-- Javascript -->
+        <div class="js pb-0">
+            {% for option in product.options_with_values %}
+                {% assign option_name = option.name | handleize %}
+
+                {% if section.settings.use_swatches and option_name == 'color' or option.name == 'colour' %}
+                    <h5 class="h6 mb-1 opacity-75">{{ option.name }}</h5>
+                    <div class="d-flex flex-wrap mx-n1 mb-3">
+                        {% for value in option.values %}
+                        {% assign swatch_image = value | handleize | prepend: 'swatch-' | append: '.png' %}
+                            <div class="m-1">
+                                <input
+                                    class="add-to-cart-form-radio-select form-check-input d-none"
+                                    type="radio"
+                                    name="{{ option.name | handleize }}"
+                                    id="add-to-cart-form-{{ product.id }}-option-radio-{{ value | handleize }}"
+                                    value="{{ value | escape }}"
+                                    {% if option.selected_value == value %}checked{% endif %}>
+                                <label
+                                    class="form-check-label {{ value | handleize | replace: '-', '' }}"
+                                    data-toggle="tooltip" title="{{ value | escape }}"
+                                    for="add-to-cart-form-{{ product.id }}-option-radio-{{ value | handleize }}"
+                                    style="
+                                        width: 32px;
+                                        height: 32px;
+                                        background-color: {{ value | handleize | replace: '-', '' }};
+                                        {% if section.settings.swatch_image %}
+                                        background-image: url({{ swatch_image | asset_img_url: '32x32', crop: 'center' }})
+                                        {% endif %}
+                                    ">
+                                    <span class="sr-only">{{ value | escape }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                {% else %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="add-to-cart-form-{{ product.id }}-option-select-{{ option.name | handleize }}">
+                            {{ option.name }}
+                            </label>
+                        </div>
+                        <select
+                            id="add-to-cart-form-{{ product.id }}-option-select-{{ option.name | handleize }}"
+                            class="add-to-cart-form-option-select custom-select option-select-{{ option.name | handleize }}"
+                            data-product-id="{{ product.id }}"
+                            data-index="option{{ forloop.index }}">
+                            {% for value in option.values %}
+                            <option
+                                {% if option.selected_value == value %}selected{% endif %}
+                                value="{{ value | escape }}">
+                                {{ value | escape }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Inventory -->
+    {% if settings.product_add_to_cart_form_show_inventory and show_inventory %}
+        <div class="product-inventory mt-2 mb-4">
+
+            {% for variant in product.variants %}
+                {% if variant.inventory_management == "shopify" and variant.inventory_policy != "continue" %}
+                    {% assign low_stock_indicator = settings.product_add_to_cart_form_low_stock_indicator | divided_by: 1 %}
+
+                    {% if variant.inventory_quantity == 0 %}
+                        {% assign progress_value = '100' %}
+                        {% assign progress_color = 'bg-danger' %}
+                        {% assign progress_animated = '' %}
+                    {% elsif variant.inventory_quantity <= low_stock_indicator %}
+                        {% assign progress_value = '25' %}
+                        {% assign progress_color = 'bg-warning' %}
+                        {% assign progress_animated = 'progress-bar-animated' %}
+                    {% else %}
+                        {% assign progress_value = '75' %}
+                        {% assign progress_color = 'bg-success' %}
+                        {% assign progress_animated = 'progress-bar-animated' %}
+                    {% endif %}
+
+                {% else %}
+                    {% if variant.available %}
+                        {% assign progress_value = '75' %}
+                        {% assign progress_color = 'bg-success' %}
+                        {% assign progress_animated = 'progress-bar-animated' %}
+                    {% else %}
+                        {% assign progress_value = '100' %}
+                        {% assign progress_color = 'bg-danger' %}
+                        {% assign progress_animated = '' %}
+                    {% endif %}
+                {% endif %}
+
+                <div class="progress {% if variant == current_variant %}d-flex{% else %}d-none{% endif %}" data-variant-id="{{ variant.id }}">
+                    <div
+                        class="progress-bar progress-bar-striped {{ progress_color }} {{ progress_animated }}"
+                        role="progressbar"
+                        aria-valuenow="{{ progress_value }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        style="width: 100%; min-width: 130px;"
+                        data-width="{{ progress_value }}%">
+                        {% if variant.inventory_management == "shopify" and variant.inventory_policy != "continue" %}
+                            <span>{{ 'product.stock_count' | t: count: variant.inventory_quantity }}</span>
+                        {% else %}
+                            {% if variant.available %}
+                                <span>{{ 'product.in_stock' | t }}</span>
+                            {% else %}
+                                <span>{{ 'product.unavailable' | t }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if settings.product_add_to_cart_form_show_qty and show_qty %}
+        <div class="form-group">
+            <span class="sr-only">{{ 'product.quantity' | t }}</span>
+            <input
+                type="number"
+                class="add-to-cart-form-qty form-control"
+                size="20"
+                name="quantity"
+                value="1"
+                min="1"
+                id="prod_qty_form"
+                {% unless product.available %}disabled{% endunless %}>
+        </div>
+    {% else %}
+        {% unless product.has_only_default_variant %}
+            <div class="mt-3"></div>
+        {% endunless %}
+    {% endif %}
+{% if allow_wholesale %}
+{% if alt_purchase %}
+{% assign btn_type = 'button' %}
+{% else %}
+{% assign btn_type = 'div' %}
+{% endif %}
+{% else %}
+{% assign btn_type = 'button' %}
+{% endif %}
+{% if allow_wholesale %}
+    <div class="form-group mb-0" id="wholesale_form_purchase">
+      <{{btn_type}}
+            class="btn btn-block d-flex align-items-center justify-content-center {{ settings.product_add_to_cart_form_btn_color }} {{ settings.product_add_to_cart_form_btn_variant }} {{ settings.product_add_to_cart_form_btn_size }}"
+            data-animate-class="{{ settings.product_add_to_cart_form_cart_icon_animation_class }}"
+            data-text-view-cart="{{ 'product.view_cart' | t }}"
+            data-text-added-to-cart="{{ 'product.added_to_cart' | t }}"
+            data-text-add-to-cart="{{ 'product.add_to_cart' | t }}"
+            data-text-sold-out="{{ 'product.sold_out' | t }}"
+            data-text-unavailable="{{ 'product.unavailable' | t }}"
+            data-text-loading="{{ 'misc.loading' | t }}"
+            type="submit"
+            name="add"
+            {% if allow_wholesale %}
+            {% if alt_purchase %}
+               {% else %}
+            id="ATC_btn_wholesale_verify"
+            data-wholesale-variant="{{product.selected_or_first_available_variant.id}}"
+            data-wholesale-qty="1"
+               {% if template contains 'with-name' %}
+            data-wholesale-customized=""
+               {% endif %}
+               {% endif %}
+            {% endif %}
+            {% unless product.available %}disabled{% endunless %}>
+
+                {% assign icon_class = 'add-to-cart-form-btn-cart-icon mr-2' %}
+                {% assign icon_id = 'shopping_bag' %}
+                {% case settings.product_add_to_cart_form_cart_icon %}
+                    {% when 'icon-shopping-bag' %}
+                        {% render 'icon-shopping-bag' with size: 20, class: icon_class, id: icon_id %}
+                    {% when 'icon-shopping-basket' %}
+                        {% render 'icon-shopping-basket' with size: 20, class: icon_class %}
+                    {% when 'icon-shopping-minecart' %}
+                        {% render 'icon-shopping-minecart' with size: 20, class: icon_class %}
+                    {% else %}
+                        {% render 'icon-shopping-cart' with size: 20, class: icon_class %}
+                {% endcase %}
+                {% render 'icon-question' with size: 25, class: icon_class %}
+                    
+
+            <span
+                class="add-to-cart-form-btn-spinner spinner-border spinner-border-sm mr-2"
+                role="status"
+                aria-hidden="true"
+                style="display: none;">
+            </span>
+
+            <span class="add-to-cart-form-btn-text" id="wholesale_verify_btn_text">
+                {{ 'product.add_to_cart' | t }}
+            </span>
+        </{{btn_type}}>
+ <div id="wholesale_moreinfo">
+ <div class="input-group input-group mt-2">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="wholesale_firstname_label">First Name</span>
+  </div>
+    <input placeholder="John" required class="required form-control" id="wholesale_firstname_input" type="text" maxlength=50 name="properties[firstname]">
+</div>
+ <div class="input-group input-group mt-2">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="wholesale_lastname_label">Last Name</span>
+  </div>
+    <input placeholder="Doe" required class="required form-control" id="wholesale_lastname_input" type="text" maxlength=50 name="properties[lastname]">
+</div>
+       <div class="input-group input-group mt-2">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="wholesale_phone_label">Phone</span>
+  </div>
+    <input placeholder="701-123-4567" required class="required form-control" id="wholesale_phone_input" type="tel" maxlength=50 name="properties[phone]">
+</div>
+ <div class="input-group input-group mt-2">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="wholesale_zipcode_label">Email</span>
+  </div>
+    <input placeholder="johndoe@email.com" required class="required form-control" id="wholesale_email_input" type="email" maxlength=50 name="properties[email]">
+</div>
+ <div class="input-group input-group mt-2">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="wholesale_street_label">Street</span>
+  </div>
+    <input placeholder="600 E Boulevard Ave" required class="required form-control" id="wholesale_street_input" type="text" maxlength=50 name="properties[street]">
+</div>
+ <div class="input-group input-group mt-2">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="wholesale_city_label">City</span>
+  </div>
+    <input placeholder="Bismarck" required class="required form-control" id="wholesale_city_input" type="text" maxlength=50 name="properties[city]">
+</div>
+ <div class="input-group input-group mt-2">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="wholesale_state_label">State</span>
+  </div>
+    <input placeholder="ND" required class="required form-control" id="wholesale_state_input" type="text" maxlength=50 name="properties[state]">
+</div>
+ <div class="input-group input-group mt-2">
+   <div class="input-group-prepend">
+    <span class="input-group-text" id="wholesale_zipcode_label">Zip Code</span>
+  </div>
+    <input placeholder="58505" required class="required form-control" id="wholesale_zipcode_input" type="text" maxlength=50 name="properties[zipcode]">
+</div>
+      <div id="wholesale_moreinfo_confirm_btn" class="btn btn-primary">Confirm</div>
+</div>
+{% if allow_wholesale %}
+<div id="delivery_method_container" class="delivery_method_container">
+    <div class="form-check pt-1 pb-1">
+        <input class="delivery-method-input form-check-input" type="radio" name="properties[deliverymethod]" id="delivery-method-deliver" value="deliver">
+        <label class="form-check-label" for="delivery-method-deliver">
+            <span class="delivery-method-deliver font-weight-bold">Deliver</span>   
+        </label>
+    </div>
+    <div class="form-check pt-1 pb-1">
+        <input class="delivery-method-input form-check-input" type="radio" name="properties[deliverymethod]" id="delivery-method-localpickup" value="pickup">
+        <label class="form-check-label" for="delivery-method-localpickup">
+            <span class="delivery-method-localpickup font-weight-bold">Local Pickup</span>
+        </label>
+    </div>
+    <div id="wholesale_delivery_confirm_btn" class="btn btn-primary mt-2">Confirm</div>
+</div>
+{% endif %}
+        <{{btn_type}}
+            class="add-to-cart-form-btn btn btn-block d-flex align-items-center justify-content-center wholesalehidebtn {{ settings.product_add_to_cart_form_btn_color }} {{ settings.product_add_to_cart_form_btn_variant }} {{ settings.product_add_to_cart_form_btn_size }}"
+            data-animate-class="{{ settings.product_add_to_cart_form_cart_icon_animation_class }}"
+            data-text-view-cart="{{ 'product.view_cart' | t }}"
+            data-text-added-to-cart="{{ 'product.added_to_cart' | t }}"
+            data-text-add-to-cart="{{ 'product.add_to_cart' | t }}"
+            data-text-sold-out="{{ 'product.sold_out' | t }}"
+            data-text-unavailable="{{ 'product.unavailable' | t }}"
+            data-text-loading="{{ 'misc.loading' | t }}"
+            type="submit"
+            name="add"
+            {% if allow_wholesale %}
+            {% if alt_purchase %}
+               {% else %}
+            id="ATC_btn_wholesale"
+            data-wholesale-variant="{{product.selected_or_first_available_variant.id}}"
+            data-wholesale-qty="1"
+               {% if template contains 'with-name' %}
+            data-wholesale-customized=""
+               {% endif %}
+               {% endif %}
+            {% endif %}
+            {% unless product.available %}disabled{% endunless %}>
+
+                {% assign icon_class = 'add-to-cart-form-btn-cart-icon mr-2' %}
+
+                {% case settings.product_add_to_cart_form_cart_icon %}
+                    {% when 'icon-shopping-bag' %}
+                        {% render 'icon-shopping-bag' with size: 20, class: icon_class %}
+                    {% when 'icon-shopping-basket' %}
+                        {% render 'icon-shopping-basket' with size: 20, class: icon_class %}
+                    {% when 'icon-shopping-minecart' %}
+                        {% render 'icon-shopping-minecart' with size: 20, class: icon_class %}
+                    {% else %}
+                        {% render 'icon-shopping-cart' with size: 20, class: icon_class %}
+                {% endcase %}
+
+            <span
+                class="add-to-cart-form-btn-spinner spinner-border spinner-border-sm mr-2"
+                role="status"
+                aria-hidden="true"
+                style="display: none;">
+            </span>
+
+            <span class="add-to-cart-form-btn-text">
+                {{ 'product.add_to_cart' | t }}
+            </span>
+        </{{btn_type}}>
+    </div>
+{% else %}
+{% if product.tags contains 'order_info' %}
+{% unless allow_wholesale %}
+<div
+class="btn btn-block d-flex align-items-center justify-content-center {{ settings.product_add_to_cart_form_btn_color }} {{ settings.product_add_to_cart_form_btn_variant }} {{ settings.product_add_to_cart_form_btn_size }}"
+data-animate-class="{{ settings.product_add_to_cart_form_cart_icon_animation_class }}"
+data-text-view-cart="{{ 'product.view_cart' | t }}"
+data-text-added-to-cart="{{ 'product.added_to_cart' | t }}"
+data-text-add-to-cart="{{ 'product.add_to_cart' | t }}"
+data-text-sold-out="{{ 'product.sold_out' | t }}"
+data-text-unavailable="{{ 'product.unavailable' | t }}"
+data-text-loading="{{ 'misc.loading' | t }}"
+type="submit"
+name="add"
+id="ATC_btn_wholesale_verify"
+{% unless product.available %}disabled{% endunless %}>
+    {% assign icon_class = 'add-to-cart-form-btn-cart-icon mr-2' %}
+    {% assign icon_id = 'shopping_bag' %}
+    {% case settings.product_add_to_cart_form_cart_icon %}
+        {% when 'icon-shopping-bag' %}
+            {% render 'icon-shopping-bag' with size: 20, class: icon_class, id: icon_id %}
+        {% when 'icon-shopping-basket' %}
+            {% render 'icon-shopping-basket' with size: 20, class: icon_class %}
+        {% when 'icon-shopping-minecart' %}
+            {% render 'icon-shopping-minecart' with size: 20, class: icon_class %}
+        {% else %}
+            {% render 'icon-shopping-cart' with size: 20, class: icon_class %}
+    {% endcase %}
+    {% render 'icon-question' with size: 25, class: icon_class %}
+        
+
+<span
+    class="add-to-cart-form-btn-spinner spinner-border spinner-border-sm mr-2"
+    role="status"
+    aria-hidden="true"
+    style="display: none;">
+</span>
+
+<span class="add-to-cart-form-btn-text" id="wholesale_verify_btn_text">
+    {{ 'product.add_to_cart' | t }}
+</span>
+</div>
+<div id="wholesale_moreinfo">
+    <div class="input-group input-group mt-2">
+      <div class="input-group-prepend">
+       <span class="input-group-text" id="wholesale_firstname_label">First Name</span>
+     </div>
+       <input placeholder="John" required class="required form-control" id="wholesale_firstname_input" type="text" maxlength=50 name="properties[firstname]">
+   </div>
+    <div class="input-group input-group mt-2">
+      <div class="input-group-prepend">
+       <span class="input-group-text" id="wholesale_lastname_label">Last Name</span>
+     </div>
+       <input placeholder="Doe" required class="required form-control" id="wholesale_lastname_input" type="text" maxlength=50 name="properties[lastname]">
+   </div>
+          <div class="input-group input-group mt-2">
+      <div class="input-group-prepend">
+       <span class="input-group-text" id="wholesale_phone_label">Phone</span>
+     </div>
+       <input placeholder="701-123-4567" required class="required form-control" id="wholesale_phone_input" type="tel" maxlength=50 name="properties[phone]">
+   </div>
+    <div class="input-group input-group mt-2">
+      <div class="input-group-prepend">
+       <span class="input-group-text" id="wholesale_zipcode_label">Email</span>
+     </div>
+       <input placeholder="johndoe@email.com" required class="required form-control" id="wholesale_email_input" type="email" maxlength=50 name="properties[email]">
+   </div>
+    <div class="input-group input-group mt-2">
+      <div class="input-group-prepend">
+       <span class="input-group-text" id="wholesale_street_label">Street</span>
+     </div>
+       <input placeholder="600 E Boulevard Ave" required class="required form-control" id="wholesale_street_input" type="text" maxlength=50 name="properties[street]">
+   </div>
+    <div class="input-group input-group mt-2">
+      <div class="input-group-prepend">
+       <span class="input-group-text" id="wholesale_city_label">City</span>
+     </div>
+       <input placeholder="Bismarck" required class="required form-control" id="wholesale_city_input" type="text" maxlength=50 name="properties[city]">
+   </div>
+    <div class="input-group input-group mt-2">
+      <div class="input-group-prepend">
+       <span class="input-group-text" id="wholesale_state_label">State</span>
+     </div>
+       <input placeholder="ND" required class="required form-control" id="wholesale_state_input" type="text" maxlength=50 name="properties[state]">
+   </div>
+    <div class="input-group input-group mt-2">
+      <div class="input-group-prepend">
+       <span class="input-group-text" id="wholesale_zipcode_label">Zip Code</span>
+     </div>
+       <input placeholder="58505" required class="required form-control" id="wholesale_zipcode_input" type="text" maxlength=50 name="properties[zipcode]">
+   </div>
+         <div id="wholesale_moreinfo_confirm_btn" class="btn btn-primary">Confirm</div>
+   </div>
+          <div class="form-group mb-0">
+        <button
+            class="add-to-cart-form-btn btn btn-block d-flex align-items-center justify-content-center prodinfo wholesalehidebtn {{ settings.product_add_to_cart_form_btn_color }} {{ settings.product_add_to_cart_form_btn_variant }} {{ settings.product_add_to_cart_form_btn_size }}"
+            data-animate-class="{{ settings.product_add_to_cart_form_cart_icon_animation_class }}"
+            data-text-view-cart="{{ 'product.view_cart' | t }}"
+            data-text-added-to-cart="{{ 'product.added_to_cart' | t }}"
+            data-text-add-to-cart="{{ 'product.add_to_cart' | t }}"
+            data-text-sold-out="{{ 'product.sold_out' | t }}"
+            data-text-unavailable="{{ 'product.unavailable' | t }}"
+            data-text-loading="{{ 'misc.loading' | t }}"
+            type="submit"
+            name="add"
+            {% if allow_wholesale %}
+            {% if alt_purchase %}
+               {% else %}
+            id="ATC_btn_wholesale"
+            data-wholesale-variant="{{product.selected_or_first_available_variant.id}}"
+            data-wholesale-qty="1"
+               {% if template contains 'with-name' %}
+            data-wholesale-customized=""
+               {% endif %}
+               {% endif %}
+            {% endif %}
+            {% unless product.available %}disabled{% endunless %}>
+
+                {% assign icon_class = 'add-to-cart-form-btn-cart-icon mr-2' %}
+
+                {% case settings.product_add_to_cart_form_cart_icon %}
+                    {% when 'icon-shopping-bag' %}
+                        {% render 'icon-shopping-bag' with size: 20, class: icon_class %}
+                    {% when 'icon-shopping-basket' %}
+                        {% render 'icon-shopping-basket' with size: 20, class: icon_class %}
+                    {% when 'icon-shopping-minecart' %}
+                        {% render 'icon-shopping-minecart' with size: 20, class: icon_class %}
+                    {% else %}
+                        {% render 'icon-shopping-cart' with size: 20, class: icon_class %}
+                {% endcase %}
+
+            <span
+                class="add-to-cart-form-btn-spinner spinner-border spinner-border-sm mr-2"
+                role="status"
+                aria-hidden="true"
+                style="display: none;">
+            </span>
+
+            <span class="add-to-cart-form-btn-text">
+                {{ 'product.add_to_cart' | t }}
+            </span>
+        </button>
+    </div>
+    {% endunless %}
+    {% else %}
+    <div class="form-group mb-0">
+        <button
+            class="add-to-cart-form-btn btn btn-block d-flex align-items-center justify-content-center {{ settings.product_add_to_cart_form_btn_color }} {{ settings.product_add_to_cart_form_btn_variant }} {{ settings.product_add_to_cart_form_btn_size }}"
+            data-animate-class="{{ settings.product_add_to_cart_form_cart_icon_animation_class }}"
+            data-text-view-cart="{{ 'product.view_cart' | t }}"
+            data-text-added-to-cart="{{ 'product.added_to_cart' | t }}"
+            data-text-add-to-cart="{{ 'product.add_to_cart' | t }}"
+            data-text-sold-out="{{ 'product.sold_out' | t }}"
+            data-text-unavailable="{{ 'product.unavailable' | t }}"
+            data-text-loading="{{ 'misc.loading' | t }}"
+            type="submit"
+            name="add"
+            {% if allow_wholesale %}
+            {% if alt_purchase %}
+               {% else %}
+            id="ATC_btn_wholesale"
+            data-wholesale-variant="{{product.selected_or_first_available_variant.id}}"
+            data-wholesale-qty="1"
+               {% if template contains 'with-name' %}
+            data-wholesale-customized=""
+               {% endif %}
+               {% endif %}
+            {% endif %}
+            {% unless product.available %}disabled{% endunless %}>
+
+                {% assign icon_class = 'add-to-cart-form-btn-cart-icon mr-2' %}
+
+                {% case settings.product_add_to_cart_form_cart_icon %}
+                    {% when 'icon-shopping-bag' %}
+                        {% render 'icon-shopping-bag' with size: 20, class: icon_class %}
+                    {% when 'icon-shopping-basket' %}
+                        {% render 'icon-shopping-basket' with size: 20, class: icon_class %}
+                    {% when 'icon-shopping-minecart' %}
+                        {% render 'icon-shopping-minecart' with size: 20, class: icon_class %}
+                    {% else %}
+                        {% render 'icon-shopping-cart' with size: 20, class: icon_class %}
+                {% endcase %}
+
+            <span
+                class="add-to-cart-form-btn-spinner spinner-border spinner-border-sm mr-2"
+                role="status"
+                aria-hidden="true"
+                style="display: none;">
+            </span>
+
+            <span class="add-to-cart-form-btn-text">
+                {{ 'product.add_to_cart' | t }}
+            </span>
+        </button>
+    </div>
+            {% endif %}
+            {% endif %}
+            {% if product.tags contains 'qty_discount' %}
+        <div class="qty_break_container mt-3">
+            {% for block in section.blocks %}
+            {% if block.type == 'qty_discount' %}
+            {% capture discount_percentage %}
+                0.{{block.settings.qty_discount_ammount}}
+            {% endcapture %}
+            {% assign discount_ammount = product.price | times: discount_percentage %}
+            {% capture discount_percentage_text %}
+                <span class="discount_percentage_text {{section.settings.discount_percentage_text_weight}}">{{block.settings.qty_discount_ammount}}%</span>
+            {% endcapture %}
+            {% capture discount_percentage_text_badge %}
+                <span class="discount_percentage_text_badge badge {{section.settings.discount_percentage_text_badge_weight}} {{section.settings.discount_percentage_text_badge_bgcolor}}">Save {{block.settings.qty_discount_ammount}}%</span>
+            {% endcapture %}
+            {% capture discount_each %}
+                <span class="discount_each {{section.settings.discount_each_weight}}">{{ product.price | minus: discount_ammount | money }}</span>
+            {% endcapture %}
+            {% capture discount_total %}
+                <span class="discount_total {{section.settings.discount_total_weight}}">{{ product.price | minus: discount_ammount | times: block.settings.qty_discount_limit | money }}</span>
+            {% endcapture %}
+            {% capture original_price %}
+            <strike class="discount_before {{section.settings.discount_before_weight}}">{{product.price| money }}</strike>
+            {% endcapture %}
+            {% capture discount_text_before_all_span %}
+            <span class="discount_text_before_all {{section.settings.discount_text_before_all_weight}}">
+            {% endcapture %}
+            <div class="form-check pt-1 pb-1">
+                <input class="qty_discounts form-check-input" type="radio" name="QtyDiscount" id="QtyDiscount-{{block.settings.qty_discount_limit}}" data-discount-ammount="{{block.settings.qty_discount_ammount}}" data-discount-limit="{{block.settings.qty_discount_limit}}" value="{{block.settings.qty_discount_code}}">
+                <label class="form-check-label" for="QtyDiscount-{{block.id}}">
+                    {{block.settings.qty_discount_title | replace: '[format]',discount_text_before_all_span | replace: '[/format]',"</span>" | replace: '[%]',discount_percentage_text | replace: '[%badge]',discount_percentage_text_badge  | replace: '[each]', discount_each | replace: '[total]', discount_total | replace: '[before]', original_price}} 
+                </label>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+            {% endif %}
+    {% endform %}
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        {% if product.tags contains 'order_info' %}
+        
+        $('body').on('click', '#ATC_btn_wholesale_verify', function () {
+            $("#shopping_bag").css("display", "none");
+            $("#wholesale_question").css("display", "block");
+            $("#wholesale_verify_btn_text").text("Please fill out the form below");
+            $("#wholesale_moreinfo").css("display", "block");
+        });
+        $('body').on('change', '#wholesale_zipcode_input', function () {
+            $('#wholesale_moreinfo_confirm_btn').show();
+        });
+        $('body').on('click', '#wholesale_moreinfo_confirm_btn', function () {
+            $('#wholesale_moreinfo').hide();
+            $('#wholesale_moreinfo_confirm_btn').hide();
+            $('#ATC_btn_wholesale_verify').addClass('wholesalehidebtn');
+            {% if allow_wholesale %}
+            $('#delivery_method_container').show();
+            {% endif %}
+            
+        });
+        {% if allow_wholesale %}
+        $('body').on('click', '#wholesale_delivery_confirm_btn', function () {
+            $('#wholesale_moreinfo_confirm_btn').hide();
+            $('#delivery_method_container').hide();
+            $('.prodinfo').removeClass('wholesalehidebtn');
+            $('#ATC_btn_wholesale').removeClass('wholesalehidebtn');
+        });
+        {% endif %}
+        {% endif %}
+        {%- if product.tags contains 'qty_discount' %}
+	  $(".add-to-cart-form-qty").change(function() {
+          {%- assign qbreak_loop_index = 0 -%}
+          {%- for block in section.blocks -%}
+          {% if block.type == 'qty_discount' -%}
+          {%- assign qbreak_loop_index = qbreak_loop_index | plus: 1 -%}
+          {% if qbreak_loop_index == 1 %}
+          var min = {{block.settings.qty_discount_limit}};
+          {% endif -%}
+          {%- if qbreak_loop_index == 2 -%}
+          var mid = {{block.settings.qty_discount_limit}};
+          {% endif -%}
+          {%- if qbreak_loop_index == 3 -%}
+          var max = {{block.settings.qty_discount_limit}};
+          {%- endif -%}
+          {%- endif -%}
+          {%- endfor %}
+            if ($(this).val() >= min && $(this).val() < mid) {
+                $("#QtyDiscount-" + min).prop('checked', 'true');
+                var discount_code = $("#QtyDiscount-" + min).val();
+                var qty_limit = $("#QtyDiscount-" + min).attr("data-discount-limit");
+                $.cookie('discount_code', discount_code, { expires: 1, path: '/' });
+            }
+            else if ($(this).val() >= mid && $(this).val() < max) {
+                $("#QtyDiscount-" + mid).prop('checked', 'true');
+                var discount_code = $("#QtyDiscount-" + mid).val();
+                var qty_limit = $("#QtyDiscount-" + mid).attr("data-discount-limit");
+                $.cookie('discount_code', discount_code, { expires: 1, path: '/' });
+            }
+            else if ($(this).val() >= max) {
+                $("#QtyDiscount-" + max).prop('checked', 'true');
+                var discount_code = $("#QtyDiscount-" + max).val();
+                var qty_limit = $("#QtyDiscount-" + max).attr("data-discount-limit");
+                $.cookie('discount_code', discount_code, { expires: 1, path: '/' });
+            }
+            else if ($(this).val() < min) {
+                $('.qty_discounts').prop('checked', false);
+                $.cookie('discount_code', '', { expires: 1, path: '/' });
+            }
+      });
+    $('input[name="QtyDiscount"]').click(function () {
+        var discount_code = $(this).val();
+        var qty_limit = $(this).attr("data-discount-limit");
+        $.cookie('discount_code', discount_code, { expires: 1, path: '/' });
+        var read_discount = $.cookie('discount_code');
+        $('.add-to-cart-form-qty').val(qty_limit);
+        console.log(read_discount);
+    });
+{%- endif %}
+{%- if template contains 'with-name' %}
+    var font_first_load = $('#font_Select').find('option:selected').attr("data-font");
+    $("#text_preview").attr('class', font_first_load);
+    $('body').on('change', '#more-info', function () {
+        var CustomizedData = $(this).val();
+        console.log(CustomizedData);
+        $('#ATC_btn_wholesale').attr('data-wholesale-customized', CustomizedData);
+    });
+    $('body').on('change', '#font_Select', function () {
+        var font = $(this).find('option:selected').attr("data-font");
+        $("#text_preview").removeAttr('class');
+        $("#text_preview").attr('class', font);
+    });
+
+    $('#more-info').keyup(function () {
+        var textpreview = $(this).val();
+        if (textpreview.length) {
+            $('#text_preview').text(textpreview);
+        } else {
+            $('#text_preview').text("Font Preview");
+        }
+
+    });
+    jQuery("#text_preview").fitText(1.2);
+{% endif %}
+{% if allow_wholesale %}
+$('body').on('click', 'input[name="properties[deliverymethod]"]', function(){
+    var delivery_method = $(this).val();
+})
+{% endif %}
+
+    });
+</script>

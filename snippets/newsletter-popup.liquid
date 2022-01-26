@@ -1,0 +1,27 @@
+    {% form 'customer', id: 'newsletter-form-popup', class: 'mt-4 mb-2' %}
+      <div role="alert" aria-live="polite" aria-atomic="true">
+        {{ form.errors | default_errors }}
+
+        {% if form.posted_successfully? %}
+          <p class="alert alert-success">
+            {{ 'newsletter.confirmation' | t }}
+          </p>
+        {% endif %}
+      </div>
+
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="form-inline flex-nowrap justify-content-center">
+      <label class="sr-only" for="Email">{{placeholder}}</label>
+      <div class="input-group {% if form_size != blank %}input-group{{ form_size }}{% endif %} pb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">@</div>
+        </div>
+        <input type="email" name="contact[email]" size="30" id="Email-popup" class="form-control" value="{% if customer.email != blank %}{{ customer.email }}{% endif %}" placeholder="{{ 'newsletter.email' | t }}" aria-label="{{ 'newsletter.email' | t }}" autocorrect="off" autocapitalize="off">
+        <div class="input-group-append">
+        <button type="submit" name="commit" id="Subscribe-popup" class="btn flex-shrink-0 {{ btn_color_primary }} {{ btn_variant_primary }} {% if form_size != blank %}btn{{ form_size }}{% endif %}{{btn_effect_primary}}">
+            {{ 'newsletter.submit' | t }}
+        </button>
+        </div>
+        </div>
+      </div>
+    {% endform %}

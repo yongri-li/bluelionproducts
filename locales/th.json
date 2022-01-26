@@ -1,0 +1,335 @@
+{
+  "misc": {
+    "close": "ปิด",
+    "previous": "ก่อนหน้า",
+    "next": "ถัดไป",
+    "loading": "กำลังโหลด",
+    "page": "หน้า",
+    "pagination": "การแบ่งหน้า",
+    "image": "รูปภาพ",
+    "toggle_nav": "สลับการนำทาง",
+    "total_price": "ราคารวม",
+    "load_more": "โหลดเพิ่มเติม",
+    "filter": "ตัวกรอง",
+    "currency": "สกุลเงิน",
+    "switch_currency_title": "สลับสกุลเงิน",
+    "switch_currency_text": "คุณต้องการสลับสกุลเงินของร้านเป็น",
+    "switch_currency_btn": "สลับสกุลเงิน",
+    "from": "จาก",
+    "discount": "ส่วนลด",
+    "payment_methods": "วิธีการชำระเงิน",
+    "secure_payments": "การชำระเงินที่มีความปลอดภัยและมีการป้องกัน 100%",
+    "tagged": "แท็ก",
+    "apply": "นำไปใช้",
+    "all": "ทั้งหมด",
+    "update": "อัพเดต"
+  },
+  "404": {
+    "title": "404-ไม่พบ",
+    "subtext_html": "เพจที่คุณกำลังหาไม่มีอยู่"
+  },
+  "accessibility": {
+    "skip_to_content": "ข้ามไปยังเนื้อหา",
+    "skip_to_footer": "ข้ามไปยังส่วนท้าย"
+  },
+  "blog": {
+    "readmore": "อ่านเพิ่มเติม",
+    "filter_by_tag": "กรองตามแท็ก",
+    "tagged_under": "แท็กภายใต้",
+    "comments": {
+      "title": "ปล่อยข้อคิดเห็น",
+      "name": "ชื่อ",
+      "email": "อีเมล",
+      "message": "ข้อความ",
+      "post": "ติดประกาศข้อคิดเห็น",
+      "moderated": "หมายเหตุข้อคิดเห็นต้องได้รับการอนุมัติก่อนที่จะถูกเผยแพร่ออกไป",
+      "success_moderated": "ข้อคิดเห็นของคุณถูกโพสต์เรียบร้อยแล้ว เราจะเผยแพร่มันในเวลาสั้นๆในขณะที่บล็อกของเราเป็นแบบควบคุม",
+      "success": "ข้อคิดเห็นของคุณถูกโพสต์เรียบร้อยแล้ว! ขอบคุณ!",
+      "no_comments": "ยังไม่มีความเห็น!",
+      "be_first": "เป็นคนแรกที่แสดงข้อคิดเห็น",
+      "with_count": {
+        "one": "{{count}} ข้อคิดเห็น",
+        "other": "{{count}} ข้อคิดเห็น"
+      }
+    }
+  },
+  "carousel": {
+    "carousel": "Carousel",
+    "label_play": "เริ่มทำงานแบบอัตโนมัติ",
+    "label_stop": "หยุดการทำงานแบบอัตโนมัติ",
+    "slide_number_off": "{{slide _ number}} จาก {{total _ slide}}"
+  },
+  "cart": {
+    "general": {
+      "title": "รถเข็น",
+      "subtitle_html": "ต้องการความช่วยเหลือเกี่ยวกับการสั่งซื้อของคุณหรือไม่? <a href=\"\/pages\/contact\">ติดต่อเรา<\/a> ",
+      "summary": "สรุป",
+      "remove": "ลบออก",
+      "note": "คำสั่งพิเศษสำหรับการสั่งซื้อของคุณ",
+      "subtotal": "ผลรวมย่อย",
+      "shipping_at_checkout": "การจัดส่ง & ภาษีที่คำนวณจากการเช็กเอาต์",
+      "update": "อัพเดตรถเข็น",
+      "checkout": "เช็กเอาต์",
+      "empty_html": "รถเข็นของคุณว่างอยู่ในขณะนี้ <a href=\"\/collections\/all\">เรียกดูต่อไป<\/a>",
+      "cookies_required": "เปิดใช้งานคุกกี้เพื่อใช้รถเข็นชอปปิ้ง",
+      "item_quantity": "ปริมาณไอเท็ม",
+      "savings": "คุณกำลังบันทึก",
+      "empty_cart": "รถเข็นชอปปิ้งของคุณว่างเปล่า",
+      "view_cart": "ดูรถเข็น"
+    },
+    "label": {
+      "product": "ผลิตภัณฑ์",
+      "price": "ราคา",
+      "quantity": "ปริมาณ",
+      "qty": "Qty",
+      "total": "ทั้งหมด",
+      "discounted_price": "ราคาที่ไม่นับ",
+      "original_price": "ราคาเดิม"
+    }
+  },
+  "contact": {
+    "form": {
+      "name": "ชื่อ",
+      "email": "อีเมล",
+      "phone": "โทรศัพท์ (ทางเลือก)",
+      "message": "ข้อความ",
+      "send": "ส่ง",
+      "post_success": "ขอบคุณที่ติดต่อเรา เราจะติดต่อกลับไปให้เร็วที่สุดเท่าที่จะทำได้"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "บัญชีของฉัน",
+      "short_title": "บัญชีผู้ใช้",
+      "return": "กลับไปยังรายละเอียดแอคเคาต์",
+      "nav": {
+        "orders": "ยอดสั่งซื้อ",
+        "addresses": "แอดเดรส",
+        "logout": "ล็อกเอาต์"
+      }
+    },
+    "addresses": {
+      "title": "ที่อยู่ของคุณ",
+      "default": "แอดเดรสเริ่มต้น",
+      "add_new": "เพิ่มแอดเดรสใหม่",
+      "edit_address": "แก้ไขแอดเดรส",
+      "first_name": "ชื่อ",
+      "last_name": "นามสกุล",
+      "company": "บริษัท",
+      "address1": "ที่อยู่ 1",
+      "address2": "ที่อยู่ 2",
+      "city": "เมือง",
+      "country": "ประเทศ",
+      "province": "จังหวัด",
+      "zip": "รหัสไปรษณีย์ (รหัสไปรษณีย์)",
+      "phone": "โทรศัพท์",
+      "set_default": "ตั้งเป็นแอดเดรสดีฟอลต์",
+      "add": "เพิ่มแอดเดรส",
+      "update": "อัพเดตที่อยู่",
+      "cancel": "ยกเลิก",
+      "edit": "แก้ไข",
+      "delete": "ลบ",
+      "delete_confirm": "คุณแน่ใจว่าคุณต้องการลบแอดเดรสนี้?",
+      "select_country": "เลือกประเทศ",
+      "no_addresses": "ยังไม่มีที่อยู่ เพิ่มที่อยู่แรกของคุณจากปุ่มด้านล่าง"
+    },
+    "login": {
+      "title": "การล็อกอินของสมาชิก",
+      "email": "อีเมล",
+      "password": "รหัสผ่าน",
+      "forgot_password": "ลืมรหัสผ่านของคุณ?",
+      "sign_in": "ลงชื่อเข้าใช้",
+      "new": "คุณมาใหม่เหรอ",
+      "create_account": "สร้างแอคเคาต์ฟรี",
+      "guest_title": "ดำเนินการต่อในฐานะเกสต์",
+      "guest_continue": "ดำเนินการต่อ"
+    },
+    "orders": {
+      "title": "ประวัติการสั่งซื้อ",
+      "order_number": "ลำดับ",
+      "date": "วันที่",
+      "payment_status": "สถานะการชำระเงิน",
+      "fulfillment_status": "สถานะของการเติมเต็ม",
+      "total": "ทั้งหมด",
+      "none": "คุณยังไม่ได้วางคำสั่งเลยนะ"
+    },
+    "order": {
+      "billing_address": "ที่อยู่ของใบเรียกเก็บเงิน",
+      "cancelled": "การสั่งซื้อถูกยกเลิกเมื่อ {{date}}",
+      "cancelled_reason": "เหตุผล: {{reason}}",
+      "date": "วางเมื่อ {{date}}",
+      "payment_status": "สถานะการชำระเงิน",
+      "shipping_address": "ที่อยู่ในการขนส่ง",
+      "fulfillment_status": "สถานะของการเติมเต็ม",
+      "discount": "ส่วนลด",
+      "shipping": "การจัดส่ง",
+      "tax": "ภาษี",
+      "product": "ผลิตภัณฑ์",
+      "sku": "สกู",
+      "price": "ราคา",
+      "quantity": "ปริมาณ",
+      "total": "ทั้งหมด",
+      "fulfilled_at": "วันที่ที่สำเร็จ",
+      "title": "สั่งซื้อ {{name}}",
+      "track_shipment": "ติดตามการจัดส่ง",
+      "tracking_url": "ลิงก์การติดตาม",
+      "tracking_company": "แคร์เรียร์",
+      "tracking_number": "หมายเลขการติดตาม",
+      "subtotal": "ผลรวมย่อย",
+      "note": "หมายเหตุสำหรับลูกค้า"
+    },
+    "register": {
+      "title": "สร้างบัญชีผู้ใช้",
+      "have_account": "มีแอคเคาต์แล้วหรือไม่?",
+      "login": "เข้าสู่ระบบ",
+      "first_name": "ชื่อ",
+      "last_name": "นามสกุล",
+      "email": "อีเมล",
+      "password": "รหัสผ่าน",
+      "submit": "สร้าง",
+      "cancel": "กลับไปที่ร้านค้า"
+    },
+    "recover_password": {
+      "title": "รีเซ็ตรหัสผ่านของคุณ",
+      "email": "อีเมล",
+      "submit": "ส่ง",
+      "cancel": "ยกเลิก",
+      "subtext": "เราจะส่งอีเมลถึงคุณเพื่อรีเซ็ตรหัสผ่านของคุณ",
+      "success": "เราได้ส่งอีเมลพร้อมลิงก์ให้คุณเพื่ออัพเดตรหัสผ่านของคุณ"
+    },
+    "activate_account": {
+      "title": "เปิดใช้งานแอคเคาต์",
+      "subtext": "สร้างรหัสผ่านของคุณเพื่อเรียกทำงานแอคเคาต์ของคุณ",
+      "password": "รหัสผ่าน",
+      "password_confirm": "ยืนยันรหัสผ่าน",
+      "submit": "เปิดใช้งานแอคเคาต์",
+      "cancel": "ปฏิเสธคำเชิญ"
+    },
+    "reset_password": {
+      "title": "รีเซ็ตรหัสผ่าน",
+      "subtext": "ป้อนรหัสผ่านใหม่สำหรับ {{email}}",
+      "password": "รหัสผ่าน",
+      "password_confirm": "ยืนยันรหัสผ่าน",
+      "submit": "รีเซ็ตรหัสผ่าน"
+    }
+  },
+  "footer": {
+    "social_platform": "{{name}} บน {{platform}}",
+    "copyright": "ลิขสิทธิ์",
+    "payment_methods": "วิธีการชำระเงินที่ยอมรับ"
+  },
+  "onboarding": {
+    "product_title": "ชื่อผลิตภัณฑ์",
+    "product_desc_html": "<p>ลอเรป ipsum do or sit amet, consectetur adipiscing elit. Integer Consequat ที่ purus vel dapibus Integer nibh eget erat placerat congue eget id neque.<\/p>",
+    "collection_title": "ชื่อคอลเล็กชัน",
+    "blog_post_title": "หัวเรื่องบล็อกของบล็อก"
+  },
+  "password_page": {
+    "store_will_open": "ร้านค้าจะเปิดขึ้น",
+    "spread_the_word": "กระจายข่าว",
+    "powered_by_shopify_html": "ร้านนี้จะถูกเปิดโดย {{shop ify}}",
+    "form": {
+      "password_placeholder": "ป้อนโดยใช้รหัสผ่าน",
+      "submit": "ป้อน"
+    }
+  },
+  "products": {
+    "empty": "ไม่พบผลิตภัณฑ์!",
+    "filter_by": "กรองตาม",
+    "filter_products": "กรองผลิตภัณฑ์",
+    "filter_by_tag": "กรองตามแท็ก:",
+    "sort_by": "เรียงตาม"
+  },
+  "product": {
+    "image_gallery": "แกลเลอรีรูปภาพ",
+    "regular_price": "ราคาปกติ",
+    "sold_out": "ขายออก",
+    "unavailable": "ไม่พร้อมใช้งาน",
+    "old_price": "ราคาเก่า",
+    "on_sale": "ในการขาย",
+    "on_sale_from_html": "เปิดขายจาก {{price}}",
+    "from_text_html": "จาก {{price}}",
+    "quantity": "ปริมาณ",
+    "quick_view": "มุมมองด่วน",
+    "view_product": "ดูผลิตภัณฑ์",
+    "add_to_cart": "เพิ่มในรถเข็น",
+    "added_to_cart": "เพิ่มลงในรถเข็นของคุณ",
+    "add_selected_items": "เพิ่มไอเท็มที่เลือก",
+    "view_cart": "ดูรถเข็น",
+    "add_this_product": "เพิ่มผลิตภัณฑ์นี้",
+    "from": "จาก",
+    "learn_more": "เรียนรู้เพิ่มเติม",
+    "in_stock": "ในหุ้น",
+    "stock_count": {
+      "zero": "ขายหมดแล้ว!",
+      "one": "ไอเท็มสุดท้าย",
+      "other": "ในสต็อก: {{count}} ไอเท็ม"
+    },
+    "hurry_up_count": {
+      "zero": "ขายหมดแล้ว! โปรดกลับมาในภายหลัง!",
+      "one": "เร็วเข้า! นี่คือไอเท็มที่พร้อมใช้งานล่าสุด",
+      "other": "เร็วเข้า! เฉพาะ {{count}} ไอเท็มที่พร้อมใช้งาน"
+    }
+  },
+  "newsletter": {
+    "email": "อีเมลแอดเดรสของคุณ",
+    "confirmation": "ขอบคุณสำหรับการสมัครสมาชิก",
+    "submit": "สมัครสมาชิก"
+  },
+  "search": {
+    "title": "ค้นหาร้านค้าของเรา",
+    "title_short": "การค้นหา",
+    "placeholder": "ค้นหา ...",
+    "submit": "การค้นหา",
+    "search_in": "ค้นหาใน...",
+    "types": {
+      "products": "ผลิตภัณฑ์",
+      "articles": "บทความ",
+      "pages": "หน้าต่างๆ"
+    },
+    "heading": {
+      "one": "ผลการค้นหา",
+      "other": "ผลการค้นหา"
+    },
+    "results_with_count": {
+      "one": "พบผลลัพธ์ {{count}}!",
+      "other": "พบผลลัพธ์ {{count}} รายการ!"
+    },
+    "no_results_html": "ไม่พบผลลัพธ์!"
+  },
+  "social": {
+    "share_label": "แบ่งใช้บนสื่อบันทึกทางสังคม",
+    "share_on_facebook": "แบ่งใช้",
+    "share_on_twitter": "ทวีต",
+    "share_on_pinterest": "ปักหมุด",
+    "share_on_whatsapp": "แบ่งใช้",
+    "alt_text": {
+      "share_on_facebook": "แบ่งใช้บน Facebook",
+      "share_on_twitter": "Tweet บน Twitter",
+      "share_on_pinterest": "ปักหมุดที่ดอกเบี้ย",
+      "share_on_whatsapp": "แบ่งใช้บน Whats app"
+    }
+  },
+  "instagram": {
+    "loading": "กำลังโหลดโพสต์ของอินสตาแกรมโปรดรอสักครู่ ...",
+    "followers": "ผู้ติดตาม",
+    "likes": "ชอบ",
+    "comments": "ข้อคิดเห็น"
+  },
+  "cross_sells": {
+    "offer_expires_soon": "ข้อเสนอหมดอายุเร็วๆนี้"
+  },
+  "fancybox": {
+    "close": "ปิด",
+    "next": "ถัดไป",
+    "prev": "ก่อนหน้า",
+    "error": "ไม่สามารถโหลดเนื้อหาที่ร้องขอ โปรดลองอีกครั้งในภายหลัง",
+    "play_start": "สไลด์โชว์เริ่มต้น",
+    "play_stop": "หยุดสไลด์โชว์",
+    "full_screen": "เต็มจอ",
+    "thumbs": "ภาพขนาดเล็ก",
+    "download": "ดาวน์โหลด",
+    "share": "แบ่งใช้",
+    "zoom": "ย่อ\/ขยาย"
+  }
+}

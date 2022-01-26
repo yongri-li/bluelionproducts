@@ -1,0 +1,228 @@
+{% if section.settings.section_enabled %}
+    {% assign product = all_products[section.settings.product] %}
+
+    <div id="{{ product.id | prepend: 'featured-product-' }}" class="
+    container
+    {{ section.settings.margin_top | prepend: 'mt-' }}
+    {{ section.settings.margin_bottom | prepend: 'mb-' }}
+    ">
+
+    {% if product == blank %}
+        
+    <div class="row align-items-center">
+        <div class="col-md mb-3">
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg bg-light' }}
+        </div>
+        <div class="col-md mb-3">
+            <h2>{{ 'onboarding.product_title' | t }}</h2>
+            <div class="rte mb-4">
+            {{ 'onboarding.product_desc_html' | t }}
+            </div>
+            <button class="btn btn-primary">{{ 'product.add_to_cart' | t }}</button>
+        </div>
+        </div>
+
+    {% else %}
+
+        <div class="row align-items-center {{ section.settings.image_alignment }}">
+        <div class="product-images col{{ section.settings.breakpoint }} mb-3">
+            {% if section.settings.show_image_gallery %}
+                {% render 'product-image-gallery' with product: product, id: 'featured-product-image-gallery-' %}
+            {% endif %}
+        </div>
+        <div class="col{{ section.settings.breakpoint }} mb-3">
+            
+            {% if section.settings.show_product_title %}
+            <h2 class="{{ section.settings.product_title_size }}">
+                <a href="{{ product.url }}" class="theme-link-color">
+                {{ product.title | escape }}
+                </a>
+            </h2>
+            {% endif %}
+
+            {% if section.settings.show_add_to_cart_form %}
+                {% render 'product-add-to-cart-form' with product: product, show_qty: section.settings.add_to_cart_form_show_qty %}
+            {% endif %}
+
+            {% if section.settings.show_product_desc %}
+                <p class="rte my-3">
+                    {{ product.description | strip_html | truncate: section.settings.product_desc_truncate }}
+                    <a href="{{ product.url | within: collection }}" class="">
+                        {{ 'product.learn_more' | t }}
+                        {% render 'icon-chevrons-right' with size: 16 class: "" %}
+                    </a>
+                </p>
+                <hr>
+            {% endif %}
+            
+            {% if section.settings.show_share_buttons %}
+                {% render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product.featured_image %}
+            {% endif %}
+
+        </div>
+        </div>
+
+    {% endif %}
+
+    </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Featured product",
+  "tag": "section",
+  "class": "featured-product",
+  "settings": [
+    {
+        "type": "header",
+        "content": "Enable/Disable section"
+    },
+    {
+        "type": "checkbox",
+        "id": "section_enabled",
+        "label": "Enable section",
+        "default": true
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Product settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_title",
+      "label": "Show product title",
+      "default": true
+    },
+
+    {
+      "type": "select",
+      "id": "product_title_size",
+      "label": "Product title size",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h1", "label": "H1"
+        },
+        {
+          "value": "h2", "label": "H2"
+        },
+        {
+          "value": "h3", "label": "H3"
+        },
+        {
+          "value": "h4", "label": "H4"
+        },
+        {
+          "value": "h5", "label": "H5"
+        },
+        {
+          "value": "h6", "label": "H6"
+        }
+      ]
+    },
+    {
+        "type": "checkbox",
+        "id": "show_image_gallery",
+        "label": "Show image gallery",
+        "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_desc",
+      "label": "Show product description",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_desc_truncate",
+      "label": "Product decription truncate",
+      "default": "175",
+      "info": "The maximum number of characters for the product description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_price",
+      "label": "Show product price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discount_badge",
+      "label": "Show discount badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_add_to_cart_form",
+      "label": "Show Add to Cart",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show share buttons",
+      "info": "Note: You can adjust options for share buttons under 'Theme Settings'",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "select",
+      "id":  "breakpoint",
+      "label": "Responsive breakpoint",
+      "info": "Define at what screen size point the layout should switch from row to column. [Learn more](https://getbootstrap.com/docs/4.5/layout/overview/#responsive-breakpoints)",
+      "default": "-md",
+      "options": [
+        {
+          "value": "", "label": "No breakpoint"
+        },
+        {
+          "value": "-sm", "label": "Small screens (sm)"
+        },
+        {
+          "value": "-md", "label": "Medium screens (md)"
+        },
+        {
+          "value": "-lg", "label": "Large screens (lg)"
+        },
+        {
+          "value": "-xl", "label": "Extra-large screens (xl)"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "paragraph",
+      "content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin top",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    }
+  ]
+}
+{% endschema %}

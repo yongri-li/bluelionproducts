@@ -1,0 +1,266 @@
+<!-- cookieconent.js -->
+<cookie_consent id="cookie_consent"></cookie_consent>
+<script defer="defer">
+  const cookie_consent_id = $('#cookie_consent');
+if (cookie_consent_id.length) {
+	$(window).on("load", function() {
+		loadCookieConsent();
+	})
+	
+	function loadCookieConsent() {
+		var cookie_consent = document.createElement("script");
+		cookie_consent.src = "https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js";
+		cookie_consent.type = "text/javascript";
+		cookie_consent.onload = function() {
+      var data = {{ section.settings | json }};
+
+var config = {
+  'palette': {
+    'popup': {
+      'background': '{{settings.color_primary}}'
+    },
+    'button': {
+      'background': '{{settings.color_primary}}'
+    }
+  },
+  'content': {
+    message: "{{ section.settings.consent_message }}",
+    dismiss: "{{ section.settings.consent_dismiss }}",
+    link: "{{ section.settings.consent_url_text }}",
+    allow: "{{ section.settings.consent_allow }}",
+    deny: "{{ section.settings.consent_deny }}",
+    policy: "{{ section.settings.consent_policy }}",
+  },
+  'static': data.cc_static,
+};
+
+if (data.cc_popup_background_color) {
+  config.palette.popup.background = data.cc_popup_background_color;
+}
+
+if (data.cc_popup_text_color) {
+  config.palette.popup.text = data.cc_popup_text_color;
+}
+
+if (data.cc_button_background_color) {
+  config.palette.button.background = data.cc_button_background_color;
+}
+
+if (data.cc_button_text_color) {
+  config.palette.button.text = data.cc_button_text_color;
+}
+
+if (data.cc_link_type === false && ! data.cc_link_page) {
+  config.showLink = false;
+}
+
+if (data.cc_link_type && data.cc_link_page) {
+  config.content.href = {{ pages[section.settings.cc_link_page].url | json }};
+}
+
+if (data.cc_theme) {
+  config.theme = data.cc_theme;
+}
+
+if (data.cc_position) {
+  config.position = data.cc_position;
+}
+
+if (data.cc_type) {
+  config.type = data.cc_type;
+  config.revokable = true;
+
+  if (typeof window.deferTrekkie === 'function') {
+    config.onInitialise = function () {
+      if (this.hasConsented()) {
+        window.handleCookieAccept();
+      }
+    };
+
+    config.onStatusChange = function () {
+      if (this.hasConsented()) {
+        window.handleCookieAccept();
+      }
+    };
+  } else {
+    console.error('Cookie Consent is not correctly installed!');
+  }
+}
+
+window.cookieconsent.initialise(config);
+		}
+		cookie_consent.onerror = function(e) {
+			//console.error('script.onerror');
+		}
+		document.getElementsByTagName("cookie_consent")[0].appendChild(cookie_consent);
+	}
+}
+    
+</script>
+{% schema %}
+  {
+    "name": "Cookie consent",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cc_enable",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Position"
+      },
+      {
+        "type": "select",
+        "id": "cc_position",
+        "label": "Position",
+        "options": [
+          {
+            "value": "",
+            "label": "Banner bottom"
+          },
+          {
+            "value": "top",
+            "label": "Banner top"
+          },
+          {
+            "value": "bottom-left",
+            "label": "Floating left"
+          },
+          {
+            "value": "bottom-right",
+            "label": "Floating right"
+          }
+        ],
+        "default": ""
+      },
+      {
+        "type": "checkbox",
+        "id": "cc_static",
+        "label": "Static",
+        "info": "Enable to stick to top of screen",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Compliance type"
+      },
+      {
+        "type": "radio",
+        "id": "cc_type",
+        "label": "Compliance type",
+        "info": "(Advanced) [Required additional setup](https://docs.osano.com/article/19-developer-documentation)",
+        "options": [
+          { "value": "", "label": "Just tell users that we use cookies" },
+          { "value": "opt-in", "label": "Ask users to opt into cookies (Advanced)" }
+        ],
+        "default": ""
+      },
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "select",
+        "id": "cc_theme",
+        "label": "Theme",
+        "options": [
+          {
+            "value": "",
+            "label": "Block"
+          },
+          {
+            "value": "edgeless",
+            "label": "Edgeless"
+          },
+          {
+            "value": "classic",
+            "label": "Classic"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Palette"
+      },
+      {
+        "type": "color",
+        "id": "cc_popup_background_color",
+        "label": "Popup background color"
+      },
+      {
+        "type": "color",
+        "id": "cc_popup_text_color",
+        "label": "Popup text color"
+      },
+      {
+        "type": "color",
+        "id": "cc_button_background_color",
+        "label": "Button background color"
+      },
+      {
+        "type": "color",
+        "id": "cc_button_text_color",
+        "label": "Button text color"
+      },
+      {
+        "type": "header",
+        "content": "Learn more link"
+      },
+      {
+        "type": "checkbox",
+        "id": "cc_link_type",
+        "label": "Link to your own policy?",
+        "info": "Defaults to cookiesandyou.com",
+        "default": false
+      },
+      {
+        "type": "page",
+        "id": "cc_link_page",
+        "label": "Cookie policy page"
+      },
+      {
+        "type": "text",
+        "id": "consent_message",
+        "label": "Message",
+        "default": "This website uses cookies to target ads, and ensure you get the best experience on our website."
+      },
+      {
+        "type": "text",
+        "id": "consent_dismiss",
+        "label": "Dismiss",
+        "default": "Got it!"
+      },
+      {
+        "type": "text",
+        "id": "consent_url_text",
+        "label": "Link text",
+        "default": "Learn more"
+      },
+      {
+        "type": "text",
+        "id": "consent_allow",
+        "label": "Allow button",
+        "default": "Allow cookies"
+      },
+      {
+        "type": "text",
+        "id": "consent_deny",
+        "label": "Deny button",
+        "default": "Deny"
+      },
+      {
+        "type": "text",
+        "id": "consent_policy",
+        "label": "Policy",
+        "default": "Cookiepolicy"
+      }
+
+    ]
+  }
+{% endschema %}
+<!-- cookieconent.min.css -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"
+      integrity="sha256-zQ0LblD/Af8vOppw18+2anxsuaz3pWYyVWi+bTvTH8Q="
+      crossorigin="anonymous">

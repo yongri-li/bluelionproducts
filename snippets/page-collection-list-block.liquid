@@ -1,0 +1,513 @@
+<div class="
+  {% if block.settings.container %} container {% else %} container-fluid {% endif %}
+  {{ block.settings.margin_top | prepend: 'mt-' }}
+  {{ block.settings.margin_bottom | prepend: 'mb-' }}
+">
+
+  {% if block.settings.heading != blank %}
+    <{{ block.settings.heading_size }} class="{{ block.settings.heading_alignment }}">
+      {{ block.settings.heading | escape }}
+    </{{ block.settings.heading_size }}>
+  {% endif %}
+
+  {% if block.settings.subheading != blank %}
+    <div class="rte text-muted {{ block.settings.heading_alignment }}">
+      {{ block.settings.subheading }}
+    </div>
+  {% endif %}
+
+  <ul class="
+    list-unstyled
+    mx-n2
+    {{ block.settings.gutter_horizontal | prepend: 'mx-sm-n' }}
+    row
+    row-cols-{{ block.settings.row }}
+    row-cols-sm-{{ block.settings.row_sm }}
+    row-cols-md-{{ block.settings.row_md }}
+    row-cols-lg-{{ block.settings.row_lg }}
+    row-cols-xl-{{ block.settings.row_xl }}"
+  >
+
+    {% if block.settings.collection_1 != blank %}
+      {%- assign collection = collections[block.settings.collection_1] -%}
+      <li class="
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ collection.url | default: '#' }}" class="theme-link-color d-block pb-2 text-decoration-none">
+          {% if collection.image != blank or collection.products.first != blank %}
+            <div class="
+              position-relative
+              overflow-hidden
+              mb-3
+              {% if block.settings.image_border %}img-thumbnail{% endif %}
+              {% if block.settings.image_circle %}rounded-circle{% endif %}
+              {{ block.settings.image_hover_effect }}
+            ">
+              {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+              {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+              <img
+                class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+                src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+                data-src="{{ image_object | img_url: image_size, crop: 'center'  }}"
+                alt="{{ image_object.alt | escape }}"
+                width="{{ block.settings.image_width }}"
+                height="{{ block.settings.image_height }}"
+                loading="lazy"
+              >
+          </div>
+          {% elsif collection == empty %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light mb-3' }}
+          {% endif %}
+
+          {% if block.settings.show_collection_title %}
+            <p class="{{ block.settings.collection_title_size }} mb-0">
+              {%- assign default_label = 'onboarding.collection_title' | t -%}
+              {{ collection.title | default: default_label }}
+
+              {% if block.settings.show_collection_count %}
+                <span class="">
+                  ({{ collection.products.size }})
+                </span>
+              {% endif %}
+
+            </p>
+          {% endif %}
+
+        </a>
+
+        {% if block.settings.show_collection_desc %}
+          <div class="rte text-muted">
+            {{ collection.description | truncate: block.settings.collection_desc_truncate  }}
+          </div>
+        {% endif %}
+
+      </li>
+    {% endif %}
+    {% if block.settings.collection_2 != blank %}
+      {%- assign collection = collections[block.settings.collection_2] -%}
+      <li class="
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ collection.url | default: '#' }}" class="theme-link-color d-block pb-2 text-decoration-none">
+          {% if collection.image != blank or collection.products.first != blank %}
+            <div class="
+              position-relative
+              overflow-hidden
+              mb-3
+              {% if block.settings.image_border %}img-thumbnail{% endif %}
+              {% if block.settings.image_circle %}rounded-circle{% endif %}
+              {{ block.settings.image_hover_effect }}
+            ">
+              {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+              {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+              <img
+                class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+                src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+                data-src="{{ image_object | img_url: image_size, crop: 'center'  }}"
+                alt="{{ image_object.alt | escape }}"
+                width="{{ block.settings.image_width }}"
+                height="{{ block.settings.image_height }}"
+                loading="lazy"
+              >
+          </div>
+          {% elsif collection == empty %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light mb-3' }}
+          {% endif %}
+
+          {% if block.settings.show_collection_title %}
+            <p class="{{ block.settings.collection_title_size }} mb-0">
+              {%- assign default_label = 'onboarding.collection_title' | t -%}
+              {{ collection.title | default: default_label }}
+
+              {% if block.settings.show_collection_count %}
+                <span class="">
+                  ({{ collection.products.size }})
+                </span>
+              {% endif %}
+
+            </p>
+          {% endif %}
+
+        </a>
+
+        {% if block.settings.show_collection_desc %}
+          <div class="rte text-muted">
+            {{ collection.description | truncate: block.settings.collection_desc_truncate  }}
+          </div>
+        {% endif %}
+
+      </li>
+    {% endif %}
+	{% if block.settings.collection_3 != blank %}
+      {%- assign collection = collections[block.settings.collection_3] -%}
+      <li class="
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ collection.url | default: '#' }}" class="theme-link-color d-block pb-2 text-decoration-none">
+          {% if collection.image != blank or collection.products.first != blank %}
+            <div class="
+              position-relative
+              overflow-hidden
+              mb-3
+              {% if block.settings.image_border %}img-thumbnail{% endif %}
+              {% if block.settings.image_circle %}rounded-circle{% endif %}
+              {{ block.settings.image_hover_effect }}
+            ">
+              {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+              {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+              <img
+                class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+                src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+                data-src="{{ image_object | img_url: image_size, crop: 'center'  }}"
+                alt="{{ image_object.alt | escape }}"
+                width="{{ block.settings.image_width }}"
+                height="{{ block.settings.image_height }}"
+                loading="lazy"
+              >
+          </div>
+          {% elsif collection == empty %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light mb-3' }}
+          {% endif %}
+
+          {% if block.settings.show_collection_title %}
+            <p class="{{ block.settings.collection_title_size }} mb-0">
+              {%- assign default_label = 'onboarding.collection_title' | t -%}
+              {{ collection.title | default: default_label }}
+
+              {% if block.settings.show_collection_count %}
+                <span class="">
+                  ({{ collection.products.size }})
+                </span>
+              {% endif %}
+
+            </p>
+          {% endif %}
+
+        </a>
+
+        {% if block.settings.show_collection_desc %}
+          <div class="rte text-muted">
+            {{ collection.description | truncate: block.settings.collection_desc_truncate  }}
+          </div>
+        {% endif %}
+
+      </li>
+    {% endif %}
+	{% if block.settings.collection_4 != blank %}
+      {%- assign collection = collections[block.settings.collection_4] -%}
+      <li class="
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ collection.url | default: '#' }}" class="theme-link-color d-block pb-2 text-decoration-none">
+          {% if collection.image != blank or collection.products.first != blank %}
+            <div class="
+              position-relative
+              overflow-hidden
+              mb-3
+              {% if block.settings.image_border %}img-thumbnail{% endif %}
+              {% if block.settings.image_circle %}rounded-circle{% endif %}
+              {{ block.settings.image_hover_effect }}
+            ">
+              {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+              {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+              <img
+                class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+                src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+                data-src="{{ image_object | img_url: image_size, crop: 'center'  }}"
+                alt="{{ image_object.alt | escape }}"
+                width="{{ block.settings.image_width }}"
+                height="{{ block.settings.image_height }}"
+                loading="lazy"
+              >
+          </div>
+          {% elsif collection == empty %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light mb-3' }}
+          {% endif %}
+
+          {% if block.settings.show_collection_title %}
+            <p class="{{ block.settings.collection_title_size }} mb-0">
+              {%- assign default_label = 'onboarding.collection_title' | t -%}
+              {{ collection.title | default: default_label }}
+
+              {% if block.settings.show_collection_count %}
+                <span class="">
+                  ({{ collection.products.size }})
+                </span>
+              {% endif %}
+
+            </p>
+          {% endif %}
+
+        </a>
+
+        {% if block.settings.show_collection_desc %}
+          <div class="rte text-muted">
+            {{ collection.description | truncate: block.settings.collection_desc_truncate  }}
+          </div>
+        {% endif %}
+
+      </li>
+    {% endif %}
+	{% if block.settings.collection_5 != blank %}
+      {%- assign collection = collections[block.settings.collection_5] -%}
+      <li class="
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ collection.url | default: '#' }}" class="theme-link-color d-block pb-2 text-decoration-none">
+          {% if collection.image != blank or collection.products.first != blank %}
+            <div class="
+              position-relative
+              overflow-hidden
+              mb-3
+              {% if block.settings.image_border %}img-thumbnail{% endif %}
+              {% if block.settings.image_circle %}rounded-circle{% endif %}
+              {{ block.settings.image_hover_effect }}
+            ">
+              {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+              {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+              <img
+                class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+                src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+                data-src="{{ image_object | img_url: image_size, crop: 'center'  }}"
+                alt="{{ image_object.alt | escape }}"
+                width="{{ block.settings.image_width }}"
+                height="{{ block.settings.image_height }}"
+                loading="lazy"
+              >
+          </div>
+          {% elsif collection == empty %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light mb-3' }}
+          {% endif %}
+
+          {% if block.settings.show_collection_title %}
+            <p class="{{ block.settings.collection_title_size }} mb-0">
+              {%- assign default_label = 'onboarding.collection_title' | t -%}
+              {{ collection.title | default: default_label }}
+
+              {% if block.settings.show_collection_count %}
+                <span class="">
+                  ({{ collection.products.size }})
+                </span>
+              {% endif %}
+
+            </p>
+          {% endif %}
+
+        </a>
+
+        {% if block.settings.show_collection_desc %}
+          <div class="rte text-muted">
+            {{ collection.description | truncate: block.settings.collection_desc_truncate  }}
+          </div>
+        {% endif %}
+
+      </li>
+    {% endif %}
+	{% if block.settings.collection_6 != blank %}
+      {%- assign collection = collections[block.settings.collection_6] -%}
+      <li class="
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ collection.url | default: '#' }}" class="theme-link-color d-block pb-2 text-decoration-none">
+          {% if collection.image != blank or collection.products.first != blank %}
+            <div class="
+              position-relative
+              overflow-hidden
+              mb-3
+              {% if block.settings.image_border %}img-thumbnail{% endif %}
+              {% if block.settings.image_circle %}rounded-circle{% endif %}
+              {{ block.settings.image_hover_effect }}
+            ">
+              {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+              {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+              <img
+                class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+                src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+                data-src="{{ image_object | img_url: image_size, crop: 'center'  }}"
+                alt="{{ image_object.alt | escape }}"
+                width="{{ block.settings.image_width }}"
+                height="{{ block.settings.image_height }}"
+                loading="lazy"
+              >
+          </div>
+          {% elsif collection == empty %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light mb-3' }}
+          {% endif %}
+
+          {% if block.settings.show_collection_title %}
+            <p class="{{ block.settings.collection_title_size }} mb-0">
+              {%- assign default_label = 'onboarding.collection_title' | t -%}
+              {{ collection.title | default: default_label }}
+
+              {% if block.settings.show_collection_count %}
+                <span class="">
+                  ({{ collection.products.size }})
+                </span>
+              {% endif %}
+
+            </p>
+          {% endif %}
+
+        </a>
+
+        {% if block.settings.show_collection_desc %}
+          <div class="rte text-muted">
+            {{ collection.description | truncate: block.settings.collection_desc_truncate  }}
+          </div>
+        {% endif %}
+
+      </li>
+    {% endif %}
+	{% if block.settings.collection_7 != blank %}
+      {%- assign collection = collections[block.settings.collection_7] -%}
+      <li class="
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ collection.url | default: '#' }}" class="theme-link-color d-block pb-2 text-decoration-none">
+          {% if collection.image != blank or collection.products.first != blank %}
+            <div class="
+              position-relative
+              overflow-hidden
+              mb-3
+              {% if block.settings.image_border %}img-thumbnail{% endif %}
+              {% if block.settings.image_circle %}rounded-circle{% endif %}
+              {{ block.settings.image_hover_effect }}
+            ">
+              {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+              {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+              <img
+                class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+                src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+                data-src="{{ image_object | img_url: image_size, crop: 'center'  }}"
+                alt="{{ image_object.alt | escape }}"
+                width="{{ block.settings.image_width }}"
+                height="{{ block.settings.image_height }}"
+                loading="lazy"
+              >
+          </div>
+          {% elsif collection == empty %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light mb-3' }}
+          {% endif %}
+
+          {% if block.settings.show_collection_title %}
+            <p class="{{ block.settings.collection_title_size }} mb-0">
+              {%- assign default_label = 'onboarding.collection_title' | t -%}
+              {{ collection.title | default: default_label }}
+
+              {% if block.settings.show_collection_count %}
+                <span class="">
+                  ({{ collection.products.size }})
+                </span>
+              {% endif %}
+
+            </p>
+          {% endif %}
+
+        </a>
+
+        {% if block.settings.show_collection_desc %}
+          <div class="rte text-muted">
+            {{ collection.description | truncate: block.settings.collection_desc_truncate  }}
+          </div>
+        {% endif %}
+
+      </li>
+    {% endif %}
+	{% if block.settings.collection_8 != blank %}
+      {%- assign collection = collections[block.settings.collection_8] -%}
+      <li class="
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ collection.url | default: '#' }}" class="theme-link-color d-block pb-2 text-decoration-none">
+          {% if collection.image != blank or collection.products.first != blank %}
+            <div class="
+              position-relative
+              overflow-hidden
+              mb-3
+              {% if block.settings.image_border %}img-thumbnail{% endif %}
+              {% if block.settings.image_circle %}rounded-circle{% endif %}
+              {{ block.settings.image_hover_effect }}
+            ">
+              {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+              {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+              <img
+                class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+                src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+                data-src="{{ image_object | img_url: image_size, crop: 'center'  }}"
+                alt="{{ image_object.alt | escape }}"
+                width="{{ block.settings.image_width }}"
+                height="{{ block.settings.image_height }}"
+                loading="lazy"
+              >
+          </div>
+          {% elsif collection == empty %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light mb-3' }}
+          {% endif %}
+
+          {% if block.settings.show_collection_title %}
+            <p class="{{ block.settings.collection_title_size }} mb-0">
+              {%- assign default_label = 'onboarding.collection_title' | t -%}
+              {{ collection.title | default: default_label }}
+
+              {% if block.settings.show_collection_count %}
+                <span class="">
+                  ({{ collection.products.size }})
+                </span>
+              {% endif %}
+
+            </p>
+          {% endif %}
+
+        </a>
+
+        {% if block.settings.show_collection_desc %}
+          <div class="rte text-muted">
+            {{ collection.description | truncate: block.settings.collection_desc_truncate  }}
+          </div>
+        {% endif %}
+
+      </li>
+    {% endif %}
+  </ul>
+
+</div>

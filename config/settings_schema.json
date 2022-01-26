@@ -1,0 +1,2163 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Conversio",
+    "theme_version": "0.1.7",
+    "theme_author": "NerdlySolutions",
+    "theme_documentation_url": "https:\/\/support.nerdlysolutions.com\/knowledge-base",
+    "theme_support_url": "https:\/\/nerdlysolutions.com\/pages\/conversio-support"
+  },
+  {
+    "name": "Conversio License",
+    "settings": [
+      {
+        "type": "header",
+        "content": "License"
+      },
+      {
+        "type": "text",
+        "id": "conversiolicense",
+        "label": "Enter your licence key"
+      }
+    ]
+  },
+  {
+    "name": "Custom CSS\/JS",
+    "settings": [
+      {
+        "type": "html",
+        "id": "css_custom",
+        "label": "Custom CSS",
+        "info": "This is for advanced users only, NerdlySolutions is not responsible for unexpected problems when custom code is added to the Conversio theme"
+      },
+      {
+        "type": "header",
+        "content": "Example: <script src='script.js'><\/script>"
+      },
+      {
+        "type": "html",
+        "id": "js_custom",
+        "label": "Custom Javascript",
+        "info": "This is for advanced users only, NerdlySolutions is not responsible for unexpected problems when custom code is added to the Conversio theme"
+      }
+    ]
+  },
+  {
+    "name": "Chat Widget",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "chat",
+        "label": "Enable chat",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Theme style"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary color",
+        "default": "#1976D2"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary color",
+        "default": "#455A64"
+      },
+      {
+        "type": "header",
+        "content": "General colors"
+      },
+      {
+        "type": "color",
+        "id": "color_body_bg",
+        "label": "Body background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text",
+        "label": "Body text color",
+        "default": "#212529"
+      },
+      {
+        "type": "color",
+        "id": "color_heading",
+        "label": "Headings color",
+        "default": "#212529"
+      },
+      {
+        "type": "color",
+        "id": "color_link",
+        "label": "Links color",
+        "default": "#2e7d32"
+      },
+      {
+        "type": "color",
+        "id": "color_link_hover",
+        "label": "Links color (hover)",
+        "default": "#205823"
+      },
+      {
+        "type": "header",
+        "content": "Buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_btn_primary",
+        "label": "Primary button color",
+        "default": "#1976D2"
+      },
+      {
+        "type": "color",
+        "id": "color_btn_primary_hover",
+        "label": "Primary button (hover)",
+        "default": "#125393"
+      },
+      {
+        "type": "color",
+        "id": "color_btn_secondary",
+        "label": "Secondary button color",
+        "default": "#455A64"
+      },
+      {
+        "type": "color",
+        "id": "color_btn_secondary_hover",
+        "label": "Secondary button (hover)",
+        "default": "#303f46"
+      },
+      {
+        "type": "header",
+        "content": "Utility colors"
+      },
+      {
+        "type": "color",
+        "id": "color_price",
+        "label": "Price color",
+        "default": "#43A047"
+      },
+      {
+        "type": "color",
+        "id": "color_on_sale",
+        "label": "Discount badge color",
+        "default": "#D32F2F"
+      },
+      {
+        "type": "header",
+        "content": "Custom navbar style"
+      },
+      {
+        "type": "color",
+        "id": "nav-bar-background-custom",
+        "label": "Navbar Background",
+        "default": "#f8f9fa"
+      },
+      {
+        "type": "range",
+        "id": "nav-bar-background-custom-blur",
+        "label": "Navbar background blur",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 10
+      },
+      {
+        "type": "select",
+        "id": "nav-bar-custom-transparent",
+        "options": [
+          {
+            "value": "FF",
+            "label": "100%"
+          },
+          {
+            "value": "FC",
+            "label": "99%"
+          },
+          {
+            "value": "FA",
+            "label": "98%"
+          },
+          {
+            "value": "F7",
+            "label": "97%"
+          },
+          {
+            "value": "F5",
+            "label": "96%"
+          },
+          {
+            "value": "F2",
+            "label": "95%"
+          },
+          {
+            "value": "F0",
+            "label": "94%"
+          },
+          {
+            "value": "ED",
+            "label": "93%"
+          },
+          {
+            "value": "EB",
+            "label": "92%"
+          },
+          {
+            "value": "E8",
+            "label": "91%"
+          },
+          {
+            "value": "E6",
+            "label": "90%"
+          },
+          {
+            "value": "E3",
+            "label": "89%"
+          },
+          {
+            "value": "E0",
+            "label": "88%"
+          },
+          {
+            "value": "DE",
+            "label": "87%"
+          },
+          {
+            "value": "DB",
+            "label": "86%"
+          },
+          {
+            "value": "D9",
+            "label": "85%"
+          },
+          {
+            "value": "D6",
+            "label": "84%"
+          },
+          {
+            "value": "D4",
+            "label": "83%"
+          },
+          {
+            "value": "D1",
+            "label": "82%"
+          },
+          {
+            "value": "CF",
+            "label": "81%"
+          },
+          {
+            "value": "CC",
+            "label": "80%"
+          },
+          {
+            "value": "C9",
+            "label": "79%"
+          },
+          {
+            "value": "C7",
+            "label": "78%"
+          },
+          {
+            "value": "C4",
+            "label": "77%"
+          },
+          {
+            "value": "C2",
+            "label": "76%"
+          },
+          {
+            "value": "BF",
+            "label": "75%"
+          },
+          {
+            "value": "BD",
+            "label": "74%"
+          },
+          {
+            "value": "BA",
+            "label": "73%"
+          },
+          {
+            "value": "B8",
+            "label": "72%"
+          },
+          {
+            "value": "B5",
+            "label": "71%"
+          },
+          {
+            "value": "B3",
+            "label": "70%"
+          },
+          {
+            "value": "B0",
+            "label": "69%"
+          },
+          {
+            "value": "AD",
+            "label": "68%"
+          },
+          {
+            "value": "AB",
+            "label": "67%"
+          },
+          {
+            "value": "A8",
+            "label": "66%"
+          },
+          {
+            "value": "A6",
+            "label": "65%"
+          },
+          {
+            "value": "A3",
+            "label": "64%"
+          },
+          {
+            "value": "A1",
+            "label": "63%"
+          },
+          {
+            "value": "9E",
+            "label": "62%"
+          },
+          {
+            "value": "9C",
+            "label": "61%"
+          },
+          {
+            "value": "99",
+            "label": "60%"
+          },
+          {
+            "value": "96",
+            "label": "59%"
+          },
+          {
+            "value": "94",
+            "label": "58%"
+          },
+          {
+            "value": "91",
+            "label": "57%"
+          },
+          {
+            "value": "8F",
+            "label": "56%"
+          },
+          {
+            "value": "8C",
+            "label": "55%"
+          },
+          {
+            "value": "8A",
+            "label": "54%"
+          },
+          {
+            "value": "87",
+            "label": "53%"
+          },
+          {
+            "value": "85",
+            "label": "52%"
+          },
+          {
+            "value": "82",
+            "label": "51%"
+          },
+          {
+            "value": "80",
+            "label": "50%"
+          },
+          {
+            "value": "7D",
+            "label": "49%"
+          },
+          {
+            "value": "7A",
+            "label": "48%"
+          },
+          {
+            "value": "78",
+            "label": "47%"
+          },
+          {
+            "value": "75",
+            "label": "46%"
+          },
+          {
+            "value": "73",
+            "label": "45%"
+          },
+          {
+            "value": "70",
+            "label": "44%"
+          },
+          {
+            "value": "6E",
+            "label": "43%"
+          },
+          {
+            "value": "6B",
+            "label": "42%"
+          },
+          {
+            "value": "69",
+            "label": "41%"
+          },
+          {
+            "value": "66",
+            "label": "40%"
+          },
+          {
+            "value": "63",
+            "label": "39%"
+          },
+          {
+            "value": "61",
+            "label": "38%"
+          },
+          {
+            "value": "5E",
+            "label": "37%"
+          },
+          {
+            "value": "5C",
+            "label": "36%"
+          },
+          {
+            "value": "59",
+            "label": "35%"
+          },
+          {
+            "value": "57",
+            "label": "34%"
+          },
+          {
+            "value": "54",
+            "label": "33%"
+          },
+          {
+            "value": "52",
+            "label": "32%"
+          },
+          {
+            "value": "4F",
+            "label": "31%"
+          },
+          {
+            "value": "4D",
+            "label": "30%"
+          },
+          {
+            "value": "4A",
+            "label": "29%"
+          },
+          {
+            "value": "47",
+            "label": "28%"
+          },
+          {
+            "value": "45",
+            "label": "27%"
+          },
+          {
+            "value": "42",
+            "label": "26%"
+          },
+          {
+            "value": "40",
+            "label": "25%"
+          },
+          {
+            "value": "3D",
+            "label": "24%"
+          },
+          {
+            "value": "3B",
+            "label": "23%"
+          },
+          {
+            "value": "38",
+            "label": "22%"
+          },
+          {
+            "value": "36",
+            "label": "21%"
+          },
+          {
+            "value": "33",
+            "label": "20%"
+          },
+          {
+            "value": "30",
+            "label": "19%"
+          },
+          {
+            "value": "2E",
+            "label": "18%"
+          },
+          {
+            "value": "2B",
+            "label": "17%"
+          },
+          {
+            "value": "29",
+            "label": "16%"
+          },
+          {
+            "value": "26",
+            "label": "15%"
+          },
+          {
+            "value": "24",
+            "label": "14%"
+          },
+          {
+            "value": "21",
+            "label": "13%"
+          },
+          {
+            "value": "1F",
+            "label": "12%"
+          },
+          {
+            "value": "1C",
+            "label": "11%"
+          },
+          {
+            "value": "1A",
+            "label": "10%"
+          },
+          {
+            "value": "17",
+            "label": "9%"
+          },
+          {
+            "value": "14",
+            "label": "8%"
+          },
+          {
+            "value": "12",
+            "label": "7%"
+          },
+          {
+            "value": "0F",
+            "label": "6%"
+          },
+          {
+            "value": "0D",
+            "label": "5%"
+          },
+          {
+            "value": "0A",
+            "label": "4%"
+          },
+          {
+            "value": "8",
+            "label": "3%"
+          },
+          {
+            "value": "5",
+            "label": "2%"
+          },
+          {
+            "value": "3",
+            "label": "1%"
+          },
+          {
+            "value": "0",
+            "label": "0%"
+          }
+        ],
+        "label": "Adjust transparency of navbar"
+      },
+      {
+        "type": "color",
+        "id": "nav-bar-navlink-color",
+        "label": "Navbar links color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "nav-bar-navlink-color-hover",
+        "label": "Navbar links color hover",
+        "default": "#565656"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Fonts"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "default": "fira_sans_n4",
+        "label": "Headings font family"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "default": "pt_sans_n4",
+        "label": "Body font family"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social sharing image"
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Image",
+        "info": "Shown when sharing a link on social media. [Learn more](https:\/\/help.shopify.com\/manual\/using-themes\/troubleshooting\/showing-social-media-thumbnail-images\/) about image thumbnails."
+      },
+      {
+        "type": "header",
+        "content": "Social sharing options"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share on Facebook",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Tweet on Twitter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Pin on Pinterest",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_whatsapp",
+        "label": "Share on Whatsapp",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Sharing links"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter link"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook link"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest link"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram link"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat link"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr link"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "Youtube link"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo link"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32x32"
+      }
+    ]
+  },
+  {
+    "name": "Additional settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Scroll to top"
+      },
+      {
+        "type": "checkbox",
+        "id": "scroll_to_top",
+        "label": "Enable scroll to top",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "scroll_top_height",
+        "label": "Adjust scroll to top height",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "default": 30
+      },
+      {
+        "type": "select",
+        "id": "scroll_top_btn_color",
+        "label": "Button color",
+        "default": "btn-primary",
+        "options": [
+          {
+            "value": "btn-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "btn-secondary",
+            "label": "Secondary"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "scroll_top_btn_variant",
+        "label": "button variant",
+        "default": "",
+        "options": [
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "btn-outline",
+            "label": "Outline"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "scroll_top_btn_size",
+        "label": "Button size",
+        "default": "btn-sm",
+        "options": [
+          {
+            "value": "btn-sm",
+            "label": "Small"
+          },
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "btn-lg",
+            "label": "Large"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "scroll_top_animation_in",
+        "label": "Animation entrance class",
+        "info": "Enter an animation class name from [Animate.css](https:\/\/animate.style).",
+        "default": "animate__fadeInUp",
+        "options": [
+          {
+            "value": "animate__bounceIn",
+            "label": "bounceIn"
+          },
+          {
+            "value": "animate__bounceInDown",
+            "label": "bounceInDown"
+          },
+          {
+            "value": "animate__bounceInLeft",
+            "label": "bounceInLeft"
+          },
+          {
+            "value": "animate__bounceInRight",
+            "label": "bounceInRight"
+          },
+          {
+            "value": "animate__bounceInUp",
+            "label": "bounceInUp"
+          },
+          {
+            "value": "animate__fadeIn",
+            "label": "fadeIn"
+          },
+          {
+            "value": "animate__fadeInDown",
+            "label": "fadeInDown"
+          },
+          {
+            "value": "animate__fadeInDownBig",
+            "label": "fadeInDownBig"
+          },
+          {
+            "value": "animate__fadeInLeft",
+            "label": "fadeInLeft"
+          },
+          {
+            "value": "animate__fadeInLeftBig",
+            "label": "fadeInLeftBig"
+          },
+          {
+            "value": "animate__fadeInRight",
+            "label": "fadeInRight"
+          },
+          {
+            "value": "animate__fadeInRightBig",
+            "label": "fadeInRightBig"
+          },
+          {
+            "value": "animate__fadeInUp",
+            "label": "fadeInUp"
+          },
+          {
+            "value": "animate__fadeInUpBig",
+            "label": "fadeInUpBig"
+          },
+          {
+            "value": "animate__rotateIn",
+            "label": "rotateIn"
+          },
+          {
+            "value": "animate__rotateInDownLeft",
+            "label": "rotateInDownLeft"
+          },
+          {
+            "value": "animate__rotateInDownRight",
+            "label": "rotateInDownRight"
+          },
+          {
+            "value": "animate__rotateInUpLeft",
+            "label": "rotateInUpLeft"
+          },
+          {
+            "value": "animate__rotateInUpRight",
+            "label": "rotateInUpRight"
+          },
+          {
+            "value": "animate__lightSpeedIn",
+            "label": "lightSpeedIn"
+          },
+          {
+            "value": "animate__rollIn",
+            "label": "rollIn"
+          },
+          {
+            "value": "animate__flip",
+            "label": "flip"
+          },
+          {
+            "value": "animate__flipInX",
+            "label": "flipInX"
+          },
+          {
+            "value": "animate__flipInY",
+            "label": "flipInY"
+          },
+          {
+            "value": "animate__slideInDown",
+            "label": "slideInDown"
+          },
+          {
+            "value": "animate__slideInLeft",
+            "label": "slideInLeft"
+          },
+          {
+            "value": "animate__slideInRight",
+            "label": "slideInRight"
+          },
+          {
+            "value": "animate__hinge",
+            "label": "hinge (more for a joke not useful)"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "scroll_top_animation_out",
+        "label": "Animation exit class",
+        "info": "Enter an animation class name from [Animate.css](https:\/\/animate.style).",
+        "default": "animate__fadeOutUp",
+        "options": [
+          {
+            "value": "animate__bounceOut",
+            "label": "bounceOut"
+          },
+          {
+            "value": "animate__bounceOutDown",
+            "label": "bounceOutDown"
+          },
+          {
+            "value": "animate__bounceOutLeft",
+            "label": "bounceOutLeft"
+          },
+          {
+            "value": "animate__bounceOutRight",
+            "label": "bounceOutRight"
+          },
+          {
+            "value": "animate__bounceOutUp",
+            "label": "bounceOutUp"
+          },
+          {
+            "value": "animate__fadeOut",
+            "label": "fadeOut"
+          },
+          {
+            "value": "animate__fadeOutDown",
+            "label": "fadeOutDown"
+          },
+          {
+            "value": "animate__fadeOutDownBig",
+            "label": "fadeOutDownBig"
+          },
+          {
+            "value": "animate__fadeOutLeft",
+            "label": "fadeOutLeft"
+          },
+          {
+            "value": "animate__fadeOutLeftBig",
+            "label": "fadeOutLeftBig"
+          },
+          {
+            "value": "animate__fadeOutRight",
+            "label": "fadeOutRight"
+          },
+          {
+            "value": "animate__fadeOutRightBig",
+            "label": "fadeOutRightBig"
+          },
+          {
+            "value": "animate__fadeOutUp",
+            "label": "fadeOutUp"
+          },
+          {
+            "value": "animate__fadeOutUpBig",
+            "label": "fadeOutUpBig"
+          },
+          {
+            "value": "animate__rotateOut",
+            "label": "rotateOut"
+          },
+          {
+            "value": "animate__rotateOutDownLeft",
+            "label": "rotateOutDownLeft"
+          },
+          {
+            "value": "animate__rotateOutDownRight",
+            "label": "rotateOutDownRight"
+          },
+          {
+            "value": "animate__rotateOutUpLeft",
+            "label": "rotateOutUpLeft"
+          },
+          {
+            "value": "animate__rotateOutUpRight",
+            "label": "rotateOutUpRight"
+          },
+          {
+            "value": "animate__lightSpeedOut",
+            "label": "lightSpeedOut"
+          },
+          {
+            "value": "animate__rollOut",
+            "label": "rollOut"
+          },
+          {
+            "value": "animate__flip",
+            "label": "flip"
+          },
+          {
+            "value": "animate__flipOutX",
+            "label": "flipOutX"
+          },
+          {
+            "value": "animate__flipOutY",
+            "label": "flipOutY"
+          },
+          {
+            "value": "animate__slideOutDown",
+            "label": "slideOutDown"
+          },
+          {
+            "value": "animate__slideOutLeft",
+            "label": "slideOutLeft"
+          },
+          {
+            "value": "animate__slideOutRight",
+            "label": "slideOutRight"
+          },
+          {
+            "value": "animate__hinge",
+            "label": "hinge (more for a joke not useful)"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "scroll_top_animation_time",
+        "label": "Animation duration",
+        "default": "",
+        "options": [
+          {
+            "value": "animate__slower",
+            "label": "Slower"
+          },
+          {
+            "value": "animate__slow",
+            "label": "Slow"
+          },
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "animate__fast",
+            "label": "Fast"
+          },
+          {
+            "value": "animate__faster",
+            "label": "Faster"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "scroll_to_top_btn_effect",
+        "label": "Scroll top hover effect",
+        "default": "",
+        "options": [
+          {
+            "value": "",
+            "label": "Disabled"
+          },
+          {
+            "value": "btn-shine",
+            "label": "Shine"
+          },
+          {
+            "value": "btn-ripple",
+            "label": "Ripple"
+          },
+          {
+            "value": "btn-expand",
+            "label": "Expand"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Cookie Consent"
+      },
+      {
+        "type": "checkbox",
+        "id": "cookie_consent",
+        "label": "Enable GDP\/CCPA consent alert",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Wishlist"
+      },
+      {
+        "type": "checkbox",
+        "id": "wishlist_enable",
+        "label": "Enable Wishlist",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Email marketing integration"
+      },
+      {
+        "type": "header",
+        "content": "Email marketing integration"
+      },
+      {
+        "type": "select",
+        "id": "email_marketing_integration",
+        "label": "Email marketing provider",
+        "default": "default",
+        "options": [
+          {
+            "value": "default",
+            "label": "Default"
+          },
+          {
+            "value": "klaviyo",
+            "label": "Klaviyo"
+          },
+          {
+            "value": "mailchimp",
+            "label": "Mailchimp"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "use_ajax_mail",
+        "label": "Use Ajax",
+        "info": "Only works for mailchimp and klaviyo.",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_id",
+        "label": "Klaviyo list ID",
+        "info": "[Find your list ID](https:\/\/help.klaviyo.com\/hc\/en-us\/articles\/115005078647-Find-a-List-ID)."
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_api_key",
+        "label": "Klaviyo api key",
+        "info": "[Find your api key](https:\/\/help.klaviyo.com\/hc\/en-us\/articles\/360002035871-Install-Klaviyo-js-to-Publish-Signup-Forms#install-the-signup-form-code-snippet1)."
+      },
+      {
+        "type": "text",
+        "id": "mailchimp_form_url",
+        "label": "MailChimp form action URL",
+        "info": "[Find your MailChimp form action URL](https:\/\/wiki.the4.co\/?manual_kb=updated-get-mailchimp-action-url)."
+      },
+      {
+        "type": "header",
+        "content": "Current visitors"
+      },
+      {
+        "type": "checkbox",
+        "id": "live_visitors",
+        "label": "Show live visitors (not real visitors, coming in an update)",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "visit_min",
+        "label": "minimum visitor amount",
+        "default": "10"
+      },
+      {
+        "type": "text",
+        "id": "visit_max",
+        "label": "maximum visitor amount",
+        "default": "35"
+      },
+      {
+        "type": "range",
+        "id": "visit_delay",
+        "min": 1,
+        "max": 9,
+        "step": 1,
+        "unit": "sec",
+        "label": "Number change delay amount",
+        "default": 5
+      },
+      {
+        "type": "text",
+        "id": "fontawesomeiconvisit",
+        "info": "Icons are from Fontawesome [Learn more](https:\/\/fontawesome.com\/icons?d=gallery&m=free)",
+        "label": "Icon",
+        "default": "far fa-eye"
+      },
+      {
+        "type": "text",
+        "id": "visit_text",
+        "info": "Place [visitors] where you want the number to display",
+        "label": "Message for visitors",
+        "default": "there are currently [visitors] viewing this product"
+      },
+      {
+        "type": "header",
+        "content": "Collection Settings"
+      },
+      {
+        "type": "text",
+        "id": "removed_collections",
+        "label": "Hide this collections from the list",
+        "info": "Enter a list a collections (by handle) separated with a comma e.g: \"frontpage, women\"",
+        "default": "frontpage"
+      }
+    ]
+  },
+  {
+    "name": "Toast",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Toast is used to display various important global messages usually via ajax. (E.g: When adding products to cart) [Learn more about toasts](https:\/\/getbootstrap.com\/docs\/4.5\/components\/toasts\/)"
+      },
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "select",
+        "id": "toast_position",
+        "label": "Position",
+        "default": "bottom-right",
+        "options": [
+          {
+            "value": "bottom-left",
+            "label": "Bottom left"
+          },
+          {
+            "value": "bottom-center",
+            "label": "Bottom right"
+          },
+          {
+            "value": "bottom-right",
+            "label": "Bottom right"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "toast_animation_exit",
+        "label": "Animation exit class",
+        "info": "Animation class name form [Animate.css](https:\/\/animate.style).",
+        "default": "animate__fadeOutDown",
+        "options": [
+          {
+            "value": "animate__bounceOut",
+            "label": "bounceOut"
+          },
+          {
+            "value": "animate__bounceOutDown",
+            "label": "bounceOutDown"
+          },
+          {
+            "value": "animate__bounceOutLeft",
+            "label": "bounceOutLeft"
+          },
+          {
+            "value": "animate__bounceOutRight",
+            "label": "bounceOutRight"
+          },
+          {
+            "value": "animate__bounceOutUp",
+            "label": "bounceOutUp"
+          },
+          {
+            "value": "animate__fadeOut",
+            "label": "fadeOut"
+          },
+          {
+            "value": "animate__fadeOutDown",
+            "label": "fadeOutDown"
+          },
+          {
+            "value": "animate__fadeOutDownBig",
+            "label": "fadeOutDownBig"
+          },
+          {
+            "value": "animate__fadeOutLeft",
+            "label": "fadeOutLeft"
+          },
+          {
+            "value": "animate__fadeOutLeftBig",
+            "label": "fadeOutLeftBig"
+          },
+          {
+            "value": "animate__fadeOutRight",
+            "label": "fadeOutRight"
+          },
+          {
+            "value": "animate__fadeOutRightBig",
+            "label": "fadeOutRightBig"
+          },
+          {
+            "value": "animate__fadeOutUp",
+            "label": "fadeOutUp"
+          },
+          {
+            "value": "animate__fadeOutUpBig",
+            "label": "fadeOutUpBig"
+          },
+          {
+            "value": "animate__rotateOut",
+            "label": "rotateOut"
+          },
+          {
+            "value": "animate__rotateOutDownLeft",
+            "label": "rotateOutDownLeft"
+          },
+          {
+            "value": "animate__rotateOutDownRight",
+            "label": "rotateOutDownRight"
+          },
+          {
+            "value": "animate__rotateOutUpLeft",
+            "label": "rotateOutUpLeft"
+          },
+          {
+            "value": "animate__rotateOutUpRight",
+            "label": "rotateOutUpRight"
+          },
+          {
+            "value": "animate__lightSpeedOut",
+            "label": "lightSpeedOut"
+          },
+          {
+            "value": "animate__rollOut",
+            "label": "rollOut"
+          },
+          {
+            "value": "animate__flip",
+            "label": "flip"
+          },
+          {
+            "value": "animate__flipOutX",
+            "label": "flipOutX"
+          },
+          {
+            "value": "animate__flipOutY",
+            "label": "flipOutY"
+          },
+          {
+            "value": "animate__slideOutDown",
+            "label": "slideOutDown"
+          },
+          {
+            "value": "animate__slideOutLeft",
+            "label": "slideOutLeft"
+          },
+          {
+            "value": "animate__slideOutRight",
+            "label": "slideOutRight"
+          },
+          {
+            "value": "animate__hinge",
+            "label": "hinge (more for a joke not useful)"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "toast_animation_duration",
+        "label": "Animation duration",
+        "default": "",
+        "options": [
+          {
+            "value": "animate__slower",
+            "label": "Slower"
+          },
+          {
+            "value": "animate__slow",
+            "label": "Slow"
+          },
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "animate__fast",
+            "label": "Fast"
+          },
+          {
+            "value": "animate__faster",
+            "label": "Faster"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Product - Quick view",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "select",
+        "id": "product_quick_view_btn_color",
+        "label": "'Quick view' button color",
+        "default": "btn-primary",
+        "options": [
+          {
+            "value": "btn-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "btn-secondary",
+            "label": "Secondary"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_quick_view_btn_variant",
+        "label": "'Quick view' button variant",
+        "default": "btn-outline",
+        "options": [
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "btn-outline",
+            "label": "Outline"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_quick_view_btn_size",
+        "label": "'Quick view' button size",
+        "default": "btn-sm",
+        "options": [
+          {
+            "value": "btn-sm",
+            "label": "Small"
+          },
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "btn-lg",
+            "label": "Large"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_quick_view_modal_size",
+        "label": "Modal size",
+        "default": "modal-xl",
+        "options": [
+          {
+            "value": "modal-lg",
+            "label": "Large"
+          },
+          {
+            "value": "modal-xl",
+            "label": "Extra large"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Animation"
+      },
+      {
+        "type": "select",
+        "id": "product_quick_view_animation_entrance_class",
+        "label": "Animation entrance class",
+        "info": "Enter an animation class name from [Animate.css](https:\/\/animate.style).",
+        "default": "animate__fadeInUp",
+        "options": [
+          {
+            "value": "animate__bounceIn",
+            "label": "bounceIn"
+          },
+          {
+            "value": "animate__bounceInDown",
+            "label": "bounceInDown"
+          },
+          {
+            "value": "animate__bounceInLeft",
+            "label": "bounceInLeft"
+          },
+          {
+            "value": "animate__bounceInRight",
+            "label": "bounceInRight"
+          },
+          {
+            "value": "animate__bounceInUp",
+            "label": "bounceInUp"
+          },
+          {
+            "value": "animate__fadeIn",
+            "label": "fadeIn"
+          },
+          {
+            "value": "animate__fadeInDown",
+            "label": "fadeInDown"
+          },
+          {
+            "value": "animate__fadeInDownBig",
+            "label": "fadeInDownBig"
+          },
+          {
+            "value": "animate__fadeInLeft",
+            "label": "fadeInLeft"
+          },
+          {
+            "value": "animate__fadeInLeftBig",
+            "label": "fadeInLeftBig"
+          },
+          {
+            "value": "animate__fadeInRight",
+            "label": "fadeInRight"
+          },
+          {
+            "value": "animate__fadeInRightBig",
+            "label": "fadeInRightBig"
+          },
+          {
+            "value": "animate__fadeInUp",
+            "label": "fadeInUp"
+          },
+          {
+            "value": "animate__fadeInUpBig",
+            "label": "fadeInUpBig"
+          },
+          {
+            "value": "animate__rotateIn",
+            "label": "rotateIn"
+          },
+          {
+            "value": "animate__rotateInDownLeft",
+            "label": "rotateInDownLeft"
+          },
+          {
+            "value": "animate__rotateInDownRight",
+            "label": "rotateInDownRight"
+          },
+          {
+            "value": "animate__rotateInUpLeft",
+            "label": "rotateInUpLeft"
+          },
+          {
+            "value": "animate__rotateInUpRight",
+            "label": "rotateInUpRight"
+          },
+          {
+            "value": "animate__lightSpeedIn",
+            "label": "lightSpeedIn"
+          },
+          {
+            "value": "animate__rollIn",
+            "label": "rollIn"
+          },
+          {
+            "value": "animate__flip",
+            "label": "flip"
+          },
+          {
+            "value": "animate__flipInX",
+            "label": "flipInX"
+          },
+          {
+            "value": "animate__flipInY",
+            "label": "flipInY"
+          },
+          {
+            "value": "animate__slideInDown",
+            "label": "slideInDown"
+          },
+          {
+            "value": "animate__slideInLeft",
+            "label": "slideInLeft"
+          },
+          {
+            "value": "animate__slideInRight",
+            "label": "slideInRight"
+          },
+          {
+            "value": "animate__hinge",
+            "label": "hinge (more for a joke not useful)"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_quick_view_animation_duration",
+        "label": "Animation duration",
+        "default": "",
+        "options": [
+          {
+            "value": "animate__slower",
+            "label": "Slower"
+          },
+          {
+            "value": "animate__slow",
+            "label": "Slow"
+          },
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "animate__fast",
+            "label": "Fast"
+          },
+          {
+            "value": "animate__faster",
+            "label": "Faster"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Product - Image gallery",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Gallery settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_controls",
+        "default": true,
+        "label": "Show Controls",
+        "info": "Prev\/Next buttons"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_thumbnails",
+        "default": true,
+        "label": "Show Thumbnails",
+        "info": "Small images at the bottom"
+      },
+      {
+        "type": "text",
+        "id": "product_image_gallery_limit_images",
+        "label": "Limit images",
+        "default": "100"
+      },
+      {
+        "type": "range",
+        "id": "product_image_gallery_thumbnails_row",
+        "label": "Thumbnails per row",
+        "min": 2,
+        "max": 6,
+        "default": 4,
+        "step": 1
+      },
+      {
+        "type": "range",
+        "id": "product_image_gallery_interval",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "sec",
+        "label": "Autoplay time",
+        "default": 5,
+        "info": "Select '0' to disable"
+      },
+      {
+        "type": "select",
+        "id": "product_image_gallery_transition",
+        "label": "Transition effect",
+        "default": "slide",
+        "options": [
+          {
+            "value": "slide",
+            "label": "Slide"
+          },
+          {
+            "value": "slide carousel-fade",
+            "label": "Fade"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_image_gallery_special_effect",
+        "label": "Special effect",
+        "default": "",
+        "options": [
+          {
+            "value": "",
+            "label": "No special effect"
+          },
+          {
+            "value": "carousel-zoom",
+            "label": "Zoom effect"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_image_gallery_hover_effect",
+        "label": "Hover effect",
+        "default": "img-hover-shine",
+        "options": [
+          {
+            "value": "img-hover",
+            "label": "No effect"
+          },
+          {
+            "value": "img-hover-fade-in",
+            "label": "Fade in"
+          },
+          {
+            "value": "img-hover-fade-out",
+            "label": "Fade out"
+          },
+          {
+            "value": "img-hover-scale-in",
+            "label": "Scale in"
+          },
+          {
+            "value": "img-hover-scale-out",
+            "label": "Scale out"
+          },
+          {
+            "value": "img-hover-flashing",
+            "label": "Flashing"
+          },
+          {
+            "value": "img-hover-shine",
+            "label": "Shine"
+          },
+          {
+            "value": "img-hover-translate-top",
+            "label": "Translate"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_image_crop",
+        "info": "Cropping images helps with load optimization, stop the page from loading full resolution",
+        "label": "Product image crop",
+        "default": "center",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          },
+          {
+            "value": "master",
+            "label": "Full resolution"
+          },
+          {
+            "value": "high_res_1",
+            "label": "High resolution 1"
+          },
+          {
+            "value": "high_res_2",
+            "label": "High resolution 2"
+          },
+          {
+            "value": "high_res_3",
+            "label": "High resolution 3"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_border",
+        "label": "Image border",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "product_image_gallery_img_width",
+        "label": "Image width (px)",
+        "default": "480"
+      },
+      {
+        "type": "text",
+        "id": "product_image_gallery_img_height",
+        "label": "Image height (px)",
+        "default": "480"
+      },
+      {
+        "type": "select",
+        "id": "product_image_gallery_badge_discount_type",
+        "label": "Badge discount type",
+        "default": "percentage",
+        "options": [
+          {
+            "value": "percentage",
+            "label": "Percentage"
+          },
+          {
+            "value": "value",
+            "label": "Value"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Full screen mode"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_full_screen_enable",
+        "label": "Enable Full Screen",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "product_image_gallery_full_screen_img_width",
+        "label": "Image width (px)",
+        "default": "2048"
+      },
+      {
+        "type": "text",
+        "id": "product_image_gallery_full_screen_img_height",
+        "label": "Image height (px)",
+        "default": "0",
+        "info": "Note: Enter 0 to have auto height"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_full_screen_button_zoom",
+        "label": "Show Zoom button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_full_screen_button_share",
+        "label": "Show Share button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_full_screen_button_slideshow",
+        "label": "Show Slideshow button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_full_screen_button_fullscreen",
+        "label": "Show Fullscreen button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_full_screen_button_download",
+        "label": "Show Download button",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_full_screen_button_thumbs",
+        "label": "Show Thumbs button",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "product_image_gallery_full_screen_animation_effect",
+        "label": "Animation effect",
+        "default": "zoom",
+        "options": [
+          {
+            "value": "zoom",
+            "label": "Zoom from image"
+          },
+          {
+            "value": "fade",
+            "label": "Fade"
+          },
+          {
+            "value": "zoom-in-out",
+            "label": "Zoom in\/out"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "product_image_gallery_full_screen_animation_duration",
+        "label": "Animation duration (ms)",
+        "default": "350"
+      },
+      {
+        "type": "select",
+        "id": "product_image_gallery_full_screen_transition_effect",
+        "label": "Transition effect",
+        "info": "On slide change",
+        "default": "zoom-in-out",
+        "options": [
+          {
+            "value": "fade",
+            "label": "Fade"
+          },
+          {
+            "value": "slide",
+            "label": "Slide"
+          },
+          {
+            "value": "circular",
+            "label": "Circular"
+          },
+          {
+            "value": "tube",
+            "label": "Tube"
+          },
+          {
+            "value": "zoom-in-out",
+            "label": "Zoom in\/out"
+          },
+          {
+            "value": "rotate",
+            "label": "Rotate"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "product_image_gallery_full_screen_transition_duration",
+        "label": "Transition duration (ms)",
+        "default": "350"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_image_gallery_full_screen_slideshow_autostart",
+        "label": "Enable slideshow",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "product_image_gallery_full_screen_slideshow_speed",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "sec",
+        "label": "Slideshow speed",
+        "default": 5
+      }
+    ]
+  },
+  {
+    "name": "Product - Add to cart form",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_add_to_cart_form_bg_color",
+        "label": "Light background color",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_add_to_cart_form_show_qty",
+        "label": "Show quantity input",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_add_to_cart_form_show_inventory",
+        "label": "Show inventory",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "product_add_to_cart_form_low_stock_indicator",
+        "label": "Low stock indicator",
+        "default": "10"
+      },
+      {
+        "type": "header",
+        "content": "Add to cart button"
+      },
+      {
+        "type": "select",
+        "id": "product_add_to_cart_form_btn_color",
+        "label": "'Quick view' button color",
+        "default": "btn-primary",
+        "options": [
+          {
+            "value": "btn-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "btn-secondary",
+            "label": "Secondary"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_add_to_cart_form_btn_variant",
+        "label": "'Quick view' button variant",
+        "default": "",
+        "options": [
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "btn-outline",
+            "label": "Outline"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "product_add_to_cart_form_btn_size",
+        "label": "Button size",
+        "default": "",
+        "options": [
+          {
+            "value": "btn-sm",
+            "label": "Small"
+          },
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "btn-lg",
+            "label": "Large"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "product_add_to_cart_form_show_cart_icon",
+        "label": "Show cart icon",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "product_add_to_cart_form_cart_icon",
+        "label": "Cart icon style",
+        "default": "icon-shopping-cart",
+        "options": [
+          {
+            "value": "icon-shopping-cart",
+            "label": "Cart"
+          },
+          {
+            "value": "icon-shopping-bag",
+            "label": "Bag"
+          },
+          {
+            "value": "icon-shopping-basket",
+            "label": "Basket"
+          },
+          {
+            "value": "icon-shopping-minecart",
+            "label": "Minecart"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "product_add_to_cart_form_cart_icon_animation_enabled",
+        "label": "Enable button animation",
+        "info": "Will animate every 5 seconds to get user attention.",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "product_add_to_cart_form_cart_icon_animation_class",
+        "label": "Button animation class",
+        "info": "Enter an animation class name from [Animate.css](https:\/\/animate.style).",
+        "default": "animate__tada",
+        "options": [
+          {
+            "value": "animate__bounce",
+            "label": "Bounce"
+          },
+          {
+            "value": "animate__flash",
+            "label": "Flash"
+          },
+          {
+            "value": "animate__pulse",
+            "label": "Pulse"
+          },
+          {
+            "value": "animate__rubberBand",
+            "label": "RubberBand"
+          },
+          {
+            "value": "animate__shakeX",
+            "label": "ShakeX"
+          },
+          {
+            "value": "animate__shakeY",
+            "label": "ShakeY"
+          },
+          {
+            "value": "animate__headShake",
+            "label": "HeadShake"
+          },
+          {
+            "value": "animate__swing",
+            "label": "Swing"
+          },
+          {
+            "value": "animate__tada",
+            "label": "Tada"
+          },
+          {
+            "value": "animate__wobble",
+            "label": "Wobble"
+          },
+          {
+            "value": "animate__jello",
+            "label": "Jello"
+          },
+          {
+            "value": "animate__heartBeat",
+            "label": "HeartBeat"
+          },
+          {
+            "value": "animate__flip",
+            "label": "Flip"
+          },
+          {
+            "value": "animate__jackInTheBox",
+            "label": "JackInTheBox"
+          },
+          {
+            "value": "animate__bounceIn",
+            "label": "BounceIn"
+          }
+        ]
+      }
+    ]
+  }
+]

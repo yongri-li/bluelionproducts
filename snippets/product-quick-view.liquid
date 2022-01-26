@@ -1,0 +1,33 @@
+{%- comment -%}
+    Quick view (modal)
+{%- endcomment -%}
+<div 
+    class="modal quick-view fade animate__animated {{ settings.product_quick_view_animation_entrance_class }} {{ settings.product_quick_view_animation_duration }}"
+    id="quick-view"
+    aria-labelledby="quick-view-label" 
+    aria-hidden="true"
+    tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable {{ settings.product_quick_view_modal_size }}">
+        <div class="modal-content text-left">
+        
+            <!-- Modal header -->
+            <div class="modal-header pb-3">
+                
+                <!-- Modal Title -->
+                <h5 class="modal-title" id="quick-view-label">
+                    <!-- Auto injected via JS -->
+                </h5>
+
+                <!-- Close -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'misc.close' | t }}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body px-0">
+                <!-- Auto injected via JS -->
+            </div>
+        </div>
+    </div>
+</div>

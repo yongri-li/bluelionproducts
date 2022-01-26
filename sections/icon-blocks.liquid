@@ -1,0 +1,132 @@
+<div id="icon-blocks" class="{{ section.settings.margin_top | prepend: 'mt-' }} 
+{{ section.settings.margin_bottom | prepend: 'mb-' }} 
+{{ section.settings.padding_top | prepend: 'pt-' }} 
+{{ section.settings.padding_bottom | prepend: 'pb-' }} 
+{{ section.settings.bg_color }}
+">
+    <div class="{% if section.settings.container %}container{% else %}container-fluid{% endif %}">
+        {% if section.blocks.size > 0 %}
+        <div id="icon-blocks-content" class="row mt-2">
+            {% for block in section.blocks %}
+            <div class="col-md my-2 justify-content-center d-flex">
+                <div class="pr-2">
+                    <span style="font-size:2em;" class="{{ block.settings.fontawesomeicon-iconblock}}"></span>
+                </div>
+                <div class="">
+                    <h5 class="mb-0 announcementtext">{{ block.settings.text}}</h5>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+  {% schema %}
+    {
+      "name": "Icon blocks",
+      "class": "icon-blocks lazysection",
+      "max_blocks": 4,
+      "settings": [
+        {
+          "type": "header",
+          "content": "General settings"
+        },
+        {
+          "type": "select",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "bg-dark text-white",
+          "options": [
+            {
+              "value": "", "label": "White"
+            },
+            {
+              "value": "bg-light", "label": "Light"
+            },
+            {
+              "value": "bg-dark text-white", "label": "Dark"
+            },
+            {
+              "value": "bg-primary text-white", "label": "Primary"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "container",
+          "label": "Wrap in container",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "paragraph",
+          "content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "default": 6
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "default": 0
+        }
+      ],
+      "blocks": [
+        {
+          "type": "icons",
+          "name": "icon block",
+          "settings": [
+            {
+              "type": "text",
+              "id": "fontawesomeicon-iconblock",
+              "label": "Icon"
+            },
+            {
+              "type": "text",
+              "id": "text",
+              "label": "Content"
+            }
+          ]
+        }
+      ],
+        "presets": [
+          {
+            "name": "Icon blocks",
+            "category": "Image"
+  
+          }
+        ]
+      }
+  {% endschema %}
+  

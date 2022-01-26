@@ -1,0 +1,8 @@
+<div id="visitcontainer"
+class-"pb-2"
+data-min="{{settings.visit_min}}"
+data-max="{{settings.visit_max}}"
+data-delay="{{settings.visit_delay}}000">
+<span class="{{settings.fontawesomeiconvisit}}"></span>
+{{ settings.visit_text | replace: '[visitors]', '<span class="badge badge-primary" id="visitcounter"></span> '}}
+</div>

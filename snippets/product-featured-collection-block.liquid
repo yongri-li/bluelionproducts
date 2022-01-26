@@ -1,0 +1,153 @@
+<div class="
+  {% if block.settings.container %} container {% else %} container-fluid {% endif %}
+  {{ block.settings.margin_top | prepend: 'mt-' }}
+  {{ block.settings.margin_bottom | prepend: 'mb-' }}
+">
+
+  {% if block.settings.heading != blank %}
+    <{{ block.settings.heading_size }} class="{{ block.settings.heading_alignment }}">
+      {{ block.settings.heading | escape }}
+    </{{ block.settings.heading_size }}>
+  {% endif %}
+
+  {% if block.settings.subheading != blank %}
+    <div class="rte text-muted {{ block.settings.heading_alignment }}">
+      {{ block.settings.subheading }}
+    </div>
+  {% endif %}
+
+  {% assign product_list = collections[block.settings.collection].products %}
+  <ul id="AjaxinateContainer" class="
+  product-list
+  list-unstyled
+  mx-n2
+  {{ block.settings.gutter_horizontal | prepend: 'mx-sm-n' }}
+  row
+  row-cols-{{ block.settings.row }}
+  row-cols-sm-{{ block.settings.row_sm }}
+  row-cols-md-{{ block.settings.row_md }}
+  row-cols-lg-{{ block.settings.row_lg }}
+  row-cols-xl-{{ block.settings.row_xl }}"
+>
+  {% for product in product_list limit: block.settings.limit %}
+
+    {% if product.featured_image != blank %}
+      <li class="
+        product-item
+        pb-2
+        px-2
+        {{ block.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ block.settings.gutter_vertical | prepend: 'my-' }}
+        {% if block.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ product.url }}" class="theme-link-color d-block text-decoration-none">
+
+          <div class="
+            position-relative
+            overflow-hidden
+            mb-3
+            {% if block.settings.image_border %}img-thumbnail{% endif %}
+            {% if block.settings.image_circle %}rounded-circle{% endif %}
+            {{ block.settings.image_hover_effect }}
+          ">
+            {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+            <img
+              class="product-item-img img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+              src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+              data-src="{{ product.featured_image | img_url: image_size, crop: 'center'  }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              width="{{ block.settings.image_width }}"
+              height="{{ block.settings.image_height }}"
+              loading="lazy"
+            >
+
+            {% if block.settings.show_discount_badge and product.compare_at_price > product.price %}
+              <small class="product-discount-badge badge-right" style="background-color: {{ settings.color_on_sale }}">
+                {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | money_without_currency | times: 100 | remove: '.0' | prepend: '-' | append: '%' }}
+              </small>
+            {% endif %}
+
+          </div>
+
+          {% if block.settings.show_product_title %}
+            <p class="{{ block.settings.product_title_size }}">
+              {{ product.title | escape }}
+            </p>
+          {% endif %}
+
+          {% if block.settings.show_price %}
+            <p class="mb-3" style="color: {{ settings.color_price }}">
+              {% if product.compare_at_price > product.price %}
+                <s class="text-muted opacity-75 mr-1">{{ product.compare_at_price | money }}</s>
+                {% if product.price_varies %}
+                  {%- assign sale_price = product.price | money -%}
+                  {{ 'product.on_sale_from_html' | t: price: sale_price }}
+                {% else %}
+                  {{ 'product.on_sale' | t }}
+                  {{ product.price | money }}
+                {% endif %}
+              {% else %}
+                {% if product.price_varies %}
+                  {%- assign price = product.price | money -%}
+                  {{ 'product.from_text_html' | t: price: price }}
+                {% else %}
+                  {{ product.price | money }}
+                {% endif %}
+              {% endif %}
+            </p>
+          {% endif %}
+
+        </a>
+
+        <!-- Add to cart form -->
+        {% if block.settings.show_add_to_cart_form %}
+            {% render 'product-add-to-cart-form' with product: product, show_qty: block.settings.add_to_cart_form_show_qty, show_inventory: block.settings.add_to_cart_form_show_inventory %}
+        {% endif %}
+
+         <!-- Quick view -->
+         {% if block.settings.quick_view_enabled %}
+            <a
+                class="btn-quick-view btn {{ settings.product_quick_view_btn_color }} {{ settings.product_quick_view_btn_variant }} {{ settings.product_quick_view_btn_size }} mb-3"
+                href="{{ product.url | within: collection }}"
+                role="button"
+                data-text-quick-view="{{ 'product.quick_view' | t }}"
+                data-text-loading="{{ 'misc.loading' | t }}">
+                <span 
+                    class="btn-quick-view-spinner spinner-border spinner-border-sm mr-2" 
+                    role="status" 
+                    aria-hidden="true"
+                    style="display: none;">
+                </span>
+                <span class="btn-quick-view-text">
+                    {{ 'product.quick_view' | t }}
+                </span>
+            </a>
+       {% assign product_handle = product.handle %}
+       {% render 'wishlist-button-collection' product_handle:product_handle %}
+        {% endif %}
+  
+
+      </li>
+    {% endif %}
+
+  {% else %}
+
+    {% for i in (1..block.settings.limit) %}
+      <li class="pb-4 px-2 my-3 text-center">
+        <a href="#" class="theme-link-color text-decoration-none">
+          <div class="overflow-hidden mb-3 img-thumbnail">
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light' }}
+          </div>
+          <h6>
+            {{ 'onboarding.product_title' | t }}
+          </h6>
+          <p class="mb-3" style="color: {{ settings.color_price }}">{{ 1999 | money }}</p>
+        </a>
+      </li>
+    {% endfor %}
+
+  {% endfor %}
+</ul>
+
+</div>

@@ -1,0 +1,66 @@
+{% assign product = all_products[block.settings.product] %}
+
+<div 
+    id="{{ product.id | prepend: 'featured-product-' }}" 
+    class="product container {{ block.settings.margin_top | prepend: 'mt-' }} {{ block.settings.margin_bottom | prepend: 'mb-' }}">
+
+  {% if product == blank %}
+    
+  <div class="row align-items-center">
+      <div class="col-md mb-3">
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg bg-light' }}
+      </div>
+      <div class="col-md mb-3">
+        <h2>{{ 'onboarding.product_title' | t }}</h2>
+        <div class="rte mb-4">
+          {{ 'onboarding.product_desc_html' | t }}
+        </div>
+        <button class="btn btn-primary">{{ 'product.add_to_cart' | t }}</button>
+      </div>
+    </div>
+
+  {% else %}
+
+    <div class="row align-items-center {{ block.settings.image_alignment }}">
+      <div class="product-images col{{ block.settings.breakpoint }} mb-3">
+          
+          {% if block.settings.show_image_gallery %}
+            {% render 'product-image-gallery' with product: product, id: 'featured-product-image-gallery-' %}
+          {% endif %}
+
+      </div>
+      <div class="col{{ block.settings.breakpoint }} mb-3">
+        
+        {% if block.settings.show_product_title %}
+          <h2 class="{{ block.settings.product_title_size }}">
+            <a href="{{ product.url }}" class="theme-link-color">
+              {{ product.title | escape }}
+            </a>
+          </h2>
+        {% endif %}
+
+        {% if block.settings.show_add_to_cart_form %}
+            {% render 'product-add-to-cart-form' with product: product, show_qty: block.settings.add_to_cart_form_show_qty %}
+        {% endif %}
+
+        {% if block.settings.show_product_desc %}
+            <p class="rte my-3">
+                {{ product.description | strip_html | truncate: block.settings.product_desc_truncate }}
+                <a href="{{ product.url | within: collection }}" class="">
+                    {{ 'product.learn_more' | t }}
+                    {% render 'icon-chevrons-right' with size: 16 class: "" %}
+                </a>
+            </p>
+            <hr>
+        {% endif %}
+        
+        {% if block.settings.show_share_buttons %}
+          {% render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product.featured_image %}
+        {% endif %}
+
+      </div>
+    </div>
+
+  {% endif %}
+
+</div>

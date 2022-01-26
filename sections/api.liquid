@@ -1,0 +1,78 @@
+{{ content_for_header }}
+{%- capture contentForQuerystring -%}{{ content_for_header }}{%- endcapture -%}
+{%- assign page_url = contentForQuerystring | split:'"pageurl":"' | last | split:'"' | first | split:'.myshopify.com' | last |   replace:'\/','/' |    replace:'%20',' ' |    replace:'\u0026','&'  -%}
+{%- assign param_page = '' -%}
+{%- for i in (1..1) -%}
+	{%- unless page_url contains "?" -%}{% break %}{%- endunless -%}
+	{%- assign query_string = page_url | split:'?' | last -%}
+	{%- assign qry_parts= query_string | split:'&' -%}
+	{%- for part in qry_parts -%}
+		{%- assign key_and_value = part | split:'=' -%}
+		{%- if key_and_value.size > 1 -%}
+			{% if key_and_value[0] == 'auth' %}
+				{%- assign param_page = key_and_value[1] -%}
+			{% endif%}
+		{%- endif -%}
+	{%- endfor -%}
+{%- endfor -%}
+{%- if param_page != blank -%}
+{%- assign allowed = false -%}
+{%- for block in section.blocks -%}
+{%- if block.type == 'authorized_stores' -%}
+{%- if param_page == block.settings.allowed_store_urls -%}
+{% assign allowed = true %}
+{%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+{%- endif -%}
+{% if allowed == true %}
+allowed
+{% else %}
+not allowed
+{% endif %}
+{{allowed}}
+{% schema %}
+{
+    "name": "Wholesale Api",
+    "settings": [
+
+    ],
+    "blocks": [
+        {
+            "type": "authorized_stores",
+            "name": "Authorized Stores",
+            "settings": [
+        {
+            "type": "text",
+            "id": "allowed_store_urls",
+            "label": "Allowed store urls",
+            "info": "This is to set which stores are allowed to access the api"
+        }
+          ]
+        },
+        {
+            "type": "allowed_collections",
+            "name": "Allowed Collections",
+            "settings": [
+          {
+            "type": "collection",
+            "id": "allowed_collection",
+            "label": "Allowed Collections",
+            "info": "Use this to assign what collections should show up on the customers store"
+           }
+          ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Wholesale Api"
+        }
+    ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,373 @@
+<div class="
+    {% if section.settings.container %}container{% else %}container-fluid{% endif %}
+    {{ section.settings.margin_top | prepend: 'mt-' }}
+    {{ section.settings.margin_bottom | prepend: 'mb-' }}
+    {{ section.settings.padding_top | prepend: 'pt-' }} 
+    {{ section.settings.padding_bottom | prepend: 'pb-' }} 
+    {{ section.settings.bg_color }}
+    ">
+    <div class="row">
+        <div class="container">
+            {% if section.settings.heading != blank %}
+            <{{ section.settings.heading_size }} class="{{ section.settings.heading_alignment }}">
+                {{ section.settings.heading | escape }}
+            </{{ section.settings.heading_size }}>
+            {% endif %}
+
+            {% if section.settings.subheading != blank %}
+            <div class="rte text-muted {{ section.settings.heading_alignment }}">
+                {{ section.settings.subheading }}
+            </div>
+            {% endif %}
+            <div class="carousel slide testimonial-carousel" data-ride="carousel" id="{{ 'carousel-' | append: section.id }}" data-pause="hover" data-interval="5000" aria-roledescription="carousel">
+
+                <div class="carousel-inner my-4 text-center">
+                    {% for block in section.blocks %}
+                    {% assign product = all_products[block.settings.review_product] %}
+                    <div class="carousel-item {% if forloop.first == true %} active {% endif %}" role="group">
+                        
+                      <blockquote class="blockquote m-0">
+
+                          <p class="font-weight-bold small mb-2">
+                            {% if block.settings.title != blank %}
+                            <span class="d-block mb-2">
+                              {{block.settings.title}}
+                            </span>
+                            {% endif %}
+                            {% if block.settings.review_product != blank %}
+                            <span class="d-block mb-2">
+                              <a href="{{product.url}}">{{product.title}}</a>
+                            </span>
+                            {% endif %}
+                            {% if block.settings.star_rating_ammount != '' %}
+                              <span class="d-block">
+                                  {{block.settings.star_rating_ammount | replace: 'star', '<i class="fas fa-star"></i>' }}
+                              </span>
+                              {% endif %}
+                          </p>
+
+                          <div class="rte font-italic">
+                            {{block.settings.content | replace: '<p', '<p class="mb-0"' }}
+                          </div>
+                          
+                          <footer class="small">
+                            {% if block.settings.verified %}
+                                  <div class="pt-0 mb-3">
+                                    {% else %}
+                                    <div class="pt-4 mb-3">
+                                      {% endif %}
+                                    <div class="
+                                    position-relative
+                                    overflow-hidden
+                                    {% if section.settings.image_circle %}rounded-circle{% endif %}
+                                    {{ section.settings.image_hover_effect }}
+                                  ">
+                                  {% if block.settings.verified %}
+                                  <div class="position-relative" data-toggle="tooltip" data-placement="top" title="Verified Review" aria-label="Verified Review" data-original-title="Verified Review" style="right: -31px; top: 23px;">
+                                  {% render 'icon-verified' with size: 22, background: settings.color_secondary, inside: settings.color_primary %}
+                                </div>
+                                {% endif %}
+                                    {% if block.settings.image != blank %}
+                                    <img class="img-fluid lazyload {% if section.settings.image_circle %}rounded-circle{% endif %} {% if section.settings.image_border %}img-thumbnail{% endif %}"
+                                      src="{{ 'no-image.jpg' | asset_img_url: img_url: '90x90', crop: 'center' }}"
+                                      data-src="{{ block.settings.image | img_url: '90x90', crop: 'center' }}"
+                                      alt="{{ block.settings.image.alt | escape }}"
+                                      width="90"
+                                      height="90"
+                                      loading="lazy">
+                                    {% else %}
+                                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg bg-light' }}
+                                    {% endif %}
+                                  </div>
+                                  </div>
+                              
+                              <b class="d-block">{{block.settings.name}}</b>
+                              <small class="d-block text-muted">{{block.settings.location}}</small>
+                              <small class="d-block text-muted">{{block.settings.date}}</small>
+                          </footer>
+                      </blockquote>
+                  </div>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#{{ 'carousel-' | append: section.id }}" role="button" data-slide="prev" aria-controls="{{ 'carousel-' | append: section.id }}">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#{{ 'carousel-' | append: section.id }}" role="button" data-slide="next" aria-controls="{{ 'carousel-' | append: section.id }}">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+              </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% schema %}
+  {
+    "name": "Testimonial Slider",
+    "class": "testimonial-slider",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Content settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "container",
+        "label": "Wrap in container",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "heading_alignment",
+        "label": "Alignment",
+        "default": "text-center",
+        "options": [
+            { "value": "text-left", "label": "Left" },
+            { "value": "text-center", "label": "Center" },
+            { "value": "text-right", "label": "Right" }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "What they had to say"
+      },
+      {
+        "type": "select",
+        "id": "heading_size",
+        "label": "Heading Size",
+        "default": "h2",
+        "options": [
+          {
+            "value": "h1", "label": "H1"
+          },
+          {
+            "value": "h2", "label": "H2"
+          },
+          {
+            "value": "h3", "label": "H3"
+          },
+          {
+            "value": "h4", "label": "H4"
+          },
+          {
+            "value": "h5", "label": "H5"
+          },
+          {
+            "value": "h6", "label": "H6"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Sub heading",
+        "default": "⭐⭐⭐⭐⭐"
+      },
+      {
+        "type": "checkbox",
+        "id": "image_border",
+        "label": "Border",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "image_circle",
+        "label": "Circle",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "subheading_size",
+        "label": "Sub heading size",
+        "default": "h5",
+        "options": [
+          {
+            "value": "h1", "label": "H1"
+          },
+          {
+            "value": "h2", "label": "H2"
+          },
+          {
+            "value": "h3", "label": "H3"
+          },
+          {
+            "value": "h4", "label": "H4"
+          },
+          {
+            "value": "h5", "label": "H5"
+          },
+          {
+            "value": "h6", "label": "H6"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "bg_color",
+        "label": "Background color",
+        "default": "bg-dark text-white",
+        "options": [
+          {
+            "value": "", "label": "White"
+          },
+          {
+            "value": "bg-light", "label": "Light"
+          },
+          {
+            "value": "bg-dark text-white", "label": "Dark"
+          },
+          {
+            "value": "bg-primary text-white", "label": "Primary"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Spacing"
+      },
+      {
+        "type": "paragraph",
+        "content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding top",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 6
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "label": "Margin top",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "label": "Margin bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0
+      }
+    ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Testimonials",
+      "settings": [
+      {
+        "type": "header",
+        "content": "Customer testimonial"
+      },
+      {
+        "type": "checkbox",
+        "id": "verified",
+        "label": "Verified review badge",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Review title",
+        "default": "Best product ever"
+      },
+      {
+        "type": "product",
+        "id": "review_product",
+        "label": "Reviewed product"
+      },
+      {
+        "type": "select",
+        "id": "star_rating_ammount",
+        "label": "How many stars",
+        "default": "star star star star star",
+        "options": [
+            { "value": "star", "label": "1" },
+            { "value": "star star", "label": "2" },
+            { "value": "star star star", "label": "3" },
+            { "value": "star star star star", "label": "4" },
+            { "value": "star star star star star", "label": "5" }
+        ]
+      },
+      {
+        "type": "textarea",
+        "id": "content",
+        "label": "Content",
+        "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+      },
+      {
+        "type": "text",
+        "id": "name",
+        "label": "Name",
+        "default": "- John Doe"
+      },
+      {
+        "type": "text",
+        "id": "location",
+        "label": "Location",
+        "default": "From Phoenix, AZ"
+      },
+      {
+        "type": "text",
+        "id": "date",
+        "label": "Date",
+        "default": "October 29, 2020"
+      },
+      {
+        "type": "header",
+        "content": "Image settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }
+     ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Content",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+         
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+          
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+        
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

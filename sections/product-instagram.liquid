@@ -1,0 +1,169 @@
+{% if section.settings.section_enabled %}
+
+    <div 
+        class="instagram-section text-center py-8 {{ section.settings.bg_color }}"
+        data-username="{{ section.settings.username | escape }}"
+        data-limit="{{ section.settings.limit }}"
+        data-no-image="{{ 'no-image.jpg' | asset_img_url: '360x360', crop: 'center' }}"
+        data-title="{{ section.settings.title | escape }}"
+        data-btn-color="{{ section.settings.follow_btn_color }}"
+        data-btn-variant="{{ section.settings.follow_btn_variant }}"
+        data-btn-size="{{ section.settings.follow_btn_size }}"
+        data-btn-text="{{ section.settings.btn_text }}"
+        data-thumbnail-size="{{ section.settings.thumbnail_size }}"
+        data-text-followers="{{ 'instagram.followers' | t}}"
+        data-text-likes="{{ 'instagram.likes' | t}}"
+        data-text-comments="{{ 'instagram.comments' | t}}"
+        data-icon-like="{{ 'instagram-like.svg' | asset_url }}"
+        data-icon-comment="{{ 'instagram-comment.svg' | asset_url }}">
+
+        <div class="container">
+        
+            <div class="instagram-loading text-center">
+                <div class="d-flex justify-content-center mb-2">
+                    <div class="spinner-border text-primary" role="status">
+                    </div>
+                </div>
+                <span class="text-muted">{{ 'instagram.loading' | t }}</span>
+            </div>
+
+            <div class="instagram-heading"></div>
+            <div class="instagram-list"></div>
+
+        </div>
+    </div>
+    
+{% endif %}
+
+{% schema %}
+    {
+    "name": "Instagram embed",
+    "tag": "section",
+    "class": "mb-8",
+    "settings": [
+    {
+        "type": "header",
+        "content": "Enable/Disable section"
+    },
+    {
+        "type": "checkbox",
+        "id": "section_enabled",
+        "label": "Enable section",
+        "default": true
+    },
+    {
+        "type": "header",
+        "content": "General settings"
+    },
+    {
+      "type": "text",
+      "id": "username",
+      "label": "Instagram username",
+      "default": "shopify"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Shopify on Instagram"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button text",
+      "default": "Follow"
+    },
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "label": "Limit",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "likes",
+      "label": "Show likes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "comments",
+      "label": "Show Comments",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "select",
+      "id": "bg_color",
+      "label": "Background color",
+      "options": [
+        {
+          "value": "bg-white", "label": "White"
+        },
+        {
+          "value": "bg-light", "label": "Light"
+        }
+      ],
+      "default": "bg-light"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_size",
+      "label": "Thumbnail size",
+      "options": [
+        {
+          "value": "0", "label": "Small"
+        },
+        {
+          "value": "2", "label": "Medium"
+        },
+        {
+          "value": "4", "label": "Large"
+        }
+      ],
+      "default": "0"
+    },
+    {
+        "type": "select",
+        "id": "follow_btn_color",
+        "label": "'Follow' button color",
+        "default": "btn-primary",
+        "options": [
+            { "value": "btn-primary", "label": "Primary" },
+            { "value": "btn-secondary", "label": "Secondary" }
+        ]
+    },
+    {
+        "type": "select",
+        "id": "follow_btn_variant",
+        "label": "'Follow' button variant",
+        "default": "",
+        "options": [
+            { "value": "", "label": "Normal" },
+            { "value": "btn-outline", "label": "Outline" }
+        ]
+    },
+    {
+        "type": "select",
+        "id": "follow_btn_size",
+        "label": "'Follow' button size",
+        "default": "",
+        "options": [
+            { "value": "btn-sm", "label": "Small" },
+            { "value": "", "label": "Normal" },
+            { "value": "btn-lg", "label": "Large" }
+        ]
+    }
+  ]
+}
+{% endschema %}

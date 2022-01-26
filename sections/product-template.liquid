@@ -1,0 +1,928 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+{% assign image_size = section.settings.image_width | append: 'x' | append: section.settings.image_height %}
+{% assign gallery_image_size = section.settings.gallery_image_width | append: 'x' | append: section.settings.gallery_image_height %}
+{% assign modal_image_size = section.settings.modal_image_width | append: 'x' | append: section.settings.modal_image_height %}
+
+{% for block in section.blocks %}
+{% if block.type == 'font' %}
+{% assign font = block.settings.font | replace: " ", "+" %}
+<link href="https://fonts.googleapis.com/css2?family={{font}}&display=swap" rel="stylesheet">
+{% endif %}
+{% endfor %}
+<style>
+{% for block in section.blocks %}
+{% if block.type == 'font' %}
+  .{{block.settings.font | replace: " ", ""}} {
+  font-family: '{{block.settings.font}}';
+  }
+{% endif %}
+{% endfor %}
+</style>
+<div class="product-template mt-7">
+    <article class="product {% if section.settings.container %}container{% else %}container-fluid{% endif %}" data-product-url="{{ product.url }}">
+
+    <div class="row {{ section.settings.images_alignment }}">
+
+        <div class="product-images col{{ section.settings.breakpoint }} mb-3">
+            {% render 'product-image-gallery' with product: product %}
+        </div>
+
+        <div class="col{{ section.settings.breakpoint }} mb-3">
+
+        <h1 class="product-title {% if section.settings.product_title_small_font %}h3{% endif %}">{{ product.title }}</h1>
+
+        {% if section.settings.show_vendor %}
+            <p>{{ product.vendor }}</p>
+        {% endif %}
+
+        <div id="product-add-to-cart-form-area">
+          {%- for block in section.blocks -%}
+          {%- if block.type == 'free_shipping' -%}
+          {% if product.available %}
+          {%- assign free_shipping_amount = block.settings.free_shipping_amount | times: 100 -%}
+          {%- assign cart_total = cart.total_price -%}
+          {%- assign remaining_amount = free_shipping_amount | minus: cart_total -%}
+          {%- assign free_shipping_lockedmsg = block.settings.free_shipping_lockedmsg -%}
+          {%- assign free_shipping_unlockedmsg = block.settings.free_shipping_unlockedmsg -%}
+          {%- assign free_ship_unlocked_style = block.settings.free_ship_unlocked_style -%}
+          {%- assign free_ship_locked_style = block.settings.free_ship_locked_style -%}
+          {%- render 'free-shipping' 
+          free_ship_locked_style:free_ship_locked_style, 
+          free_ship_unlocked_style:free_ship_unlocked_style, 
+          free_shipping_amount:free_shipping_amount, 
+          cart_total:cart_total, 
+          remaining_amount:remaining_amount, 
+          free_shipping_unlockedmsg:free_shipping_unlockedmsg, 
+          free_shipping_lockedmsg:free_shipping_lockedmsg  -%}
+          {%- endif -%}
+          {% endif %}
+          {%- endfor -%}
+          {% if settings.live_visitors %}
+          {% render 'live-visitors' %}
+          {% endif %}
+          {% render 'product-add-to-cart-form' with product: product, show_qty: true, show_inventory: true, history_mode: true %}
+        </div>
+
+        <!-- Payment icons -->
+        {% if section.settings.show_payment_icons and shop.enabled_payment_types != empty %}
+            <div class="payment-icons text-center mb-4">
+                <span class="sr-only">
+                    {{ 'misc.payment_methods' | t }}
+                </span>
+                <ul class="list-inline text-center mb-2">
+                    {% for type in shop.enabled_payment_types %}
+                        <li class="list-inline-item mr-1" data-toggle="tooltip" data-placement="top" title="{{ type | replace: "_", " " | camelcase }}">
+                            {{ type | payment_type_svg_tag: class: 'icon' }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p class="mb-0 text-muted font-italic small">{{ 'misc.secure_payments' | t }}</p>
+            </div>
+        {% endif %}
+        {% if section.settings.trust_badge != blank %}
+        <a href="#">
+          <div class="
+          {{ section.settings.trust_badge_margin_top | prepend: 'mt-' }}
+          {{ section.settings.trust_badge_margin_bottom | prepend: 'mb-' }}
+          position-relative
+          overflow-hidden
+          text-center
+          {% if section.settings.trust_badge_border %}img-thumbnail{% endif %}
+          {{ section.settings.trust_badge_hover_affect }}
+        ">
+          {% assign trust_badge_size = section.settings.trust_badge_width | append: 'x' | append: section.settings.trust_badge_height %}
+          <img class="img-fluid lazyload"
+            src="{{ 'no-image.jpg' | asset_img_url: trust_badge_size, crop: 'center' }}"
+            data-src="{{ section.settings.trust_badge | img_url: trust_badge_size }}"
+            alt="{{ section.settings.trust_badge.alt | escape }}" width="{{ section.settings.trust_badge_width }}"
+            height="{{ section.settings.trust_badge_height }}" loading="lazy">
+          </div>
+        </a>
+        {% endif %}
+        {% if section.settings.product_content == 'tabs' %}
+            <ul class="nav nav-tabs mt-4 mb-3" id="product-tabs" role="tablist">
+            {% for block in section.blocks %}
+                <li class="nav-item">
+                <a
+                    class="nav-link d-flex {% if forloop.first == true %} active {% endif %}"
+                    id="product-tabs-tab-{{ forloop.index }}"
+                    data-toggle="tab"
+                    href="#product-tabs-content-{{ forloop.index }}"
+                    role="tab"
+                    aria-controls="product-tabs-content-{{ forloop.index }}"
+                    aria-selected="true">
+                    {{ block.settings.title | escape }}
+                </a>
+                </li>
+            {% endfor %}
+            </ul>
+            <div class="tab-content mb-4">
+            {% for block in section.blocks %}
+            {%- if block.type != 'free_shipping' -%}
+                <div
+                class="tab-pane fade {% if forloop.first == true %}show active{% endif %}"
+                id="product-tabs-content-{{ forloop.index }}"
+                role="tabpanel"
+                aria-labelledby="product-tabs-tab-{{ forloop.index }}">
+
+                {% if block.type == 'product_desc' %}
+                    <div class="rte">
+                    {%- assign description = product.description | replace: '<img src=', '<img class="lazyload img-fluid" loading="lazy" data-src=' -%}
+                    {{- description -}}
+                    </div>
+                {% endif %}
+
+                {% if block.type == 'reviews' %}
+                    <div
+                    id="shopify-product-reviews"
+                    data-id="{{product.id}}">
+                    </div>
+                {% endif %}
+
+                {% if block.type == 'richtext' %}
+                    <div class="rte">
+                    {{ block.settings.content }}
+                    </div>
+                {% endif %}
+
+                </div>
+             {%- endif -%}
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if section.settings.product_content == 'accordion' %}
+            <div id="product-accordion" class="accordion mb-4">
+
+            {% for block in section.blocks %}
+            {%- if block.type != 'free_shipping' -%}
+                <div class="card">
+                <div
+                    id="product-accordion-heading-{{ forloop.index }}"
+                    class="card-header">
+                    <h2 class="mb-0">
+                    <button
+                        class="btn btn-link btn-block text-left {% if forloop.first == false %}collapsed {% endif %}"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#product-accordion-collapse-{{ forloop.index }}"
+                        aria-expanded="true"
+                        aria-controls="product-accordion-collapse-{{ forloop.index }}">
+                        {% if block.settings.fontawesomeicon != blank %}
+                        <i class="mr-2 {{block.settings.fontawesomeicon}}"></i>
+                        <span class="mr-auto">{{ block.settings.title | escape }}</span>
+                        {% else %}
+                        {{ block.settings.title | escape }}
+                        {% endif %}
+                        {% if block.type == 'reviews' %}
+                            <span class="{{block.settings.review_alignment}}">
+                              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                            </span>
+                            <span class="plus-minus">
+                                {% render 'icon-plus' with size: 18 %}
+                                {% render 'icon-minus' with size: 18 %}
+                            </span>
+                        {% else %}
+                            <span class="plus-minus">
+                                {% render 'icon-plus' with size: 18 %}
+                                {% render 'icon-minus' with size: 18 %}
+                            </span>
+                        {% endif %}
+                    </button>
+                    </h2>
+                </div>
+
+                <div
+                    id="product-accordion-collapse-{{ forloop.index }}"
+                    class="collapse {% if forloop.first == true %}show{% endif %}"
+                    aria-labelledby="product-accordion-heading-{{ forloop.index }}"
+                    data-parent="#product-accordion">
+                    <div class="card-body">
+                    {% if block.type == 'product_desc' %}
+                        <div class="rte">
+                        {%- assign description = product.description | replace: '<img src=', '<img class="lazyload img-fluid" loading="lazy" data-src=' -%}
+                        {{- description -}}
+                        </div>
+                    {% endif %}
+
+                    {% if block.type == 'reviews' %}
+                        <div
+                        id="shopify-product-reviews"
+                        data-id="{{product.id}}">
+                        </div>
+                    {% endif %}
+
+                    {% if block.type == 'richtext' %}
+                        <div class="rte">
+                        {{ block.settings.content }}
+                        </div>
+                    {% endif %}
+                    </div>
+                </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            </div>
+        {% endif %}
+
+        <!-- Social sharing -->
+        {% if section.settings.show_share_buttons %}
+            {% render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: featured_image %}
+        {% endif %}
+
+        <!-- Tags -->
+        {% if section.settings.show_tags and product.tags.size > 0 %}
+                <div id="product-tags" class="d-flex align-items-center justify-content-end border-top pt-3 mb-4" style="line-height: normal;">
+                    <p class="mb-0 mr-2 small text-muted">
+                        {{ 'misc.tagged' | t }}:
+                    </p>
+                    <ul class="list-unstyled list-inline m-0">
+                        {% for tag in product.tags %}
+                        {% unless tag contains ':' %}
+                        {% unless tag contains '__' %}
+                            <li class="list-inline-item mr-1">
+                                {{ tag | link_to_tag: tag | replace: 'title=', 'class="badge badge-light font-weight-500 font-size-90" title=' }}
+                            </li>
+                            {% endunless %}
+                            {% endunless %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    </article>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Product pages",
+    "tag": "article",
+    "class": "product-page",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "container",
+        "label": "Wrap in container",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_discount_badge",
+        "label": "Show discount badge",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_title_small_font",
+        "label": "Product title - use smaller font",
+        "info": "Recommended if your product titles are long",
+        "default": false
+    },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_payment_icons",
+        "label": "Show payment methods",
+        "default": true
+        },
+        {
+         "type": "header",
+         "content": "Trust badge settings"
+       },
+       {
+         "type": "image_picker",
+         "id": "trust_badge",
+         "label": "Image"
+       },
+       {
+         "type": "text",
+         "id": "trust_badge_width",
+         "label": "Image width (px)"
+       },
+       {
+         "type": "text",
+         "id": "trust_badge_height",
+         "label": "Image height (px)"
+       },
+       {
+   			"type": "range",
+   			"id": "trust_badge_margin_top",
+   			"label": "Margin top",
+   			"min": 0,
+   			"max": 12,
+   			"step": 1,
+   			"default": 0
+   		},
+   		{
+   			"type": "range",
+   			"id": "trust_badge_margin_bottom",
+   			"label": "Margin bottom",
+   			"min": 0,
+   			"max": 12,
+   			"step": 1,
+   			"default": 4
+   		},
+       {
+         "type": "checkbox",
+         "id": "trust_badge_border",
+         "label": "Border",
+         "default": false
+       },
+       {
+         "type": "select",
+         "id":  "trust_badge_hover_affect",
+         "label": "Hover effect",
+         "default": "image-hover-shine",
+         "options": [
+           {
+             "value": "image-hover", "label": "No effect"
+           },
+           {
+             "value": "image-hover-fade-in", "label": "Fade in"
+           },
+           {
+             "value": "image-hover-fade-out", "label": "Fade out"
+           },
+           {
+             "value": "image-hover-scale-in", "label": "Scale in"
+           },
+           {
+             "value": "image-hover-scale-out", "label": "Scale out"
+           },
+           {
+             "value": "image-hover-flashing", "label": "Flashing"
+           },
+           {
+             "value": "image-hover-shine", "label": "Shine"
+           }
+         ]
+       },
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      },
+      {
+            "type": "checkbox",
+            "id": "show_tags",
+            "label": "Show tags",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "use_swatches",
+            "label": "Use color swatches",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "swatch_image",
+            "label": "Use images for swatch",
+            "default": false
+        },
+      {
+        "type": "select",
+        "id": "product_content",
+        "label": "Product content",
+        "default": "tabs",
+        "options": [
+          {
+            "value": "tabs", "label": "Tabs"
+          },
+          {
+            "value": "accordion", "label": "Accordion"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Advanced settings"
+      },
+      {
+        "type": "select",
+        "id":  "breakpoint",
+        "label": "Responsive breakpoint",
+        "info": "Define at what screen size the layout should switch from row to column. [Learn more](https://getbootstrap.com/docs/4.5/layout/overview/#responsive-breakpoints)",
+        "default": "-md",
+        "options": [
+          {
+            "value": "", "label": "No breakpoint"
+          },
+          {
+            "value": "-sm", "label": "Small screens (sm)"
+          },
+          {
+            "value": "-md", "label": "Medium screens (md)"
+          },
+          {
+            "value": "-lg", "label": "Large screens (lg)"
+          },
+          {
+            "value": "-xl", "label": "Extra-large screens (xl)"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Quantity Break settings"
+      },
+      {
+        "type": "header",
+        "content": "Discount Percentage Badge Options [%badge]"
+      },
+      {
+        "type": "select",
+        "id": "discount_percentage_text_badge_bgcolor",
+        "label": "Discount % Badge background color",
+        "default": "badge-primary",
+        "options": [
+          {
+            "value": "badge-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "badge-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "badge-success",
+            "label": "Success"
+          },
+          {
+            "value": "badge-danger",
+            "label": "Danger"
+          },
+          {
+            "value": "badge-warning",
+            "label": "Warning"
+          },
+          {
+            "value": "badge-info",
+            "label": "Info"
+          },
+          {
+            "value": "badge-light",
+            "label": "Light"
+          },
+          {
+            "value": "badge-dark",
+            "label": "Dark"
+          }
+        ]
+      },
+      {
+          "type": "color",
+          "id": "discount_percentage_text_badge_color",
+          "label": "Discount % Badge Font color",
+          "info": "Discount percentage badge color"
+      },
+      {
+        "type": "select",
+        "id": "discount_percentage_text_badge_weight",
+        "label": "Discount % Badge Text Weight",
+        "default": "font-weight-bold",
+        "options": [
+          {
+            "value": "font-weight-normal",
+            "label": "Normal"
+          },
+          {
+            "value": "font-weight-bold",
+            "label": "Bold"
+          },
+          {
+            "value": "font-weight-light",
+            "label": "Light"
+          },
+          {
+            "value": "font-italic",
+            "label": "Italic"
+          }
+        ]
+       },
+       {
+        "type": "header",
+        "content": "Discount Percentage Without Badge Options [%]"
+      },
+       {
+         "type": "color",
+         "id": "discount_percentage_text_color",
+         "label": "Discount % Font color",
+         "info": "Discount percentage color"
+       },
+       {
+         "type": "select",
+         "id": "discount_percentage_text_weight",
+         "label": "Discount % Text Weight",
+         "default": "font-weight-bold",
+         "options": [
+           {
+             "value": "font-weight-normal",
+             "label": "Normal"
+           },
+           {
+             "value": "font-weight-bold",
+             "label": "Bold"
+           },
+           {
+             "value": "font-weight-light",
+             "label": "Light"
+           },
+           {
+             "value": "font-italic",
+             "label": "Italic"
+           }
+         ]
+       },
+       {
+        "type": "header",
+        "content": "Discount Total Options [total]"
+      },
+       {
+         "type": "color",
+         "id": "discount_total_color",
+         "label": "Discount Total Font color"
+       },
+       {
+         "type": "select",
+         "id": "discount_total_weight",
+         "label": "Discount Total Text Weight",
+         "default": "font-weight-bold",
+         "options": [
+           {
+             "value": "font-weight-normal",
+             "label": "Normal"
+           },
+           {
+             "value": "font-weight-bold",
+             "label": "Bold"
+           },
+           {
+             "value": "font-weight-light",
+             "label": "Light"
+           },
+           {
+             "value": "font-italic",
+             "label": "Italic"
+           }
+         ]
+       },
+       {
+        "type": "header",
+        "content": "Discount each Options [each]"
+       },
+       {
+         "type": "color",
+         "id": "discount_each_color",
+         "label": "Discount Each Font color"
+       },
+       {
+         "type": "select",
+         "id": "discount_each_weight",
+         "label": "Discount Each Text Weight",
+         "default": "font-weight-bold",
+         "options": [
+           {
+             "value": "font-weight-normal",
+             "label": "Normal"
+           },
+           {
+             "value": "font-weight-bold",
+             "label": "Bold"
+           },
+           {
+             "value": "font-weight-light",
+             "label": "Light"
+           },
+           {
+             "value": "font-italic",
+             "label": "Italic"
+           }
+         ]
+       },
+       {
+        "type": "header",
+        "content": "Discount before Options [before]"
+       },
+       {
+        "type": "color",
+        "id": "discount_before_color",
+        "label": "Price Before Discount Font color"
+      },
+      {
+        "type": "select",
+        "id": "discount_before_weight",
+        "label": "Price Before Discount Text Weight",
+        "default": "font-weight-bold",
+        "options": [
+          {
+            "value": "font-weight-normal",
+            "label": "Normal"
+          },
+          {
+            "value": "font-weight-bold",
+            "label": "Bold"
+          },
+          {
+            "value": "font-weight-light",
+            "label": "Light"
+          },
+          {
+            "value": "font-italic",
+            "label": "Italic"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Discount text options [format]Buy X-[/format]"
+       },
+       {
+        "type": "color",
+        "id": "discount_text_before_all_color",
+        "label": "Discount Font color"
+      },
+      {
+        "type": "select",
+        "id": "discount_text_before_all_weight",
+        "label": "Discount Text Weight",
+        "default": "font-weight-bold",
+        "options": [
+          {
+            "value": "font-weight-normal",
+            "label": "Normal"
+          },
+          {
+            "value": "font-weight-bold",
+            "label": "Bold"
+          },
+          {
+            "value": "font-weight-light",
+            "label": "Light"
+          },
+          {
+            "value": "font-italic",
+            "label": "Italic"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "font",
+        "name": "Font Preview",
+        "settings": [
+          {
+            "type": "text",
+            "id": "font",
+            "info": "Watch here to learn how to use setting [Learn more](https://fontawesome.com/icons?d=gallery&m=free)",
+            "label": "Google Font Name"
+          }
+        ]
+      },
+      {
+        "type": "qty_discount",
+        "name": "Quantity Breaks",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "text",
+            "id": "qty_discount_limit",
+            "info": "Watch here to learn how to use setting [Learn more](https://fontawesome.com/icons?d=gallery&m=free)",
+            "label": "Amount needed to unclock discount"
+          },
+          {
+            "type": "text",
+            "id": "qty_discount_code",
+            "info": "Watch here to learn how to use setting [Learn more](https://fontawesome.com/icons?d=gallery&m=free)",
+            "label": "Discount Code"
+          },
+          {
+            "type": "text",
+            "id": "qty_discount_ammount",
+            "info": "use whole numbers I.E if 10% use 10 if 20% use 20 for single digit add a 0 before I.E 05 = 5% off",
+            "label": "Discount ammount"
+          },
+          {
+            "type": "text",
+            "id": "qty_discount_title",
+            "info": "Shortcode options [each] [before] [%badge] [%] [total]",
+            "label": "Discount Title",
+            "default": "Buy X - [before] [each] [%badge] [total] to format the Buy X text use [format]Buy X - [/format]"
+          }
+        ]
+      },
+      {
+        "type": "product_desc",
+        "name": "Product description",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Details"
+          },
+          {
+            "type": "text",
+            "id": "fontawesomeicon",
+            "info": "Icons are from Fontawesome [Learn more](https://fontawesome.com/icons?d=gallery&m=free)",
+            "label": "Icon"
+          }
+        ]
+      },
+      {
+        "type": "reviews",
+        "name": "Reviews",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Reviews"
+          },
+         {
+          "type": "select",
+          "id": "review_alignment",
+          "label": "Reviews alignment",
+          "default": "mx-auto",
+          "options": [
+            {
+              "value": "mr-auto ml-2", "label": "Left"
+            },
+            {
+              "value": "mx-auto", "label": "Center"
+            },
+            {
+              "value": "ml-auto mr-2", "label": "Right"
+            }
+          ]
+         },
+          {
+            "type": "text",
+            "id": "fontawesomeicon",
+            "label": "Icon",
+            "info": "Icons are from Fontawesome [Learn more](https://fontawesome.com/icons?d=gallery&m=free)"
+          }
+        ]
+      },
+      {
+        "type": "richtext",
+        "name": "Richtext",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Rich text"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "type": "text",
+            "id": "fontawesomeicon",
+            "label": "Icon",
+            "info": "Icons are from Fontawesome [Learn more](https://fontawesome.com/icons?d=gallery&m=free)"
+          }
+        ]
+      },
+      {
+        "type": "free_shipping",
+        "name": "Free shipping",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "free_shipping_amount",
+            "label": "Purchase price to unclock free shipping"
+          },
+          {
+            "type": "text",
+            "id": "fontawesomeicon",
+            "label": "Icon",
+            "info": "Icons are from Fontawesome [Learn more](https://fontawesome.com/icons?d=gallery&m=free)"
+          },
+          {
+            "type": "richtext",
+            "id": "free_shipping_lockedmsg",
+            "label": "Message for unlocking free shipping",
+            "info": "Adjust where the cost shows up and use [amount] example 'Only [amount] away from free shipping'",
+            "default": "<p>You're only [amount] away from free shipping</p>"
+          },
+         {
+          "type": "select",
+          "id": "free_ship_locked_style",
+          "label": "Message goal color style",
+          "default": "alert-secondary",
+          "options": [
+            {
+              "value": "alert-primary", "label": "Primary"
+            },
+            {
+              "value": "alert-secondary", "label": "Secondary"
+            },
+            {
+              "value": "alert-success", "label": "Success"
+            },
+            {
+              "value": "alert-danger", "label": "Danger"
+            },
+            {
+              "value": "alert-warning", "label": "Warning"
+            },
+            {
+              "value": "alert-info", "label": "Info"
+            },
+            {
+              "value": "alert-light", "label": "Light"
+            },
+            {
+              "value": "alert-dark", "label": "Dark"
+            }
+          ]
+         },
+          {
+            "type": "richtext",
+            "id": "free_shipping_unlockedmsg",
+            "label": "Message that they've unlocked free shipping",
+            "default": "<p>You've unlocked free shipping!</p>"
+          },
+         {
+          "type": "select",
+          "id": "free_ship_unlocked_style",
+          "label": "Message unlocked color style",
+          "default": "alert-primary",
+          "options": [
+            {
+              "value": "alert-primary", "label": "Primary"
+            },
+            {
+              "value": "alert-secondary", "label": "Secondary"
+            },
+            {
+              "value": "alert-success", "label": "Success"
+            },
+            {
+              "value": "alert-danger", "label": "Danger"
+            },
+            {
+              "value": "alert-warning", "label": "Warning"
+            },
+            {
+              "value": "alert-info", "label": "Info"
+            },
+            {
+              "value": "alert-light", "label": "Light"
+            },
+            {
+              "value": "alert-dark", "label": "Dark"
+            }
+          ]
+         }
+        ]
+      }
+    ],
+    "default": {
+        "blocks": [
+            {
+                "type": "product_desc",
+                "settings": {
+                    "title": "Details"
+                }
+            },
+            {
+                "type": "reviews",
+                "settings": {
+                    "title": "Reviews"
+                }
+            },
+            {
+                "type": "richtext",
+                "settings": {
+                    "title": "Rich text"
+                }
+            }
+        ]
+    }
+  }
+{% endschema %}

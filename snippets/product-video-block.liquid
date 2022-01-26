@@ -1,0 +1,50 @@
+<div class="{% if block.settings.container %} container {% else %} container-fluid {% endif %} {{ block.settings.margin_top | prepend: 'mt-' }} {{ block.settings.margin_bottom | prepend: 'mb-' }}">
+
+    {% assign max_width = block.settings.max_width %}
+
+    {% if max_width == '0' %}
+        {% assign max_width = 'none' %}
+    {% endif %}
+
+    <div class="mx-auto" style="max-width: {{ max_width }}px;">    
+        <div class="embed-container" style="border-radius: {{ block.settings.border_radius }}px">
+
+            {% assign video_id = block.settings.video_id %}
+            {% assign youtube_or_video = video_id | times: 1 %}
+            
+            {% if youtube_or_video < 10 %}
+                <a  
+                    href="https://www.youtube.com/watch?v={{ video_id }}" 
+                    target="_blank"
+                    class="video-embed youtube-embed" 
+                    data-video-id="{{ video_id }}">
+                    <img
+                        class="img-fluid lazyload"
+                        src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                        data-src="https://img.youtube.com/vi/{{ video_id }}/hq720.jpg" 
+                        alt="{{ block.settings.video_desc | escape }}"
+                        width="1280"
+                        height="720"
+                        loading="lazy">
+                    <div class="video-play-icon"></div>
+                    <h3 class="video-heading h5">
+                        <span>
+                            {{ block.settings.video_desc | escape }}
+                        </span>
+                    </h3>
+                </a>
+            {% else %}
+                <iframe 
+                    class="lazyload"
+                    data-src="https://player.vimeo.com/video/{{ video_id }}" 
+                    frameborder="0" 
+                    allow="autoplay; fullscreen" 
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
+            {% endif %}
+            
+        </div>
+    </div>
+
+</div>

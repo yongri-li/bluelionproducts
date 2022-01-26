@@ -1,0 +1,32 @@
+<div 
+    class="instagram-block text-center py-8 {{ block.settings.bg_color }}"
+    data-username="{{ block.settings.username | escape }}"
+    data-limit="{{ block.settings.limit }}"
+    data-no-image="{{ 'no-image.jpg' | asset_img_url: '360x360', crop: 'center' }}"
+    data-title="{{ block.settings.title | escape }}"
+    data-btn-color="{{ block.settings.follow_btn_color }}"
+    data-btn-variant="{{ block.settings.follow_btn_variant }}"
+    data-btn-size="{{ block.settings.follow_btn_size }}"
+    data-btn-text="{{ block.settings.btn_text }}"
+    data-thumbnail-size="{{ block.settings.thumbnail_size }}"
+    data-text-followers="{{ 'instagram.followers' | t}}"
+    data-text-likes="{{ 'instagram.likes' | t}}"
+    data-text-comments="{{ 'instagram.comments' | t}}"
+    data-icon-like="{{ 'instagram-like.svg' | asset_url }}"
+    data-icon-comment="{{ 'instagram-comment.svg' | asset_url }}">
+
+    <div class="container">
+      
+        <div class="instagram-loading text-center">
+            <div class="d-flex justify-content-center mb-2">
+                <div class="spinner-border text-primary" role="status">
+                </div>
+            </div>
+            <span class="text-muted">{{ 'instagram.loading' | t }}</span>
+        </div>
+  
+        <div class="instagram-heading"></div>
+        <div class="instagram-list"></div>
+  
+    </div>
+</div>

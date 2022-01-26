@@ -1,0 +1,490 @@
+  
+<style>
+  
+    {% for block in section.blocks %}
+    @media screen and (max-width: 789px) {
+      .header-position {
+        position: fixed;
+        width: 100%;
+        top: 0;
+      }
+      
+      #header.mobile_nav-fixed--true {
+        position: relative!important;
+        top: 0;
+      }
+    }
+    
+    .announcement-bar {
+      {% if section.settings.enable_gradient == true %}
+      background-image: linear-gradient({{ section.settings.gradient_direction }}, {{ section.settings.color_1 }}, {{ section.settings.color_2 }});
+      {% else %}
+      background-color: {{ section.settings.color_1 }};
+      {% endif %}
+    }
+    
+    {% assign announce_font = block.settings.announce_text_font %}
+    {{ announce_font | font_face }}
+    
+    @media screen and (max-width: 768px) {
+      .announce-{{block.id}} {
+        font-size: {{ block.settings.announce_text_size_mobile | append: 'px' }} !important;
+        max-width: 90% !important;
+        width: 80% !important;
+        margin: 0 auto;
+        text-align: center !important;
+      }
+    }
+    
+    .announce-{{block.id}} {
+      font-family: {{ announce_font.family }},{{ announce_font.fallback_families }};
+      font-size: {{ block.settings.announce_text_size | append: 'px'}};
+      font-weight: {{ block.settings.announce_text_weight }};
+      {% if block.settings.announce_text_align == 'left' %}
+      padding-left: 45px;
+      text-align: left;
+      {% elsif block.settings.announce_text_align == 'right' %}
+      padding-right: 45px;
+      text-align: right;
+      {% elsif block.settings.announce_text_align == 'center' %}
+      text-align: center;
+      {% endif %}
+      color: {{ block.settings.announce_text_color }};
+      {% if block.settings.announce_text_underline %}
+      text-decoration: underline;
+      {% endif %}
+      text-shadow: {{ block.settings.announce_text_shadow_direction_x | append: 'px' }} {{ block.settings.announce_text_shadow_direction_y | append: 'px' }} {{ block.settings.announce_text_shadow_blur | append: 'px' }} {{ block.settings.announce_text_shadow_color }};
+    }
+    
+    .announce-link-{{block.id}} {
+      color: {{ block.settings.announce_link_color }};
+      text-decoration: {% if block.settings.announce_link_underline %} underline {% else %} none {% endif %};
+      transition: .25s ease-in-out;
+      }
+    
+    .announce-link-{{block.id}}:hover {
+      color: {{ block.settings.announce_link_color_hover }};
+      text-decoration: {% if block.settings.announce_link_underline %} underline {% else %} none {% endif %}; 
+    }
+    
+    .announce-image-{{block.id}} {
+      margin: auto;
+      text-align: center;
+    }
+    
+    {% endfor %}
+    
+  </style>
+  
+  {% if section.settings.enable_announcement %}
+  {% if section.settings.home_page_only == false or template.name == 'index' %}
+  
+  <div class="announcement-bar">
+    
+    {% for block in section.blocks %}
+    {% case block.type %}
+    {% when 'announcement' %}
+    
+    <div class="announce-{{block.id}}">
+      
+      {% assign announce_text = block.settings.announce_text %}
+      
+      {% if block.settings.announce_link_text != '' %}
+      {% assign link_link = block.id | prepend: '<a class="announce-link-' | append: '" href="' %}
+      {% assign link_link = link_link | append: block.settings.announce_link %}
+      {% assign link_link = link_link | append: '">' %}
+      {% assign link_text = block.settings.announce_link_text | prepend: link_link | append: '</a>' %}
+      {% assign announce_text = announce_text | replace: '[link]', link_text %}
+      {% endif %}
+      
+      {% if block.settings.announce_text != blank %}
+      {% if block.settings.shipping_count == true %}
+      
+      {% capture shipping_value %}{{ section.settings.free_shipping_threshold | times: 100 }}{% endcapture %}
+      {% assign cart_total = cart.total_price %}
+      {% assign shipping_value_left = shipping_value | minus: cart_total %}
+      {% assign shipping_value_left_money = shipping_value_left | money %}
+      {% capture free_not_qualified %}
+      {{ section.settings.free_not_qualified | replace: '[price]', shipping_value_left_money }}
+      {% endcapture %}
+      
+      {% assign free_qualified = section.settings.free_qualified %}
+      {% assign free_shipping_threshold = section.settings.free_shipping_threshold | times: 100 | money %}
+      {% assign shipping_announcement = announce_text | replace: '[price]', free_shipping_threshold %}
+  
+      
+      {% if cart.total_price > 0 %}
+      {% assign shipping_announcement = free_not_qualified %}
+      {% endif %}
+      {% if shipping_value_left <= 0 %}
+      {% assign shipping_announcement = free_qualified %}
+      {% endif %}
+      
+      {{ shipping_announcement }}
+      
+      {% else %}
+      
+      {{ announce_text }}
+      
+      {% endif %}
+      {% endif %}
+    </div>
+    
+    {% when 'image' %}
+    
+    {% if block.settings.announce_image %}
+    
+    <div class="announce-image-{{block.id}}">
+      
+      {% if block.settings.announce_image_link %}
+      <a href="{{ block.settings.announce_image_link }}">
+        {% endif %}
+      
+      <img src="{{ block.settings.announce_image | img_url: 'large'}}" alt="{{ block.settings.announce_image_alt }}" width="{{ block.settings.announce_image_size | append: 'px' }}">
+    
+      </a>
+      
+    </div>
+    
+    {% endif %}
+    
+    {% endcase %}
+    {% endfor %}
+  </div>
+  
+  {% endif %}
+  {% endif %}
+  
+  {% schema %}
+  
+  {
+    "name": "Shipping Bar",
+    "settings": [ 
+                  {
+                    "type": "header",
+                    "content": "Behaviour"
+                  },
+                  {
+                    "type": "checkbox",
+                    "id": "enable_announcement",
+                    "label": "Enable",
+                    "default": false
+                  },
+                  {
+                    "type": "checkbox",
+                    "id": "show_again",
+                    "label": "Show Again After Close",
+                    "default": false
+                  },
+                  {
+                    "type": "checkbox",
+                    "id": "home_page_only",
+                    "label": "Home Page only",
+                    "default": true,
+                    "info": "If checked, Announcement Bar will be show on every page. Uncheck to display on Home Page only."
+                  },
+                  {
+                    "type": "header",
+                    "content": "Background"
+                  },
+                  {
+                    "type": "checkbox",
+                    "id": "enable_gradient",
+                    "label": "Enable Gradient",
+                    "info": "Uncheck and use Color 1 for solid color.",
+                    "default": false
+                  },
+                  {
+                    "type": "color",
+                    "id": "color_1",
+                    "label": "Color 1",
+                    "default": "#B2054B"
+                  },
+                  {
+                    "type": "color",
+                    "id": "color_2",
+                    "label": "Color 2",
+                    "default": "#2A3EB9"
+                  },
+                  {
+                    "type": "select",
+                    "id": "gradient_direction",
+                    "label": "Direction",
+                    "options": [
+                                  {
+                                    "value": "to left",
+                                    "label": "To Left"
+                                  },
+                                  {
+                                    "value": "to right",
+                                    "label": "To Right"
+                                  },
+                                  {
+                                    "value": "to left top",
+                                    "label": "To Left Top"
+                                  },
+                                  {
+                                    "value": "to left bottom",
+                                    "label": "To Left Bottom"
+                                  },
+                                  {
+                                    "value": "to right top",
+                                    "label": "To Right Top"
+                                  },
+                                  {
+                                    "value": "to right bottom",
+                                    "label": "To Right Bottom"
+                                  },
+                                  {
+                                    "value": "to bottom",
+                                    "label": "To Bottom"
+                                  },
+                                  {
+                                    "value": "to top",
+                                    "label": "To Top"
+                                  }
+                               ],
+                                 "default": "to right top"
+                  },
+                  {
+                    "type": "header",
+                    "content": "Free Shipping Announement",
+                    "info": "Type [price] to display Free Shipping Threshold and Remaining Amount. Accepts HTML."
+                  },
+                  {
+                    "type": "text",
+                    "id": "free_shipping_threshold",
+                    "label": "Threshold",
+                    "default": "999",
+                    "info": "Amount Customer should spend to get Free Shipping."
+                  },
+                  {
+                    "type": "textarea",
+                    "id": "free_qualified",
+                    "label": "Qualified Text",
+                    "default": "Your order qualifies for <strong>Free Shipping</strong>",
+                    "info": "Announcement shown when Cart Total is equal to, or more than Threshold."
+                  },
+                  {
+                    "type": "textarea",
+                    "id": "free_not_qualified",
+                    "label": "Not Qualified Text",
+                    "default": "Add <strong>[price]</strong> to get free shipping",
+                    "info": "Announcement shown when Cart Total is below Threshold."
+                  }
+              ],	
+  
+  "blocks": [
+  {
+    "type": "announcement",
+    "name": "Announcement",
+    "settings": [
+                  {
+                    "type": "checkbox",
+                    "id": "shipping_count",
+                    "label": "Enable Free Shipping Counter",
+                    "info": "Check to display Free Shipping Counter here. Type [price] to display Free Shipping Threshold.",
+                    "default": true
+                  },
+                  {
+                    "type": "header",
+                    "content": "Announcement Text",
+                    "info": "Accepts HTML. Type [link] anywhere to insert a link."
+                  },
+                  {
+                    "type": "textarea",
+                    "id": "announce_text",
+                    "label": "Text",
+                    "default": "This is a plain Announcement. This is Shipping Price [price]. This is a [link]."
+                  },
+                  {
+                    "type": "textarea",
+                    "id": "announce_link_text",
+                    "label": "Link Text",
+                    "default": "link"
+                  },
+                  {
+                    "type": "url",
+                    "id": "announce_link",
+                    "label": "Link"
+                  },
+                  {
+                    "type": "header",
+                    "content": "Text Shadow",
+                    "info": "Set Color to None to disable Text Shadow."
+                  },
+                  {
+                    "type": "range",
+                    "id": "announce_text_shadow_direction_x",
+                    "min": -20,
+                    "max": 20,
+                    "step": 1,
+                    "unit": "px",
+                    "label": "Direction X",
+                    "default": 2
+                  },
+                  {
+                    "type": "range",
+                    "id": "announce_text_shadow_direction_y",
+                    "min": -20,
+                    "max": 20,
+                    "step": 1,
+                    "unit": "px",
+                    "label": "Direction Y",
+                    "default": 2
+                  },
+                  {
+                    "type": "range",
+                    "id": "announce_text_shadow_blur",
+                    "min": 0,
+                    "max": 20,
+                    "step": 1,
+                    "unit": "px",
+                    "label": "Blur",
+                    "default": 2
+                  },
+                  {
+                    "type": "color",
+                    "id": "announce_text_shadow_color",
+                    "label": "Color",
+                    "default": "#000000"
+                  },
+                  {
+                    "type": "header",
+                    "content": "Text Settings"
+                  },
+                  {
+                    "type": "font_picker",
+                    "id": "announce_text_font",
+                    "label": "Font",
+                    "default": "work_sans_n6"
+                  },
+                  {
+                    "type": "select",
+                    "id": "announce_text_align",
+                    "label": "Alignment",
+                    "options": [
+                                  {
+                                    "value": "left",
+                                    "label": "Left"
+                                  },
+                                  {
+                                    "value": "center",
+                                    "label": "Center"
+                                  },
+                                  {
+                                    "value": "right",
+                                    "label": "Right"
+                                  }
+                               ],
+                                 "default": "center"
+                  },
+                  {
+                    "type": "checkbox",
+                    "id": "announce_text_underline",
+                    "label": "Underline",
+                    "default": false
+                  },
+                  {
+                    "type": "color",
+                    "id": "announce_text_color",
+                    "label": "Color",
+                    "default": "#ffffff"
+                  },
+                  {
+                    "type": "range",
+                    "id": "announce_text_size",
+                    "min": 1,
+                    "max": 100,
+                    "step": 1,
+                    "unit": "px",
+                    "label": "Size",
+                    "default": 18
+                  },
+                  {
+                    "type": "range",
+                    "id": "announce_text_size_mobile",
+                    "min": 1,
+                    "max": 100,
+                    "step": 1,
+                    "unit": "px",
+                    "label": "Mobile Size",
+                    "default": 18
+                  },
+                  {
+                    "type": "range",
+                    "id": "announce_text_weight",
+                    "min": 100,
+                    "max": 900,
+                    "step": 100,
+                    "unit": "px",
+                    "label": "Weight",
+                    "default": 200
+                  },
+                  {
+                    "type": "header",
+                    "content": "Link Settings"
+                  },
+                  {
+                    "type": "color",
+                    "id": "announce_link_color",
+                    "label": "Color",
+                    "default": "#ffffff"
+                  },
+                  {
+                    "type": "checkbox",
+                    "id": "announce_link_underline",
+                    "label": "Underline",
+                    "default": true
+                  },
+                  {
+                    "type": "color",
+                    "id": "announce_link_color_hover",
+                    "label": "Hover Color",
+                    "default": "#328AF3"
+                  }
+          ]
+  },
+  
+  {
+    "type": "image",
+    "name": "Image",
+    "settings": [
+                  {
+                    "type": "header",
+                    "content": "Announcement Image",
+                    "info": "Image with transparent background (png) recommended."
+                  },
+                  {
+                    "type": "image_picker",
+                    "id": "announce_image",
+                    "label": "Image"
+                  },
+                  {
+                    "type": "text",
+                    "id": "announce_image_alt",
+                    "label": "Image Alt Text",
+                    "info": "Text shown when image cannot be displayed."
+                  },
+                  {
+                    "type": "url",
+                    "id": "announce_image_link",
+                    "label": "Link"
+                  },
+                  {
+                    "type": "header",
+                    "content": "Image Settings"
+                  },
+                  {
+                    "type": "text",
+                    "id": "announce_image_size",
+                    "label": "Size (px)",
+                    "default": "250"
+                  }
+              ]
+          }
+      ]		
+  }
+  
+  
+  {% endschema %}

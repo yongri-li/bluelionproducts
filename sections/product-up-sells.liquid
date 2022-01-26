@@ -1,0 +1,389 @@
+{% if section.settings.section_enabled %}
+
+    {% assign product_handles = "" | split: "," %}
+
+    {% if section.settings.mode == 'tag' %}
+        {% for tag in product.tags %}
+            {% if tag contains 'up-sells' %}
+                {% assign tag = tag %}
+            {% endif %}
+        {% endfor %}
+        {% for _product in collections.all.products %}
+            {% if _product.tags contains tag and _product.id != product.id %}
+                {% assign handle = _product.handle | split: ',' %}
+                {% assign product_handles = product_handles|concat:handle %}
+            {% endif %}
+        {% endfor %}
+
+    {% else %}
+        {% for collection in product.collections %}
+            {% if collection.handle contains 'up-sells' %}
+                {% assign _collection = collection %}
+            {% endif %}
+        {% endfor %}
+        {% for _product in _collection.products %}
+            {% if _product.id != product.id %}
+                {% assign handle = _product.handle | split: ',' %}
+                {% assign product_handles = product_handles|concat:handle %}
+            {% endif %}
+        {% endfor %}
+
+    {% endif %}
+
+    {% if product_handles.size > 0 %}
+        <!-- Modal -->
+        <div 
+            class="modal fade animate__animated {{ section.settings.animation_entrance_class | escape }} {{ section.settings.animation_duration | escape }}" 
+            id="product-up-sells-modal" 
+            tabindex="-1" 
+            aria-labelledby="product-up-sells-modal-label" 
+            aria-hidden="true"
+            style="z-index: 1090;">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+
+                    <!-- Modal header -->
+                    <div class="modal-header">
+                        <h5 
+                            class="modal-title" 
+                            id="product-up-sells-modal-label" 
+                            style="line-height: normal;">
+                            {{ section.settings.title | escape }}
+                        </h5>
+                        <button 
+                            type="button" 
+                            class="close" 
+                            data-dismiss="modal"
+                            aria-label="{{ 'misc.close' | t }}">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+
+                        <!-- Progress bar -->
+                        {% if section.settings.show_progress %}
+                            <div class="progress mb-3">
+                                <div 
+                                    class="progress-bar progress-bar-striped progress-bar-animated {{ section.settings.progress_bg_color }}" 
+                                    data-bg-color="{{ section.settings.progress_bg_color }}"
+                                    data-bg-color-success="{{ section.settings.progress_bg_color_success }}"
+                                    role="progressbar" 
+                                    aria-valuenow="{{ section.settings.progress_value }}" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100" 
+                                    style="width: {{ section.settings.progress_value }}%">
+                                    {{ 'cross_sells.offer_expires_soon' | t }}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <!-- Notice -->
+                        <div class="rte alert alert-info mb-3">
+                        {{ section.settings.message }}
+                        </div>
+
+                        <ul class="product-list list-unstyled justify-content-center mx-n2 row row-cols-{{ section.settings.row_sm }} row-cols-lg-3">
+                            {% assign limit = product_handles.size | minus: 1 %}
+
+                            {% for i in (0..limit) %}
+                                {% assign product = all_products[product_handles[i]] %}
+
+                                <li class="pb-2 px-2 my-3 text-center">
+                                    <a href="{{ product.url }}" class="theme-link-color d-block text-decoration-none">
+                                        <div class="position-relative overflow-hidden mb-2 {% if section.settings.image_border %}img-thumbnail{% else %} rounded {% endif %} {{ section.settings.image_hover_effect }}">
+                                            {% assign image_size = section.settings.image_width | append: 'x' | append: section.settings.image_height %}
+                                            <img 
+                                            class="product-up-sells-product-img img-fluid" 
+                                            src="{{ product.featured_image | img_url: image_size, crop: 'center' }}" 
+                                            alt="{{ product.featured_image.alt }}"
+                                            width="{{ section.settings.image_width }}"
+                                            height="{{ section.settings.image_height }}" />
+                                        </div>
+                                        <p class="h6 product__title">
+                                            {{ product.title | escape }}
+                                        </p>
+                                    </a>
+                                    
+                                    {% form 'product', product, class: 'mb-0' %}
+                                        <select
+                                            name="id"
+                                            class="custom-select mb-3 {% if section.settings.small_form_control %}custom-select-sm {% endif %} {% if product.has_only_default_variant %}d-none{% endif %}">
+                                            {% for variant in product.variants %}
+                                            {% if variant.available %}
+                                                <option value="{{ variant.id }}"  data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}">
+                                                {{ variant.title }} - {{ variant.price | money_with_currency }}
+                                                </option>
+                                            {% else %}
+                                                <option disabled="disabled" value="{{ variant.id }}" data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}">
+                                                {{ variant.title }} - {{ 'product.sold_out' | t }}
+                                                </option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
+
+                                        <button
+                                            class="add-to-cart-form-btn btn btn-primary d-inline-flex align-items-center justify-content-center flex-shrink-0 {{ settings.product_add_to_cart_form_btn_color }} {{ settings.product_add_to_cart_form_btn_variant }} {% if section.settings.small_form_control %}btn-sm {% endif %}"
+                                            data-animate-class="{{ settings.product_add_to_cart_form_cart_icon_animation_class }}"
+                                            data-text-view-cart="{{ 'product.view_cart' | t }}"
+                                            data-text-added-to-cart="{{ 'product.added_to_cart' | t }}"
+                                            data-text-add-to-cart="{{ 'product.add_to_cart' | t }}"
+                                            data-text-sold-out="{{ 'product.sold_out' | t }}"
+                                            data-text-unavailable="{{ 'product.unavailable' | t }}"
+                                            data-text-loading="{{ 'misc.loading' | t }}"
+                                            type="submit"
+                                            name="add"
+                                            
+                                            {% unless product.available %}disabled{% endunless %}>
+                                            {% assign icon_class = 'add-to-cart-form-btn-cart-icon mr-2' %}
+            
+                                            {% case settings.product_add_to_cart_form_cart_icon %}
+                                                {% when 'icon-shopping-bag' %}
+                                                    {% render 'icon-shopping-bag' with size: 20, class: icon_class %}
+                                                {% when 'icon-shopping-basket' %}
+                                                    {% render 'icon-shopping-basket' with size: 20, class: icon_class %}
+                                                {% when 'icon-shopping-minecart' %}
+                                                    {% render 'icon-shopping-minecart' with size: 20, class: icon_class %}
+                                                {% else %}
+                                                    {% render 'icon-shopping-cart' with size: 20, class: icon_class %}
+                                            {% endcase %}
+
+                                            <span 
+                                                class="add-to-cart-form-btn-spinner spinner-border spinner-border-sm mr-2" 
+                                                role="status" 
+                                                aria-hidden="true"
+                                                style="display: none;">
+                                            </span>
+
+                                            <span class="add-to-cart-form-btn-text">
+                                                {{ 'product.add_to_cart' | t }}
+                                            </span>
+                                        </button>
+                                    {% endform %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/cart" class="btn btn-secondary">
+                            {{ 'cart.general.view_cart' | t }}
+                        </a>
+                        <form method="post" action="/cart" class="m-0">
+                            <button type="submit" name="checkout" class="btn btn-info">
+                                {{ 'cart.general.checkout' | t }}
+                                {% render 'icon-chevrons-right' with size: 20 %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+{% endif %}
+
+
+{% schema %}
+{
+    "name": "Product Up-sells",
+    "class": "product-up-sells",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Enable/Disable section"
+        },
+        {
+            "type": "checkbox",
+            "id": "section_enabled",
+            "label": "Enable section",
+            "default": false
+        },
+        {
+            "type": "header",
+            "content": "General settings"
+        },
+        {
+            "type": "select",
+            "id": "mode",
+            "label": "Mode",
+            "info": "Either show products that are related by tag or by collection. E.g tag name or collection name: 'up-sells:smart'",
+            "default": "tag",
+            "options": [
+                { "value": "tag", "label": "Tag" },
+                { "value": "collection", "label": "Collection" }
+            ]
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Can we recommend the following add-ons?!"
+        },
+        {
+            "type": "richtext",
+            "id": "message",
+            "label": "Message",
+            "default": "<p>Add any of the following products to your cart now and immediately be qualified for <strong>20% discount</strong> on your order's total.</p>"
+        },
+        {
+            "type": "range",
+            "id": "row_sm",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "label": "Small screens (sm)",
+            "default": 1
+        },
+        {
+            "type": "range",
+            "id": "row_lg",
+            "min": 1,
+            "max": 6,
+            "step": 1,
+            "label": "Large screens (lg)",
+            "default": 3
+        },
+        {
+            "type": "text",
+            "id": "animation_entrance_class",
+            "label": "Animation entrance class",
+            "info": "Enter an animation class name from [Animate.css](https://animate.style).",
+            "default": "animate__backInDown"
+        },
+        {
+            "type": "select",
+            "id": "animation_duration",
+            "label": "Animation duration",
+            "default": "animate__fast",
+            "options": [
+                {
+                    "value": "animate__slower", "label": "Slower"
+                },
+                {
+                    "value": "animate__slow", "label": "Slow"
+                },
+                {
+                    "value": "", "label": "Normal"
+                },
+                {
+                    "value": "animate__fast", "label": "Fast"
+                },
+                {
+                    "value": "animate__faster", "label": "Faster"
+                }
+            ]
+        },
+        {
+            "type": "checkbox",
+            "id":  "small_form_control",
+            "label": "Small form elements",
+            "default": true
+        },
+        {
+            "type": "header",
+            "content": "Progress bar"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_progress",
+            "label": "Show progress bar",
+            "default": true
+        },
+        {
+            "type": "select",
+            "id": "progress_bg_color",
+            "label": "Progress bar color",
+            "default": "bg-danger",
+            "options": [
+                { "value": "bg-primary", "label": "Primary" },
+                { "value": "bg-secondary", "label": "Secondary" },
+                { "value": "bg-success", "label": "Success" },
+                { "value": "bg-danger", "label": "Danger" },
+                { "value": "bg-info", "label": "Info" },
+                { "value": "bg-dark", "label": "Dark" },
+                { "value": "bg-warning text-body", "label": "Warning" },
+                { "value": "bg-light text-body", "label": "Light" },
+                { "value": "bg-white text-body", "label": "White" }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "progress_bg_color_success",
+            "label": "Progress bar success color",
+            "info": "Will change to this color when user add product to cart from the cross-sells",
+            "default": "bg-success",
+            "options": [
+                { "value": "bg-primary", "label": "Primary" },
+                { "value": "bg-secondary", "label": "Secondary" },
+                { "value": "bg-success", "label": "Success" },
+                { "value": "bg-danger", "label": "Danger" },
+                { "value": "bg-info", "label": "Info" },
+                { "value": "bg-dark", "label": "Dark" },
+                { "value": "bg-warning text-body", "label": "Warning" },
+                { "value": "bg-light text-body", "label": "Light" },
+                { "value": "bg-white text-body", "label": "White" }
+            ]
+        },
+        {
+            "type": "range",
+            "id": "progress_value",
+            "label": "Progress value (%)",
+            "min": 0,
+            "max": 100,
+            "default": 75
+        },
+        {
+            "type": "header",
+            "content": "Product image settings"
+        },
+        {
+            "type": "text",
+            "id": "image_width",
+            "label": "Image width (px)",
+            "default": "360"
+        },
+        {
+            "type": "text",
+            "id": "image_height",
+            "label": "Image height (px)",
+            "default": "360"
+        },
+        {
+            "type": "checkbox",
+            "id": "image_border",
+            "label": "Border",
+            "default": true
+        },
+        {
+            "type": "select",
+            "id":  "image_hover_effect",
+            "label": "Hover effect",
+            "default": "image-hover-shine",
+            "options": [
+                {
+                    "value": "image-hover", "label": "No effect"
+                },
+                {
+                    "value": "image-hover-fade-in", "label": "Fade in"
+                },
+                {
+                    "value": "image-hover-fade-out", "label": "Fade out"
+                },
+                {
+                    "value": "image-hover-scale-in", "label": "Scale in"
+                },
+                {
+                    "value": "image-hover-scale-out", "label": "Scale out"
+                },
+                {
+                    "value": "image-hover-flashing", "label": "Flashing"
+                },
+                {
+                    "value": "image-hover-shine", "label": "Shine"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

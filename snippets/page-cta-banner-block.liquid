@@ -1,0 +1,24 @@
+<div id="announcement-banner"
+  class="
+    {{ block.settings.margin_top | prepend: 'mt-' }}
+    {{ block.settings.margin_bottom | prepend: 'mb-' }}
+    {{ block.settings.padding_top | prepend: 'pt-' }}
+    {{ block.settings.padding_bottom | prepend: 'pb-' }}
+    {{ block.settings.bg_color }}
+  ">
+    <div class="{% if block.settings.container %}container{% else %}container-fluid{% endif %}">
+    {%- if block.settings.text != blank -%}
+    <div class="d-flex flex-wrap align-items-center">
+      <div class="col-md-9 col-lg-10 text-light">
+        {{ block.settings.text }}
+      </div>
+      <div class="ml-3 mt-3 mt-md-0">
+        <a href="{{ block.settings.button_link }}"
+          class="btn {{ block.settings.btn_color }} {{ block.settings.btn_variant }} {{ block.settings.btn_size }} {{block.settings.btn_effect}} {% if block.settings.btn-block %}btn-block{% endif %}">
+          {{ block.settings.button_label | escape }}
+        </a>
+      </div>
+    </div>
+    {%- endif -%}
+  </div>
+</div>

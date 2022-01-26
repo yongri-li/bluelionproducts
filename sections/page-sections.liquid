@@ -1,0 +1,1936 @@
+<div class="
+  {% if section.settings.container %} container {% else %} container-fluid {% endif %}
+  {{ section.settings.margin_top | prepend: 'mt-' }}
+  {{ section.settings.margin_bottom | prepend: 'mb-' }}
+">
+ <div class="page-blocks">
+  {% for block in section.blocks %}
+    <div {{ block.shopify_attributes }}>
+      {% case block.type %}
+
+        {% when 'video' %}
+          {% include 'page-video-block' %}
+
+        {% when 'collection-list' %}
+          {% include 'page-collection-list-block' %}
+
+        {% when 'custom-html' %}
+          {% include 'page-custom-html-block' %}
+
+        {% when 'image-with-text' %}
+          {% include 'page-image-with-text-block' %}
+
+        {% when 'rich-text'%}
+          {% include 'page-rich-text-block' %}
+
+        {% when 'seperator' %}
+          {% include 'page-seperator-block' %}
+
+        {% when 'featured-product' %}
+          {% include 'page-featured-product-block' %}
+
+        {% when 'featured-collection' %}
+          {% include 'page-featured-collection-block' %}
+
+        {% when 'cta-banner' %}
+          {% include 'page-cta-banner-block' %}
+
+      {% endcase %}
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% schema %}
+
+{
+	"name": "Page sections",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Spacing"
+		},
+		{
+			"type": "checkbox",
+			"id": "container",
+			"label": "Wrap in container",
+			"default": true
+		},
+		{
+			"type": "paragraph",
+			"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+		},
+		{
+			"type": "range",
+			"id": "margin_top",
+			"label": "Margin top",
+			"min": 0,
+			"max": 12,
+			"step": 1,
+			"default": 0
+		},
+		{
+			"type": "range",
+			"id": "margin_bottom",
+			"label": "Margin bottom",
+			"min": 0,
+			"max": 12,
+			"step": 1,
+			"default": 6
+		}
+	],
+	"blocks": [
+		{
+			"type": "image-with-text",
+			"name": "Image with text",
+			"settings": [
+				{
+					"type": "header",
+					"content": "Image settings"
+				},
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				},
+				{
+					"type": "text",
+					"id": "image_width",
+					"label": "Image width (px)",
+					"default": "600"
+				},
+				{
+					"type": "text",
+					"id": "image_height",
+					"label": "Image height (px)",
+					"default": "600"
+				},
+				{
+					"type": "checkbox",
+					"id": "image_border",
+					"label": "Border",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "image_circle",
+					"label": "Circle",
+					"default": false
+				},
+				{
+					"type": "select",
+					"id": "image_alignment",
+					"label": "Image Alignment",
+					"info": "Note: On mobile view the image will always be on top and content on bottom",
+					"default": "flex-row",
+					"options": [
+						{
+							"value": "flex-row",
+							"label": "Left"
+						},
+						{
+							"value": "flex-row-reverse",
+							"label": "Right"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "image_hover_effect",
+					"label": "Hover effect",
+					"default": "image-hover-shine",
+					"options": [
+						{
+							"value": "image-hover",
+							"label": "No effect"
+						},
+						{
+							"value": "image-hover-fade-in",
+							"label": "Fade in"
+						},
+						{
+							"value": "image-hover-fade-out",
+							"label": "Fade out"
+						},
+						{
+							"value": "image-hover-scale-in",
+							"label": "Scale in"
+						},
+						{
+							"value": "image-hover-scale-out",
+							"label": "Scale out"
+						},
+						{
+							"value": "image-hover-flashing",
+							"label": "Flashing"
+						},
+						{
+							"value": "image-hover-shine",
+							"label": "Shine"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Content settings"
+				},
+				{
+					"type": "text",
+					"id": "heading",
+					"label": "Heading",
+					"default": "Image with text"
+				},
+				{
+					"type": "select",
+					"id": "heading_size",
+					"label": "Heading Size",
+					"default": "h2",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "text",
+					"id": "subheading",
+					"label": "Sub heading",
+					"default": "Sub Heading"
+				},
+				{
+					"type": "checkbox",
+					"id": "submute",
+					"label": "Lighten text?",
+					"default": false
+				},
+				{
+					"type": "select",
+					"id": "subheading_size",
+					"label": "Sub heading size",
+					"default": "h5",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "range",
+					"id": "sub_margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 3
+				},
+				{
+					"type": "range",
+					"id": "sub_letter_spacing",
+					"label": "Sub heading letter spacing",
+					"min": 0,
+					"max": 10,
+					"step": 1,
+					"default": 3
+				},
+				{
+					"type": "textarea",
+					"id": "content",
+					"label": "Content",
+					"default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+				},
+				{
+					"type": "text",
+					"id": "button_label",
+					"label": "Button label"
+				},
+				{
+					"type": "url",
+					"id": "button_link",
+					"label": "Button link"
+				},
+				{
+					"type": "select",
+					"id": "btn_color",
+					"label": "Button color",
+					"default": "btn-primary",
+					"options": [
+						{
+							"value": "btn-primary",
+							"label": "Primary"
+						},
+						{
+							"value": "btn-secondary",
+							"label": "Secondary"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_variant",
+					"label": "Button variant",
+					"default": "",
+					"options": [
+						{
+							"value": "",
+							"label": "Normal"
+						},
+						{
+							"value": "btn-outline",
+							"label": "Outline"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_size",
+					"label": "Button size",
+					"default": "",
+					"options": [
+						{
+							"value": "btn-sm",
+							"label": "Small"
+						},
+						{
+							"value": "",
+							"label": "Normal"
+						},
+						{
+							"value": "btn-lg",
+							"label": "Large"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "btn-block",
+					"label": "Enable full width",
+					"default": false
+				},
+				{
+					"type": "select",
+					"id": "btn_effect",
+					"label": "Button hover effect",
+					"default": "",
+					"options": [
+						{
+							"value": "",
+							"label": "Disabled"
+						},
+						{
+							"value": "btn-shine",
+							"label": "Shine"
+						},
+						{
+							"value": "btn-ripple",
+							"label": "Ripple"
+						},
+						{
+							"value": "btn-expand",
+							"label": "Expand"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "General settings"
+				},
+				{
+					"type": "checkbox",
+					"id": "container",
+					"label": "Wrap in container",
+					"default": true
+				},
+				{
+					"type": "select",
+					"id": "breakpoint",
+					"label": "Responsive breakpoint",
+					"info": "Define at what screen size point the layout should switch from row to column. [Learn more](https://getbootstrap.com/docs/4.5/layout/overview/#responsive-breakpoints)",
+					"default": "-md",
+					"options": [
+						{
+							"value": "",
+							"label": "No breakpoint"
+						},
+						{
+							"value": "-sm",
+							"label": "Small screens (sm)"
+						},
+						{
+							"value": "-md",
+							"label": "Medium screens (md)"
+						},
+						{
+							"value": "-lg",
+							"label": "Large screens (lg)"
+						},
+						{
+							"value": "-xl",
+							"label": "Extra-large screens (xl)"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Spacing"
+				},
+				{
+					"type": "paragraph",
+					"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 6
+				}
+			]
+		},
+		{
+			"type": "video",
+			"name": "Video",
+			"settings": [
+				{
+					"type": "header",
+					"content": "General settings"
+				},
+				{
+					"type": "text",
+					"id": "video_id",
+					"label": "Youtube/Vimeo video id",
+					"default": "6lt2JfJdGSY"
+				},
+				{
+					"type": "text",
+					"id": "video_desc",
+					"label": "Short description",
+					"default": "Write something to shortly describe your video."
+				},
+				{
+					"type": "checkbox",
+					"id": "container",
+					"label": "Wrap in container",
+					"default": false
+				},
+				{
+					"type": "text",
+					"id": "max_width",
+					"label": "Max width (px)",
+					"info": "Enter 0 to take all available space",
+					"default": "960"
+				},
+				{
+					"type": "text",
+					"id": "border_radius",
+					"label": "Border radius (px)",
+					"default": "8"
+				},
+				{
+					"type": "header",
+					"content": "Spacing"
+				},
+				{
+					"type": "paragraph",
+					"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 6
+				}
+			]
+		},
+		{
+			"type": "collection-list",
+			"name": "Collection list",
+			"settings": [
+				{
+					"type": "text",
+					"id": "heading",
+					"label": "Heading text",
+					"default": "Collection list"
+				},
+				{
+					"type": "richtext",
+					"id": "subheading",
+					"label": "Subheading text",
+					"default": "<p>Write something catchy here</p>"
+				},
+				{
+					"type": "header",
+					"content": "Adjust collections per Row"
+				},
+				{
+					"type": "range",
+					"id": "row",
+					"min": 1,
+					"max": 3,
+					"step": 1,
+					"label": "Extra small screens (default)",
+					"default": 2
+				},
+				{
+					"type": "range",
+					"id": "row_sm",
+					"min": 1,
+					"max": 3,
+					"step": 1,
+					"label": "Small screens (sm)",
+					"default": 2
+				},
+				{
+					"type": "range",
+					"id": "row_md",
+					"min": 1,
+					"max": 4,
+					"step": 1,
+					"label": "Medium screens (md)",
+					"default": 3
+				},
+				{
+					"type": "range",
+					"id": "row_lg",
+					"min": 1,
+					"max": 6,
+					"step": 1,
+					"label": "Large screens (lg)",
+					"default": 4
+				},
+				{
+					"type": "range",
+					"id": "row_xl",
+					"min": 1,
+					"max": 8,
+					"step": 1,
+					"label": "Extra-large screens (xl)",
+					"default": 4
+				},
+				{
+					"type": "header",
+					"content": "General settings"
+				},
+				{
+					"type": "select",
+					"id": "heading_size",
+					"label": "Heading Size",
+					"default": "h2",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "heading_alignment",
+					"label": "Heading alignment",
+					"default": "text-left",
+					"options": [
+						{
+							"value": "text-left",
+							"label": "Left"
+						},
+						{
+							"value": "text-center",
+							"label": "Center"
+						},
+						{
+							"value": "text-right",
+							"label": "Right"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "container",
+					"label": "Wrap in container",
+					"default": true
+				},
+				{
+					"type": "header",
+					"content": "Collection settings"
+				},
+				{
+					"type": "checkbox",
+					"id": "align_center",
+					"label": "Align center",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_collection_title",
+					"label": "Show collection title",
+					"default": true
+				},
+				{
+					"type": "select",
+					"id": "collection_title_size",
+					"label": "Collection title size",
+					"default": "h6",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "show_collection_count",
+					"label": "Show number of products",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_collection_desc",
+					"label": "Show collection description",
+					"default": false
+				},
+				{
+					"type": "text",
+					"id": "collection_desc_truncate",
+					"label": "Collection decription truncate",
+					"default": "200",
+					"info": "The maximum number of characters for the collection description"
+				},
+				{
+					"type": "text",
+					"id": "image_width",
+					"label": "Collection image width (px)",
+					"default": "320"
+				},
+				{
+					"type": "text",
+					"id": "image_height",
+					"label": "Collection image height (px)",
+					"default": "320"
+				},
+				{
+					"type": "checkbox",
+					"id": "image_border",
+					"label": "Image border",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "image_circle",
+					"label": "Image as circle",
+					"default": true
+				},
+				{
+					"type": "select",
+					"id": "image_hover_effect",
+					"label": "Hover effect",
+					"default": "image-hover-flashing",
+					"options": [
+						{
+							"value": "image-hover",
+							"label": "No effect"
+						},
+						{
+							"value": "image-hover-fade-in",
+							"label": "Fade in"
+						},
+						{
+							"value": "image-hover-fade-out",
+							"label": "Fade out"
+						},
+						{
+							"value": "image-hover-scale-in",
+							"label": "Scale in"
+						},
+						{
+							"value": "image-hover-scale-out",
+							"label": "Scale out"
+						},
+						{
+							"value": "image-hover-flashing",
+							"label": "Flashing"
+						},
+						{
+							"value": "image-hover-shine",
+							"label": "Shine"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Spacing"
+				},
+				{
+					"type": "paragraph",
+					"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 6
+				},
+				{
+					"type": "range",
+					"id": "gutter_horizontal",
+					"label": "Horizontal gutter",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 3,
+					"info": "Spacing between products"
+				},
+				{
+					"type": "range",
+					"id": "gutter_vertical",
+					"label": "Vertical gutter",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 3,
+					"info": "Spacing between products"
+				},
+				{
+					"label": "Collection 1",
+					"id": "collection_1",
+					"type": "collection"
+				},
+				{
+					"label": "Collection 2",
+					"id": "collection_2",
+					"type": "collection"
+				},
+				{
+					"label": "Collection 3",
+					"id": "collection_3",
+					"type": "collection"
+				},
+				{
+					"label": "Collection 4",
+					"id": "collection_4",
+					"type": "collection"
+				},
+				{
+					"label": "Collection 5",
+					"id": "collection_5",
+					"type": "collection"
+				},
+				{
+					"label": "Collection 6",
+					"id": "collection_6",
+					"type": "collection"
+				},
+				{
+					"label": "Collection 7",
+					"id": "collection_7",
+					"type": "collection"
+				},
+				{
+					"label": "Collection 8",
+					"id": "collection_8",
+					"type": "collection"
+				}
+			]
+		},
+		{
+			"type": "custom-html",
+			"name": "Custom html",
+			"settings": [
+				{
+					"type": "text",
+					"id": "heading",
+					"label": "Heading",
+					"default": "Talk about your brand"
+				},
+				{
+					"type": "select",
+					"id": "heading_size",
+					"label": "Heading Size",
+					"default": "h2",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Alignment",
+					"default": "text-left",
+					"options": [
+						{
+							"value": "text-left",
+							"label": "Left"
+						},
+						{
+							"value": "text-center",
+							"label": "Center"
+						},
+						{
+							"value": "text-right",
+							"label": "Right"
+						}
+					]
+				},
+				{
+					"type": "html",
+					"id": "content",
+					"label": "Use this area for custom html code, Be sure to follow bootstrap 4.5.0",
+					"default": "<div><p>Some HTML content</p></div>"
+				},
+				{
+					"type": "text",
+					"id": "button_label",
+					"label": "Button label"
+				},
+				{
+					"type": "url",
+					"id": "button_link",
+					"label": "Button link"
+				},
+				{
+					"type": "header",
+					"content": "General settings"
+				},
+				{
+					"type": "checkbox",
+					"id": "container",
+					"label": "Wrap in container",
+					"default": true
+				},
+				{
+					"type": "select",
+					"id": "btn_color",
+					"label": "Button color",
+					"default": "btn-primary",
+					"options": [
+						{
+							"value": "btn-primary",
+							"label": "Primary"
+						},
+						{
+							"value": "btn-secondary",
+							"label": "Secondary"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_variant",
+					"label": "Button variant",
+					"default": "",
+					"options": [
+						{
+							"value": "",
+							"label": "Normal"
+						},
+						{
+							"value": "btn-outline",
+							"label": "Outline"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_size",
+					"label": "Button size",
+					"default": "",
+					"options": [
+						{
+							"value": "btn-sm",
+							"label": "Small"
+						},
+						{
+							"value": "",
+							"label": "Normal"
+						},
+						{
+							"value": "btn-lg",
+							"label": "Large"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "btn-block",
+					"label": "Enable full width",
+					"default": false
+				},
+				{
+					"type": "select",
+					"id": "btn_effect",
+					"label": "Button hover effect",
+					"default": "",
+					"options": [
+						{
+							"value": "",
+							"label": "Disabled"
+						},
+						{
+							"value": "btn-shine",
+							"label": "Shine"
+						},
+						{
+							"value": "btn-ripple",
+							"label": "Ripple"
+						},
+						{
+							"value": "btn-expand",
+							"label": "Expand"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Spacing"
+				},
+				{
+					"type": "paragraph",
+					"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 6
+				}
+			]
+		},
+		{
+			"type": "rich-text",
+			"name": "Rich text",
+			"settings": [
+				{
+					"type": "text",
+					"id": "heading",
+					"label": "Heading",
+					"default": "Talk about your brand"
+				},
+				{
+					"type": "richtext",
+					"id": "content",
+					"label": "Content",
+					"default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+				},
+				{
+					"type": "text",
+					"id": "button_label",
+					"label": "Button label"
+				},
+				{
+					"type": "url",
+					"id": "button_link",
+					"label": "Button link"
+				},
+				{
+					"type": "header",
+					"content": "General settings"
+				},
+				{
+					"type": "checkbox",
+					"id": "container",
+					"label": "Wrap in container",
+					"default": true
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Alignment",
+					"default": "text-left",
+					"options": [
+						{
+							"value": "text-left",
+							"label": "Left"
+						},
+						{
+							"value": "text-center",
+							"label": "Center"
+						},
+						{
+							"value": "text-right",
+							"label": "Right"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "heading_size",
+					"label": "Heading Size",
+					"default": "h2",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_color",
+					"label": "Button color",
+					"default": "btn-primary",
+					"options": [
+						{
+							"value": "btn-primary",
+							"label": "Primary"
+						},
+						{
+							"value": "btn-secondary",
+							"label": "Secondary"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_variant",
+					"label": "Button variant",
+					"default": "",
+					"options": [
+						{
+							"value": "",
+							"label": "Normal"
+						},
+						{
+							"value": "btn-outline",
+							"label": "Outline"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_size",
+					"label": "Button size",
+					"default": "",
+					"options": [
+						{
+							"value": "btn-sm",
+							"label": "Small"
+						},
+						{
+							"value": "",
+							"label": "Normal"
+						},
+						{
+							"value": "btn-lg",
+							"label": "Large"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Spacing"
+				},
+				{
+					"type": "paragraph",
+					"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 6
+				}
+			]
+		},
+		{
+			"type": "seperator",
+			"name": "Seperator",
+			"settings": [
+				{
+					"type": "color",
+					"id": "color",
+					"label": "Border color",
+					"default": "#eeeeee"
+				},
+				{
+					"type": "checkbox",
+					"id": "container",
+					"label": "Wrap in container",
+					"default": true
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 5
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 5
+				}
+			]
+		},
+		{
+			"type": "featured-product",
+			"name": "Featured product",
+			"settings": [
+				{
+					"type": "product",
+					"id": "product",
+					"label": "Product"
+				},
+				{
+					"type": "header",
+					"content": "Product settings"
+				},
+				{
+					"type": "checkbox",
+					"id": "show_product_title",
+					"label": "Show product title",
+					"default": true
+				},
+
+				{
+					"type": "select",
+					"id": "product_title_size",
+					"label": "Product title size",
+					"default": "h2",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "show_image_gallery",
+					"label": "Show image gallery",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_product_desc",
+					"label": "Show product description",
+					"default": true
+				},
+				{
+					"type": "text",
+					"id": "product_desc_truncate",
+					"label": "Product decription truncate",
+					"default": "175",
+					"info": "The maximum number of characters for the product description"
+				},
+				{
+					"type": "checkbox",
+					"id": "show_product_price",
+					"label": "Show product price",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_discount_badge",
+					"label": "Show discount badge",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_add_to_cart_form",
+					"label": "Show Add to Cart",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "add_to_cart_form_show_qty",
+					"label": "Show Qty on Add to cart form",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "show_share_buttons",
+					"label": "Show share buttons",
+					"info": "Note: You can adjust options for share buttons under 'Theme Settings'",
+					"default": true
+				},
+				{
+					"type": "header",
+					"content": "General settings"
+				},
+				{
+					"type": "select",
+					"id": "breakpoint",
+					"label": "Responsive breakpoint",
+					"info": "Define at what screen size point the layout should switch from row to column. [Learn more](https://getbootstrap.com/docs/4.5/layout/overview/#responsive-breakpoints)",
+					"default": "-md",
+					"options": [
+						{
+							"value": "",
+							"label": "No breakpoint"
+						},
+						{
+							"value": "-sm",
+							"label": "Small screens (sm)"
+						},
+						{
+							"value": "-md",
+							"label": "Medium screens (md)"
+						},
+						{
+							"value": "-lg",
+							"label": "Large screens (lg)"
+						},
+						{
+							"value": "-xl",
+							"label": "Extra-large screens (xl)"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Spacing"
+				},
+				{
+					"type": "paragraph",
+					"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 6
+				}
+			]
+		},
+		{
+			"type": "cta-banner",
+			"name": "Announcement banner",
+			"settings": [
+				{
+					"type": "header",
+					"content": "General settings"
+				},
+				{
+					"type": "select",
+					"id": "bg_color",
+					"label": "Background color",
+					"default": "bg-dark text-white",
+					"options": [
+						{
+							"value": "",
+							"label": "White"
+						},
+						{
+							"value": "bg-light",
+							"label": "Light"
+						},
+						{
+							"value": "bg-dark text-white",
+							"label": "Dark"
+						},
+						{
+							"value": "bg-primary text-white",
+							"label": "Primary"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "container",
+					"label": "Wrap in container",
+					"default": true
+				},
+				{
+					"type": "header",
+					"content": "Spacing"
+				},
+				{
+					"type": "paragraph",
+					"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+				},
+				{
+					"type": "range",
+					"id": "padding_top",
+					"label": "Padding top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 6
+				},
+				{
+					"type": "range",
+					"id": "padding_bottom",
+					"label": "Padding bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 3
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "text",
+					"id": "button_label",
+					"label": "Button label"
+				},
+				{
+					"type": "url",
+					"id": "button_link",
+					"label": "Button link"
+				},
+				{
+					"type": "select",
+					"id": "btn_color",
+					"label": "Button color",
+					"default": "btn-primary",
+					"options": [
+						{
+							"value": "btn-primary",
+							"label": "Primary"
+						},
+						{
+							"value": "btn-secondary",
+							"label": "Secondary"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_variant",
+					"label": "Button variant",
+					"default": "",
+					"options": [
+						{
+							"value": "",
+							"label": "Normal"
+						},
+						{
+							"value": "btn-outline",
+							"label": "Outline"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "btn_size",
+					"label": "Button size",
+					"default": "",
+					"options": [
+						{
+							"value": "btn-sm",
+							"label": "Small"
+						},
+						{
+							"value": "",
+							"label": "Normal"
+						},
+						{
+							"value": "btn-lg",
+							"label": "Large"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "btn-block",
+					"label": "Enable full width",
+					"default": false
+				},
+				{
+					"type": "select",
+					"id": "btn_effect",
+					"label": "Button hover effect",
+					"default": "",
+					"options": [
+						{
+							"value": "",
+							"label": "Disabled"
+						},
+						{
+							"value": "btn-shine",
+							"label": "Shine"
+						},
+						{
+							"value": "btn-ripple",
+							"label": "Ripple"
+						},
+						{
+							"value": "btn-expand",
+							"label": "Expand"
+						}
+					]
+				},
+				{
+					"type": "text",
+					"id": "text",
+					"label": "Text",
+					"default": "Use this section to make an announcement on the home page. It's a great place for social media updates!"
+				}
+			]
+		},
+		{
+			"type": "featured-collection",
+			"name": "Featured collection",
+			"settings": [
+				{
+					"type": "text",
+					"id": "heading",
+					"label": "Heading text",
+					"default": "Featured collection"
+				},
+				{
+					"type": "richtext",
+					"id": "subheading",
+					"label": "Subheading text",
+					"default": "<p>Write something catchy here.</p>"
+				},
+				{
+					"id": "collection",
+					"type": "collection",
+					"label": "Collection"
+				},
+				{
+					"type": "range",
+					"id": "limit",
+					"min": 2,
+					"max": 24,
+					"step": 1,
+					"label": "Total products to display",
+					"default": 4
+				},
+				{
+					"type": "header",
+					"content": "Adjust products per Row"
+				},
+				{
+					"type": "range",
+					"id": "row",
+					"min": 1,
+					"max": 3,
+					"step": 1,
+					"label": "Extra small screens (default)",
+					"default": 2
+				},
+				{
+					"type": "range",
+					"id": "row_sm",
+					"min": 1,
+					"max": 3,
+					"step": 1,
+					"label": "Small screens (sm)",
+					"default": 2
+				},
+				{
+					"type": "range",
+					"id": "row_md",
+					"min": 1,
+					"max": 4,
+					"step": 1,
+					"label": "Medium screens (md)",
+					"default": 3
+				},
+				{
+					"type": "range",
+					"id": "row_lg",
+					"min": 1,
+					"max": 6,
+					"step": 1,
+					"label": "Large screens (lg)",
+					"default": 4
+				},
+				{
+					"type": "range",
+					"id": "row_xl",
+					"min": 1,
+					"max": 8,
+					"step": 1,
+					"label": "Extra-large screens (xl)",
+					"default": 4
+				},
+				{
+					"type": "header",
+					"content": "General settings"
+				},
+				{
+					"type": "select",
+					"id": "heading_size",
+					"label": "Heading Size",
+					"default": "h2",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "heading_alignment",
+					"label": "Heading alignment",
+					"default": "text-left",
+					"options": [
+						{
+							"value": "text-left",
+							"label": "Left"
+						},
+						{
+							"value": "text-center",
+							"label": "Center"
+						},
+						{
+							"value": "text-right",
+							"label": "Right"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "container",
+					"label": "Wrap in container",
+					"default": true
+				},
+				{
+					"type": "header",
+					"content": "Product settings"
+				},
+				{
+					"type": "checkbox",
+					"id": "align_center",
+					"label": "Align center",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_product_title",
+					"label": "Show product title",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_discount_badge",
+					"label": "Show discount badge",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_price",
+					"label": "Show price",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_add_to_cart_form",
+					"label": "Show Add to cart form",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "add_to_cart_form_show_qty",
+					"label": "Show Qty on Add to cart form",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "add_to_cart_form_show_inventory",
+					"label": "Show Inventory on Add to cart form",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "quick_view_enabled",
+					"label": "Enable Quick View",
+					"default": true
+				},
+				{
+					"type": "select",
+					"id": "product_title_size",
+					"label": "Product title size",
+					"default": "h6",
+					"options": [
+						{
+							"value": "h1",
+							"label": "H1"
+						},
+						{
+							"value": "h2",
+							"label": "H2"
+						},
+						{
+							"value": "h3",
+							"label": "H3"
+						},
+						{
+							"value": "h4",
+							"label": "H4"
+						},
+						{
+							"value": "h5",
+							"label": "H5"
+						},
+						{
+							"value": "h6",
+							"label": "H6"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Product image settings"
+				},
+				{
+					"type": "text",
+					"id": "image_width",
+					"label": "Image width (px)",
+					"default": "360"
+				},
+				{
+					"type": "text",
+					"id": "image_height",
+					"label": "Image height (px)",
+					"default": "360"
+				},
+				{
+					"type": "checkbox",
+					"id": "image_border",
+					"label": "Border",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "image_circle",
+					"label": "Circle",
+					"default": false
+				},
+				{
+					"type": "select",
+					"id": "image_hover_effect",
+					"label": "Hover effect",
+					"default": "image-hover-shine",
+					"options": [
+						{
+							"value": "image-hover",
+							"label": "No effect"
+						},
+						{
+							"value": "image-hover-fade-in",
+							"label": "Fade in"
+						},
+						{
+							"value": "image-hover-fade-out",
+							"label": "Fade out"
+						},
+						{
+							"value": "image-hover-scale-in",
+							"label": "Scale in"
+						},
+						{
+							"value": "image-hover-scale-out",
+							"label": "Scale out"
+						},
+						{
+							"value": "image-hover-flashing",
+							"label": "Flashing"
+						},
+						{
+							"value": "image-hover-shine",
+							"label": "Shine"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Spacing"
+				},
+				{
+					"type": "paragraph",
+					"content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+				},
+				{
+					"type": "range",
+					"id": "margin_top",
+					"label": "Margin top",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 0
+				},
+				{
+					"type": "range",
+					"id": "margin_bottom",
+					"label": "Margin bottom",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 6
+				},
+				{
+					"type": "range",
+					"id": "gutter_horizontal",
+					"label": "Horizontal gutter",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 2,
+					"info": "Spacing between products"
+				},
+				{
+					"type": "range",
+					"id": "gutter_vertical",
+					"label": "Vertical gutter",
+					"min": 0,
+					"max": 12,
+					"step": 1,
+					"default": 3,
+					"info": "Spacing between products"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,316 @@
+   {% assign noload = false %}
+  {% if template contains 'page' and page.url == '/pages/admin' %}
+  {% assign noload = true %}
+  {% endif %}
+   {% if noload %}
+  {% else %}
+<!doctype html>
+<html class="no-js" lang="{{ shop.locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="preconnect" href="//fonts.shopifycdn.com/" crossorigin>
+  <link rel="preconnect" href="//cdn.jsdelivr.net/" crossorigin>
+  <link rel="preconnect" href="//cdn.shopify.com/" crossorigin>
+  <link rel="preconnect" href="//v.shopify.com/" crossorigin>
+  <link rel="preconnect" href="https://monorail-edge.shopifysvc.com">
+  <link rel="dns-prefetch" href="//{{ shop.domain | replace: "www.", "" }}" crossorigin>
+  <link rel="dns-prefetch" href="//cdn.shopify.com" crossorigin>
+  <link rel="dns-prefetch" href="//v.shopify.com" crossorigin>
+  <link rel="dns-prefetch" href="//fonts.shopifycdn.com" crossorigin>
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" href="{{ 'theme.min.css' | asset_url }}">
+  <link rel="preload" as="font" href="{{ settings.font_body | font_url }}" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="{{ settings.font_heading | font_url }}" type="font/woff2" crossorigin>
+  {% if template contains 'product' %}
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  {% endif %}
+  {%- if settings.favicon != blank -%}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {%- endif -%}
+  {%- capture seo_title -%}
+    {{ page_title }}
+    {%- if current_tags -%}
+      {%- assign meta_tags = current_tags | join: ', ' -%} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {%- endif -%}
+    {%- if current_page != 1 -%}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {%- endif -%}
+    {%- assign escaped_page_title = page_title | escape -%}
+    {%- unless escaped_page_title contains shop.name -%}
+      &ndash; {{ shop.name }}
+    {%- endunless -%}
+  {%- endcapture -%}
+  <title>{{ seo_title | strip }}</title>
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+  {%- render 'social-meta-tags' -%}
+  <!-- Load styles -->
+  {%- render 'theme-styles' -%}
+<!-- jQuery -->
+<script
+src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
+integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+crossorigin="anonymous"></script>
+    {% endif %}
+  {{ content_for_header }}
+</head>
+<body id="{{ page_title | handle }}" class="template-{{ template.name | handle }} {{ settings.color_primary }} {% if settings.wishlist_enable %}wishlist-enabled{% endif %}">
+  <a class="sr-only sr-only-focusable" href="#site-main">{{ 'accessibility.skip_to_content' | t }}</a>
+  {%- section 'free-shipping' -%}
+  {%- section 'header' -%}
+  <div id="navbar-overlay"></div>
+  <main id="site-main" class="mb-0">
+    {{ content_for_layout }}
+  </main>
+  {% if noload %}
+  {% else %}
+  {% include 'judgeme_core' %}
+
+  {%- render 'product-quick-view' -%}
+  {%- section 'footer' -%}
+  <!-- Load scripts -->
+  {%- render 'theme-scripts' -%}
+  {% if settings.chat %}
+  {%- section 'chat-widget' -%}
+  {% endif %}
+  {% if settings.cookie_consent %}
+  {%- section 'cookie-consent' -%}
+  {% endif %}
+  <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  rel="stylesheet" />
+<link
+  href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css"
+integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc="
+crossorigin="anonymous"
+rel="stylesheet"
+/>
+    {% endif %}
+{% assign allow_wholesale = false %}
+{% assign alt_purchase = false %}
+{% if customer %}
+{% if customer.tags != '' %}
+{% assign allow_wholesale = true %}
+      {% capture ctags %}
+      {{- customer.tags | split: ","  | replace: '"', "" | replace: "]", "" | replace: "[", "" | replace: "\", "" | replace: ",", "" | replace: "default_order", "" -}}
+      {% endcapture %}
+  {% assign show_collection = ctags | strip %}
+{% if customer.tags contains 'default_order' %}
+{% assign alt_purchase = true %}
+{% endif %}
+{% endif %}
+{% endif %}  
+  {% if allow_wholesale %}
+{% if template contains 'product' %}
+  {% unless alt_purchase %}
+<script>
+  wholesale();
+  function wholesale() {
+   var Atc_btn = $('#ATC_btn_wholesale');
+    var prod_qty = $('#prod_qty_form');
+    var prod_option = $('.add-to-cart-form-radio-select');
+  const product_handle = "{{product.handle}}";
+
+$('body').on('click', '.add-to-cart-form-radio-select', function () {
+  var variant_name = $(this).val();
+  console.log(variant_name);
+     
+});
+
+if (window.location.href.indexOf('?variant') > -1) {
+  console.log("variant found");
+}
+    
+$('body').on('change', '#prod_qty_form', function () {
+  var qty = $(this).val();
+  console.log(qty);
+  $('#ATC_btn_wholesale').attr('data-wholesale-qty', qty);
+});
+
+var firstTimeUrl = document.URL;
+document.addEventListener('change', function () {
+  var currentPageUrl = document.URL;
+  var url = new URL(currentPageUrl);
+  var isVariantUrl = url.searchParams.get('variant');
+  currentPageUrl = isVariantUrl ? currentPageUrl : isVariantUrl;
+  if (currentPageUrl && firstTimeUrl != currentPageUrl) {
+    firstTimeUrl = currentPageUrl;
+    $('#ATC_btn_wholesale').attr('data-wholesale-variant', isVariantUrl);
+  }
+  
+});
+// $('body').on('click', '#ATC_btn_wholesale_verify', function () {
+//   $("#shopping_bag").css("display", "none");
+//   $("#wholesale_question").css("display", "block");
+// $("#wholesale_verify_btn_text").text("Please fill out the form below");
+//   $("#wholesale_moreinfo").css("display", "block");
+  
+// });
+    
+
+    
+//     $('body').on('change', '#wholesale_zipcode_input', function() {
+//       $('#wholesale_moreinfo_confirm_btn').show();
+//     });
+    
+//         $('body').on('click', '#wholesale_moreinfo_confirm_btn', function() {
+//       $('#wholesale_moreinfo').hide();
+//           $('#wholesale_moreinfo_confirm_btn').hide();
+//           $('#ATC_btn_wholesale_verify').addClass('wholesalehidebtn');
+//           $('#ATC_btn_wholesale').removeClass('wholesalehidebtn');
+//     });
+    $('body').on('click', '#ATC_btn_wholesale', function () {
+      $(".add-to-cart-form-btn-cart-icon").hide();
+      $(".add-to-cart-form-btn-spinner").show();
+      $('.add-to-cart-form-btn-text').text('Ordering...');
+      var qty = $(this).attr('data-wholesale-qty');
+      var customized = $(this).attr('data-wholesale-customized');
+      var font = $(this).attr('data-wholesale-font');
+      var deliverymethod = $('input[name="properties[deliverymethod]"]:checked').val();
+      var variant_id = $('#hidden_variant').val();
+      var size = $('.option-select-size').val();
+      var prod_price = $('.product-price-final').text();
+      var firstname = $('#wholesale_firstname_input').val();
+      var lastname = $('#wholesale_lastname_input').val();
+      var street = $('#wholesale_street_input').val();
+      var city = $('#wholesale_city_input').val();
+      var state = $('#wholesale_state_input').val();
+      var zipcode = $('#wholesale_zip_input').val();
+      var phone = $('#wholesale_phone_input').val();
+      var email = $('#wholesale_email_input').val();
+      var cartitems = {
+      
+     "draft_order": {
+       "line_items": [
+         {
+           "custom": false,
+           "title": "{{product.title}}",
+            "variant_id" : $.trim(variant_id),
+            "price" : $.trim(prod_price),
+              "properties": [
+                {
+                  "name": "Engraving",
+                  "value": customized
+                },
+                {
+                  "name": "Font",
+                  "value": font
+                },
+                {
+                  "name": "DeliveryMethod",
+                  "value": deliverymethod
+                },
+                {
+                  "name": "First Name",
+                  "value": firstname
+                },
+                {
+                  "name": "Last Name",
+                  "value": lastname
+                },
+                {
+                  "name": "Street",
+                  "value": street
+                },
+                {
+                  "name": "City",
+                  "value": city
+                },
+                {
+                  "name": "State",
+                  "value": state
+                },
+                {
+                  "name": "Zip Code",
+                  "value": zipcode
+                },
+                {
+                  "name": "Phone",
+                  "value": phone
+                },
+                {
+                  "name": "Email",
+                  "value": email
+                }
+              ],
+            "quantity": $.trim(qty)
+         }
+       ],
+       "customer": {       
+         "id": {{customer.id}}
+       },
+       "email": "{{customer.email}}"
+     }
+   }
+        
+
+      $.ajax({
+    type: 'POST',
+    url: 'https://api.ecomgraduates.com/bluelion/order.php',
+    contentType: 'application/json',
+    data: JSON.stringify(cartitems),
+    success: function(data) {
+        var cemail = "{{customer.email}}";
+        console.log(data);
+        $.ajax({
+            type: 'POST',
+            url: 'https://api.ecomgraduates.com/bluelion/email.php?orderid=' + data + '&cusemail=' + cemail,
+            dataType: 'json',
+
+            success: function(data2) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://api.ecomgraduates.com/bluelion/cemail.php?orderid=' + data + '&cusemail=' + cemail,
+                    dataType: 'json',
+
+                    success: function(data3) {
+
+
+                    }
+                });
+                               function explode() {
+       $(".add-to-cart-form-btn-cart-icon").show();
+      $(".add-to-cart-form-btn-spinner").hide();
+                    $('.add-to-cart-form-btn-text').text('Order Placed!');
+                }
+                setTimeout(explode, 4000);
+            }
+        });
+    },
+    error: function(e) {
+        console.error(e);
+    }
+  }); 
+  console.log(cartitems);
+      console.log (qty);
+      console.log(customized);
+      console.log(variant_id);
+      console.log(size);
+    });
+  }
+</script>
+  {% endunless %}
+{% endif %}
+{% endif %}
+{% include 'uploadkit' %}
+</body>
+</html>
+
+<script>
+$(document).ready(function() {
+    console.log(
+  "%cDESIGNED BY ECOMGRADUATES",
+  "-webkit-text-stroke: 0.2vw #a61b30;    font-family: fantasy;    font-size: 7vw;    padding: 3px 0 13px 31px;    letter-spacing: 0vw;    text-transform: uppercase;    background: rgb(2,0,36);    background: linear-gradient(0deg, #232221 0%, rgba(166,27,48,1) 100%);    margin: 0;    text-align: left;    font-weight: 700;    color: #232221;    text-shadow: -3px 4px 13px #460f17, -11px 7px 20px #080203;"
+);
+console.log("https://ecomgraduates.com");
+});
+
+</script>

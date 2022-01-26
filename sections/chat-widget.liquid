@@ -1,0 +1,260 @@
+<div class="
+  {{ section.settings.alignment }}
+  {{ section.settings.margin_bottom | prepend: 'my-' }}
+  {{ section.settings.margin_lr | prepend: 'mx-' }}
+  animate__animated mt-4
+  {% if section.settings.hide_mobile %}
+  .d-sm-none .d-md-block
+  {% endif %}
+  {{ section.settings.chat_animation_duration }}
+  {{ section.settings.chat_animation_entrance }}
+">
+    <a href="{{ section.settings.chat_link }}" {% if section.settings.open_tab %}target="_blank"{% endif %}>
+        <div class="
+        overflow-hidden
+        {% if section.settings.image_border %}img-thumbnail{% endif %}
+        {% if section.settings.image_border_radius != blank %}
+        {{ section.settings.image_border_radius }}
+        {{ section.settings.image_hover_effect }}
+        {% endif %}
+        ">
+        {% assign image_size = section.settings.image_size | append: 'x' | append: section.settings.image_size %}
+        {% if section.settings.image_svg != blank %}
+         {% assign svgcolor = section.settings.svg_color | prepend: '<svg fill="' | append: '"'%}
+           {{section.settings.image_svg | replace: "<svg", svgcolor }}
+         {% else %}
+        <img class="img-fluid lazyload {{ section.settings.image_border_radius }}"
+          src="{{ 'no-image.jpg' | asset_img_url: image_size }}"
+          data-src="{{ section.settings.image | img_url: image_size  | append: '@1x' }}"
+          alt="{{ section.settings.image.alt | escape }}" width="{{ section.settings.image_size }}"
+          height="{{ section.settings.image_size }}" loading="lazy">
+       {% endif %}
+      </div>
+    </a>
+</div>
+  {% schema %}
+  {
+    "name": "Chat Widget",
+    "class": "chat",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "open_tab",
+        "label": "Open in a new tab",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_mobile",
+        "label": "Disable on mobile devices",
+        "default": false
+      },
+      {
+        "type": "url",
+        "id": "chat_link",
+        "info": "Example: https://www.facebook.com/messages/t/nerdlysolutions/",
+        "label": "Chat link"
+      },
+      {
+        "type": "header",
+        "content": "Placement settings"
+      },
+      {
+        "type": "select",
+        "id": "alignment",
+        "label": "Placement",
+        "default": "chat-right",
+        "options": [
+            { "value": "chat-left", "label": "Left" },
+            { "value": "chat-right", "label": "Right" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "label": "Spacing bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "margin_lr",
+        "label": "Spacing side",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 2
+      },
+      {
+        "type": "header",
+        "content": "Image settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "html",
+        "id": "image_svg",
+        "label": "Use and svg image instead",
+        "info": "Get free chat icons by going [Here(https://www.iconfinder.com/search/?q=chat&price=free) Watch this video to learn how to apply and svg [Here(https://www.iconfinder.com/search/?q=chat&price=free)"
+      },
+      {
+        "type": "color",
+        "id": "svg_color",
+        "label": "Svg icon color",
+        "default": "#1976D2"
+      },
+      {
+        "type": "text",
+        "id": "image_size",
+        "label": "Image size (px) suggested size 60",
+        "info": "Get free chat icons by going [Here(https://www.iconfinder.com/search/?q=chat&price=free)",
+        "default": "60"
+      },
+      {
+        "type": "checkbox",
+        "id": "image_border",
+        "label": "Border",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "image_border_radius",
+        "label": "Image border radius",
+        "options": [
+          {
+            "value": "", "label": "Disabled"
+          },
+          {
+            "value": "rounded-sm", "label": "Smallest"
+          },
+          {
+            "value": "rounded", "label": "Smaller"
+          },
+          {
+            "value": "rounded-lg", "label": "Large"
+          },
+          {
+            "value": "rounded-top", "label": "Rounded Top"
+          },
+          {
+            "value": "rounded-bottom", "label": "Rounded Bottom"
+          },
+          {
+            "value": "rounded-left", "label": "Rounded Left"
+          },
+          {
+            "value": "rounded-right", "label": "Rounded Right"
+          },
+          {
+            "value": "rounded-circle", "label": "Circle"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id":  "image_hover_effect",
+        "label": "Hover effect",
+        "info": "Will only work if border radius is not set to disabled",
+        "default": "image-hover-shine",
+        "options": [
+          {
+            "value": "image-hover", "label": "No effect"
+          },
+          {
+            "value": "image-hover-fade-in", "label": "Fade in"
+          },
+          {
+            "value": "image-hover-fade-out", "label": "Fade out"
+          },
+          {
+            "value": "image-hover-scale-in", "label": "Scale in"
+          },
+          {
+            "value": "image-hover-scale-out", "label": "Scale out"
+          },
+          {
+            "value": "image-hover-flashing", "label": "Flashing"
+          },
+          {
+            "value": "image-hover-shine", "label": "Shine"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "chat_animation_entrance",
+        "label": "Animation entrance class",
+        "info": "Animation class name form [Animate.css](https://animate.style).",
+        "default": "animate__fadeInUp",
+        "options": [
+            { "value": "animate__bounceIn", "label": "bounceIn" },
+            { "value": "animate__bounceInDown", "label": "bounceInDown" },
+            { "value": "animate__bounceInLeft", "label": "bounceInLeft" },
+            { "value": "animate__bounceInRight", "label": "bounceInRight" },
+            { "value": "animate__bounceInUp", "label": "bounceInUp" },
+            { "value": "animate__fadeIn", "label": "fadeIn" },
+            { "value": "animate__fadeInDown", "label": "fadeInDown" },
+            { "value": "animate__fadeInDownBig",  "label": "fadeInDownBig" },
+            { "value": "animate__fadeInLeft", "label": "fadeInLeft" },
+            { "value": "animate__fadeInLeftBig", "label": "fadeInLeftBig" },
+            { "value": "animate__fadeInRight", "label": "fadeInRight" },
+            { "value": "animate__fadeInRightBig", "label": "fadeInRightBig" },
+            { "value": "animate__fadeInUp", "label": "fadeInUp" },
+            { "value": "animate__fadeInUpBig", "label": "fadeInUpBig" },
+            { "value": "animate__rotateIn", "label": "rotateIn" },
+            { "value": "animate__rotateInDownLeft", "label": "rotateInDownLeft" },
+            { "value": "animate__rotateInDownRight", "label": "rotateInDownRight" },
+            { "value": "animate__rotateInUpLeft", "label": "rotateInUpLeft" },
+            { "value": "animate__rotateInUpRight", "label": "rotateInUpRight" },
+            { "value": "animate__lightSpeedIn", "label": "lightSpeedIn" },
+            { "value": "animate__rollIn", "label": "rollIn" },
+            { "value": "animate__flip", "label": "flip" },
+            { "value": "animate__flipInX", "label": "flipInX" },
+            { "value": "animate__flipInY", "label": "flipInY" },
+            { "value": "animate__slideInDown", "label": "slideInDown" },
+            { "value": "animate__slideInLeft", "label": "slideInLeft" },
+            { "value": "animate__slideInRight", "label": "slideInRight" },
+            { "value": "animate__hinge", "label": "hinge (more for a joke not useful)" }
+
+        ]
+      },
+      {
+        "type": "select",
+        "id": "chat_animation_duration",
+        "label": "Animation duration",
+        "default": "",
+        "options": [
+            {
+                "value": "animate__slower",
+                "label": "Slower"
+            },
+            {
+                "value": "animate__slow",
+                "label": "Slow"
+            },
+            {
+                "value": "",
+                "label": "Normal"
+            },
+            {
+                "value": "animate__fast",
+                "label": "Fast"
+            },
+            {
+                "value": "animate__faster",
+                "label": "Faster"
+            }
+        ]
+      }      
+    ]
+  }
+{% endschema %}

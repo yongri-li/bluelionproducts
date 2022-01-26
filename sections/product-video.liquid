@@ -1,0 +1,132 @@
+{% if section.settings.section_enabled %}
+    <div class="{% if section.settings.container %} container {% else %} container-fluid {% endif %} {{ section.settings.margin_top | prepend: 'mt-' }} {{ section.settings.margin_bottom | prepend: 'mb-' }}">
+
+        {% assign max_width = section.settings.max_width %}
+
+        {% if max_width == '0' %}
+            {% assign max_width = 'none' %}
+        {% endif %}
+
+
+        <div class="mx-auto" style="max-width: {{ max_width }}px;">    
+            <div class="embed-container" style="border-radius: {{ section.settings.border_radius }}px">
+
+                {% assign video_id = section.settings.video_id %}
+                {% assign youtube_or_video = video_id | times: 1 %}
+
+                {% if youtube_or_video == 0 %}
+                    <a  
+                        href="https://www.youtube.com/watch?v={{ video_id }}" 
+                        target="_blank"
+                        class="video-embed youtube-embed" 
+                        data-video-id="{{ video_id }}">
+                        <img
+                            class="img-fluid lazyload"
+                            src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                            data-src="https://img.youtube.com/vi/{{ video_id }}/hq720.jpg" 
+                            alt="{{ section.settings.video_desc | escape }}"
+                            width="1280"
+                            height="720"
+                            loading="lazy">
+                        <div class="video-play-icon"></div>
+                        <h3 class="video-heading h5">
+                            <span>
+                                {{ section.settings.video_desc | escape }}
+                            </span>
+                        </h3>
+                    </a>
+                {% else %}
+                    <iframe 
+                        src="https://player.vimeo.com/video/{{ video_id }}" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen" 
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                {% endif %}
+                
+            </div>
+        </div>
+
+    </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Youtube/Vimeo video",
+  "class": "product-video-section",
+  "settings": [
+    {
+        "type": "header",
+        "content": "Enable/Disable section"
+    },
+    {
+        "type": "checkbox",
+        "id": "section_enabled",
+        "label": "Enable section",
+        "default": true
+    },
+    {
+        "type": "header",
+        "content": "General settings"
+    },
+    {
+        "type": "text",
+        "id": "video_id",
+        "label": "Youtube/Vimeo video id",
+        "default": "6lt2JfJdGSY"
+    },
+    {
+        "type": "text",
+        "id": "video_desc",
+        "label": "Short description",
+        "default": "Write something to shortly describe your video."
+    },
+    {
+        "type": "checkbox",
+        "id": "container",
+        "label": "Wrap in container",
+        "default": false
+    },
+    {
+        "type": "text",
+        "id": "max_width",
+        "label": "Max width (px)",
+        "info": "Enter 0 to take all available space",
+        "default": "960"
+    },
+    {
+        "type": "text",
+        "id": "border_radius",
+        "label": "Border radius (px)",
+        "default": "8"
+    },
+    {
+        "type": "header",
+        "content": "Spacing"
+    },
+    {
+        "type": "paragraph",
+        "content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+    },
+    {
+        "type": "range",
+        "id": "margin_top",
+        "label": "Margin top",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0
+    },
+    {
+        "type": "range",
+        "id": "margin_bottom",
+        "label": "Margin bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 6
+    }
+  ]
+}
+{% endschema %}

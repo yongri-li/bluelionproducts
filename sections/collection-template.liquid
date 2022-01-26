@@ -1,0 +1,861 @@
+<div class="
+  {% if section.settings.container %} container {% else %} container-fluid {% endif %}
+  {{ section.settings.margin_top | prepend: 'mt-' }}
+  {{ section.settings.margin_bottom | prepend: 'mb-' }}
+">
+
+  <header class="row {{ section.settings.collection_image_alignment}} align-items-center mb-5">
+
+    {% if section.settings.show_collection_image and collection.image %}
+      <div class="col-md mb-3 text-center">
+        {% assign collection_image_size = section.settings.collection_image_width | append: 'x' | append: section.settings.collection_image_height %}
+        <img
+          class="{% if section.settings.collection_image_border %}img-thumbnail{% endif %}  img-fluid"
+          src="{{ collection.image | img_url: collection_image_size, crop: 'center'  }}"
+          alt="{{ collection.image.alt | escape }}"
+          width="{{ section.settings.collection_image_width }}"
+          height="{{ section.settings.collection_image_height }}"
+        >
+      </div>
+    {% endif %}
+    <div class="col-md">
+    {% if section.settings.show_title %}
+    <{{ section.settings.heading_size }} class="{{ section.settings.heading_alignment }} {{ section.settings.heading_margin_bottom | prepend: 'mb-' }} {{ section.settings.heading_letter_spacing | prepend: 'letter-spacing-' }}">
+      {{ collection.title }}
+    </{{ section.settings.heading_size }}>
+
+      {% if collection.description != blank %}
+       <div class="rte text-muted {{ section.settings.sub_heading_alignment }} {{ section.settings.sub_letter_spacing | prepend: 'letter-spacing-' }} {{ section.settings.sub_margin_bottom | prepend: 'mb-' }}">
+         {{ collection.description }}
+       </div>
+      {% endif %}
+      {% endif %}
+      {% if section.settings.show_tags and collection.all_tags.size > 0 %}
+
+        <ul class="list-unstyled d-flex flex-wrap align-items-center mx-n1">
+
+          <p class="small text-muted px-1 mb-0 mr-1">{{ 'products.filter_by_tag' | t }}</p>
+
+          {% for tag in collection.all_tags %}
+                {% unless tag contains ':' %}
+                {% unless tag contains '__' %}
+                    {% if current_tags contains tag %}
+                        <li class="active p-1" style="line-height: normal">
+                            {{ link_to_remove_tag }}
+                            {{ tag | link_to_remove_tag: tag | replace: 'title=', 'class="badge badge-primary" title=' | replace: '</a>', '<span class="ml-1" aria-hidden="true">&times;</span></a>'  }}
+                        </li>
+                    {% else %}
+                        <li class="p-1" style="line-height: normal">
+                            {{ tag | link_to_tag: tag | replace: 'title=', 'class="badge badge-light" title=' }}
+                        </li>
+                    {% endif %}
+                {% endunless %}
+                {% endunless %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+  </header>
+
+  {% if collection.products_count == 0 %}
+    <p class="alert alert-warning" role="alert">{{ 'products.empty' | t}}</p>
+
+  {% else %}
+
+    <!-- Collection utilities -->
+    <div id="collection-utilities" class="row d-flex justify-content-between align-items-center mb-4">
+
+        <!-- Filter by -->
+        <div class="col-md">
+            {% if section.settings.show_filters %}
+                <button id="collection-filter-btn" class="btn btn-outline-secondary d-flex align-items-center" data-toggle="modal" data-target="#collection-filter-modal">
+                    {% render 'icon-filter', size: 20, class: 'mr-2' %}
+                    {{ 'products.filter_products' | t }}
+                </button>
+
+                <div id="collection-filter-modal" class="modal fade" tabindex="-1" aria-labelledby="collection-filter-modal-label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="collection-filter-modal-label">
+                                    {{ 'products.filter_products' | t }}
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                {% for tag in collection.all_tags %}
+                                    {% if tag contains '__' %}
+
+                                        {% assign header        = tag | split: '__' | first | capitalize %}
+                                        {% assign prevIndex     = forloop.index0 | minus: 1 %}
+                                        {% assign nextIndex     = forloop.index0 | plus: 1 %}
+                                        {% assign prevHeader    = collection.all_tags[prevIndex] | split: '__' | first | capitalize %}
+                                        {% assign nextHeader    = collection.all_tags[nextIndex] | split: '__' | first | capitalize %}
+
+                                        {% if header != prevHeader %}
+                                            <div class="py-1">
+                                                <button
+                                                    class="btn btn-light btn-block font-weight-bold"
+                                                    type="button"
+                                                    data-toggle="collapse"
+                                                    data-target="#filter-collapse-{{ header | handleize }}"
+                                                    aria-expanded="false"
+                                                    aria-controls="filter-collapse-{{ header | handleize }}">
+                                                    {{ header }}
+                                                </button>
+
+                                                <div class="collapse" id="filter-collapse-{{ header | handleize }}">
+                                                    <div class="custom-control custom-radio my-1 mt-3">
+                                                        <input
+                                                            type="radio"
+                                                            name="filter-tag-{{ header | handleize }}"
+                                                            id="filter-header-{{ header | handleize }}"
+                                                            class="custom-control-input"
+                                                            checked>
+                                                        <label class="custom-control-label d-block" for="filter-header-{{ header | handleize }}">
+                                                            {{ 'misc.all' | t }}
+                                                        </label>
+                                                    </div>
+                                        {% endif %}
+
+                                                    <div class="custom-control custom-radio my-1">
+                                                        <input
+                                                            type="radio"
+                                                            name="filter-tag-{{ header | handleize }}"
+                                                            id="filter-tag-{{ tag | handleize }}"
+                                                            class="custom-control-input"
+                                                            data-tag="{{ tag | handleize }}"
+                                                            {% if current_tags contains tag %}checked{% endif %}>
+                                                        <label class="custom-control-label d-block" for="filter-tag-{{ tag | handleize }}">
+                                                            {{ tag | split: '__' | last }}
+                                                        </label>
+                                                    </div>
+
+                                        {% if header != nextHeader %}
+                                                    <div class="py-2"></div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    id="collection-filter-apply-btn"
+                                    type="button"
+                                    class="btn btn-primary"
+                                    data-collection-url="{{ collection.url }}">
+                                    {{ 'misc.apply' | t }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+      {% if section.settings.sort_by %}
+        <!-- Sort by -->
+        <div class="col-md">
+            <form id="collection-sort-by-form" class="form-inline justify-content-end mb-0">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <label for="sort-by" class="input-group-text">
+                            {{ 'products.sort_by' | t }}
+                        </label>
+                    </div>
+                    <select id="sort-by" class="custom-select" name="sort_by">
+                        {% for option in collection.sort_options %}
+                            <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>
+                                {{ option.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="ml-2 btn btn-outline-primary no-js">
+                    {{ 'misc.update' | t }}
+                </button>
+            </form>
+        </div>
+      {% endif %}
+    </div>
+
+    {% paginate collection.products by section.settings.results_per_page %}
+
+      <div class="
+           {{ section.settings.prod_items_margin_top | prepend: 'mt-' }}
+           {{ section.settings.prod_items_margin_bottom | prepend: 'mb-' }}
+          ">
+        {% assign product_list = collection.products %}
+        {% assign from = section.settings.show_from %}
+        {% assign image_crop = section.settings.product_image_crop %}
+        {% assign prod_margin_bottom = section.settings.prod_price_margin_bottom %}
+        {% render 'product-list' with product_list: product_list, image_crop:image_crop, from:from, prod_margin_bottom:prod_margin_bottom %}
+      </div>
+
+        {% if section.settings.enable_infinite_scroll %}
+            <div id="AjaxinatePagination" class="js">
+                {% if paginate.next %}
+                    <div class="text-center">
+                        <a
+                            class="btn d-inline-flex align-items-center {{ section.settings.infinite_scroll_btn_color }} {{ section.settings.infinite_scroll_btn_variant }} {{ section.settings.infinite_scroll_btn_size }}"
+                            href="{{ paginate.next.url }}">
+                            {% render 'icon-chevrons-down' with size: 22, class: 'mr-2 animate__animated animate__fadeInDown animate__infinite' %}
+                            {{ 'misc.load_more' | t }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+      <div class="{% if section.settings.enable_infinite_scroll %} no-js {% endif %}" >
+        {% render 'pagination' with paginate: paginate %}
+      </div>
+
+    {% endpaginate %}
+
+  {% endif %}
+
+</div>
+
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  jQuery(document).ready(function ($) {
+
+    var endlessScroll = new Ajaxinate({
+      container: '#AjaxinateContainer',
+      pagination: '#AjaxinatePagination',
+      method: "{{ section.settings.infinite_scroll_mode }}",
+      loadingText: "{{ 'misc.loading' | t }}...",
+      offset: 0,
+      callback: () => {
+        // Fix native lazy loading
+        if ('loading' in HTMLImageElement.prototype) {
+          const images = document.querySelectorAll('img[loading="lazy"]')
+          images.forEach(img => {
+            img.src = img.dataset.src
+          })
+        }
+        // Reinitialize input spinner
+        initInputSpinner()
+
+        // Reinitilize product form selector
+        initFormOptions()
+      }
+    });
+
+    $('select[name=sort_by]').on('change', function() {
+      location.href = window.location.href.split('?')[0] + `?sort_by=${this.value}`
+
+      // const url = `/collections/men?sort_by=${this.value}`
+      // console.log(url)
+
+    //   $.ajax(url, {
+    //     success: function(data) {
+    //       console.log(data)
+    //       history.pushState({}, null, url);
+    //       document.documentElement.innerHTML = data
+    //     },
+    //     error: function(error) {
+    //       console.log(error)
+    //     }
+    //   });
+
+    });
+
+  })
+})
+</script>
+
+{% schema %}
+{
+  "name": "Collection pages",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "container",
+      "label": "Wrap in container",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show filters",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sort_by",
+      "label": "Show sorty by filter",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "label": "Results per page",
+      "min": 1,
+      "max": 40,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Infinite scroll"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_infinite_scroll",
+      "label": "Enable Infinite scroll",
+      "info": "Disable to switch to the default Shopify pagination",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "infinite_scroll_mode",
+      "label": "Infinite scroll mode",
+      "default": "click",
+      "options": [
+        {
+          "value": "scroll", "label": "Auto"
+        },
+        {
+          "value": "click", "label": "Click"
+        }
+      ]
+    },
+    {
+        "type": "select",
+        "id": "infinite_scroll_btn_color",
+        "label": "Infinite scroll button color",
+        "default": "btn-primary",
+        "options": [
+            {
+                "value": "btn-primary", "label": "Primary"
+            },
+            {
+                "value": "btn-secondary", "label": "Secondary"
+            }
+        ]
+    },
+    {
+        "type": "select",
+        "id": "infinite_scroll_btn_variant",
+        "label": "Infinite scroll button variant",
+        "default": "btn-outline",
+        "options": [
+            {
+                "value": "", "label": "Normal"
+            },
+            {
+                "value": "btn-outline", "label": "Outline"
+            }
+        ]
+    },
+    {
+        "type": "select",
+        "id": "infinite_scroll_btn_size",
+        "label": "Infinite scroll button size",
+        "default": "btn-lg",
+        "options": [
+            { "value": "btn-sm", "label": "Small" },
+            { "value": "", "label": "Normal" },
+            { "value": "btn-lg", "label": "Large" }
+        ]
+    },
+   {
+      "type": "header",
+      "content": "Collection title settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show collection title",
+      "default": true
+    },
+      {
+        "type": "select",
+        "id": "heading_size",
+        "label": "Heading Size",
+        "default": "h2",
+        "options": [
+          {
+            "value": "h1", "label": "H1"
+          },
+          {
+            "value": "h2", "label": "H2"
+          },
+          {
+            "value": "h3", "label": "H3"
+          },
+          {
+            "value": "h4", "label": "H4"
+          },
+          {
+            "value": "h5", "label": "H5"
+          },
+          {
+            "value": "h6", "label": "H6"
+          }
+        ]
+      },
+    {
+        "type": "select",
+        "id": "heading_alignment",
+        "label": "Heading alignment",
+        "default": "text-left",
+        "options": [
+          {
+            "value": "text-left", "label": "Left"
+          },
+          {
+            "value": "text-center", "label": "Center"
+          },
+          {
+            "value": "text-right", "label": "Right"
+          }
+        ]
+    },
+    {
+        "type": "range",
+        "id": "heading_margin_bottom",
+        "label": "Heading Margin bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "heading_letter_spacing",
+        "label": "Heading letter spacing",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Collection sub heading settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sub_title",
+        "label": "Show collection sub heading",
+        "default": true
+      },
+    {
+        "type": "select",
+        "id": "sub_heading_alignment",
+        "label": "Sub heading alignment",
+        "default": "text-left",
+        "options": [
+          {
+            "value": "text-left", "label": "Left"
+          },
+          {
+            "value": "text-center", "label": "Center"
+          },
+          {
+            "value": "text-right", "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "sub_margin_bottom",
+        "label": "Sub heading margin bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "sub_letter_spacing",
+        "label": "Sub heading letter spacing",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "default": 3
+      },
+    {
+      "type": "header",
+      "content": "Collection image settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Show collection image",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "collection_image_alignment",
+      "label": "Image Alignment",
+      "info": "Note: On mobile view the image will always be on top and content on bottom",
+      "default": "flex-row-reverse",
+      "options": [
+        {
+          "value": "flex-row", "label": "Left"
+        },
+        {
+          "value": "flex-row-reverse", "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "collection_image_width",
+      "label": "Collection image width (px)",
+      "default": "600"
+    },
+    {
+      "type": "text",
+      "id": "collection_image_height",
+      "label": "Collection image height (px)",
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "product_image_crop",
+      "info": "Cropping images helps with load optimization, it prevents the page from loading full resolution",
+      "label": "Product image crop",
+      "default": "center",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "master",
+          "label": "Full resolution"
+        },
+        {
+          "value": "high_res_1",
+          "label": "High resolution 1"
+        },
+        {
+          "value": "high_res_2",
+          "label": "High resolution 2"
+        },
+        {
+          "value": "high_res_3",
+          "label": "High resolution 3"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_image_border",
+      "label": "Collection image border",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Adjust products per Row"
+    },
+    {
+      "type": "range",
+      "id": "row",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Extra small screens (default)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "row_sm",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Small screens (sm)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "row_md",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Medium screens (md)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "row_lg",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Large screens (lg)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "row_xl",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "label": "Extra-large screens (xl)",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Product settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "align_center",
+      "label": "Align center",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_title",
+      "label": "Show product title",
+      "default": true
+    },
+    {
+        "type": "checkbox",
+        "id": "show_discount_badge",
+        "label": "Show discount badge",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_price",
+        "label": "Show price",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_from",
+        "label": "Show from text",
+        "default": true
+      },
+    {
+      "type": "range",
+      "id": "prod_price_margin_bottom",
+      "label": "Price Margin bottom",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 0
+    },
+    {
+        "type": "checkbox",
+        "id": "show_add_to_cart_form",
+        "label": "Show Add to cart form",
+        "default": false
+    },
+    {
+        "type": "checkbox",
+        "id": "add_to_cart_form_show_qty",
+        "label": "Show Qty on Add to cart form",
+        "default": false
+    },
+    {
+        "type": "checkbox",
+        "id": "add_to_cart_form_show_inventory",
+        "label": "Show Inventory on Add to cart form",
+        "default": false
+    },
+    {
+        "type": "checkbox",
+        "id": "quick_view_enabled",
+        "label": "Enable Quick View",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "product_title_size",
+        "label": "Product title size",
+        "default": "h6",
+        "options": [
+          {
+            "value": "h1", "label": "H1"
+          },
+          {
+            "value": "h2", "label": "H2"
+          },
+          {
+            "value": "h3", "label": "H3"
+          },
+          {
+            "value": "h4", "label": "H4"
+          },
+          {
+            "value": "h5", "label": "H5"
+          },
+          {
+            "value": "h6", "label": "H6"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "product_title_margin_bottom",
+        "label": "Product title margin bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 3
+      },
+    {
+      "type": "header",
+      "content": "Product image settings"
+    },
+    {
+      "type": "text",
+      "id": "image_width",
+      "label": "Image width (px)",
+      "default": "480"
+    },
+    {
+      "type": "text",
+      "id": "image_height",
+      "label": "Image height (px)",
+      "default": "480"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_border",
+      "label": "Border",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "image_circle",
+      "label": "Circle",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id":  "image_hover_effect",
+      "label": "Hover effect",
+      "default": "image-hover-shine",
+      "options": [
+        {
+          "value": "image-hover", "label": "No effect"
+        },
+        {
+          "value": "image-hover-fade-in", "label": "Fade in"
+        },
+        {
+          "value": "image-hover-fade-out", "label": "Fade out"
+        },
+        {
+          "value": "image-hover-scale-in", "label": "Scale in"
+        },
+        {
+          "value": "image-hover-scale-out", "label": "Scale out"
+        },
+        {
+          "value": "image-hover-flashing", "label": "Flashing"
+        },
+        {
+          "value": "image-hover-shine", "label": "Shine"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+      },
+      {
+         "type": "paragraph",
+         "content": "Based on Bootstrap spacing utility classes [Learn more](https://getbootstrap.com/docs/4.5/utilities/spacing/)"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "label": "Margin top",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "label": "Margin bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 6
+      },
+      {
+      "type": "header",
+      "content": "Product Spacing"
+      },
+      {
+        "type": "range",
+        "id": "prod_items_margin_top",
+        "label": "Margin top",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "prod_items_margin_bottom",
+        "label": "Margin bottom",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "default": 6
+    },
+    {
+      "type": "range",
+      "id": "gutter_horizontal",
+      "label": "Horizontal gutter",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 2,
+      "info": "Spacing between products"
+    },
+    {
+      "type": "range",
+      "id": "gutter_vertical",
+      "label": "Vertical gutter",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 3,
+      "info": "Spacing between products"
+    }
+  ]
+}
+{% endschema %}

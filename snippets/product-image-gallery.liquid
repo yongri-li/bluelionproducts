@@ -1,0 +1,147 @@
+{% assign id = id | default: 'product-image-gallery-' | append: product.id %}
+{% assign image_crop = settings.product_image_crop %}
+<div
+    id="{{ id }}"
+    class="product-image-gallery carousel {{ settings.product_image_gallery_transition | escape }} {{ settings.product_image_gallery_special_effect | escape }}"
+    data-ride="carousel"
+    data-pause="hover"
+    data-interval="{{ settings.product_image_gallery_interval | times: 1000 }}"
+    aria-roledescription="carousel"
+    aria-label="{{ 'product.image_gallery' | t }}">
+    <div class="carousel-inner">
+<img id="image-overlay" src="https://ravennaareachamber.com/wp-content/uploads/2017/03/your-company-lsiting.png" class="d-none img-fluid" style="
+    position: absolute;
+    z-index: 9;
+    width: 27%;
+    top: 33%;
+    left: 36%;
+">
+        <!-- Sold out badge -->
+        {% unless product.available %}
+            <span class="badge-sold-out badge text-white" style="background-color: {{ settings.badge_sold_out }};">
+                {{'product.sold_out' | t }}
+            </span>
+        {% endunless %}
+
+        <!-- Discount badge -->
+        {% if product.compare_at_price > product.price and product.available %}
+            <span class="badge-discount badge text-white" style="background-color: {{ settings.badge_discount }};">
+                {% if settings.product_image_gallery_badge_discount_type == 'percentage' %}
+                    <span class="sr-only">
+                        {{ 'misc.discount' | t }}:
+                    </span>
+                {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | money_without_currency | times: 100 | remove: '.0' | prepend: '-' | append: '%' }}
+                {% else %}
+                    <span class="">
+                        {{ 'misc.save' | t }}
+                    </span>
+                    {{ product.compare_at_price | minus: product.price | money_without_trailing_zeros }}
+                {% endif %}
+            </span>
+        {% endif %}
+
+        {% for image in product.images limit: settings.product_image_gallery_limit_images %}
+            {% assign img_size = settings.product_image_gallery_img_width | append: 'x' | append: settings.product_image_gallery_img_height %}
+            {% assign full_screen_img_width = settings.product_image_gallery_full_screen_img_width | plus: 0 %}
+            {% assign full_screen_img_height = settings.product_image_gallery_full_screen_img_height | plus: 0 %}
+
+            {% if full_screen_img_height == 0 %}
+                {% assign full_screen_img_height = full_screen_img_width | divided_by: image.aspect_ratio | round %}
+                {% assign full_screen_img_size = full_screen_img_width | append: 'x' %}
+            {% else %}
+                {% assign full_screen_img_size = full_screen_img_width | append: 'x' | append: full_screen_img_height %}
+            {% endif %}
+
+            <div
+                class="carousel-item {% if forloop.first %} active {% endif %}"
+                role="group"
+                data-image-id="{{ image.id }}"
+                aria-roledescription="slide"
+                aria-label="{{ forloop.index}} {{ 'misc.from' | t }} {{ product.images.size }}">
+
+                {% if image.alt contains 'youtube.com' or image.alt contains 'vimeo.com' %}
+                    {% assign is_video = true %}
+                {% else %}
+                    {% assign is_video = false %}
+                {% endif %}
+
+                <a
+                    {% if is_video %}
+                        href="{{ image.alt }}"
+                    {% else %}
+                        href="{{ image.src | img_url: full_screen_img_size, crop: 'center' }}"
+                    {% endif %}
+                    {% if settings.product_image_gallery_full_screen_enable %}
+                        data-fancybox="gallery-{{ product.id }}"
+                        data-caption="{% if is_video == false  %} {{ image.alt | escape }} {% endif %}"
+                        data-buttons-zoom="{{ settings.product_image_gallery_full_screen_button_zoom }}"
+                        data-buttons-share="{{ settings.product_image_gallery_full_screen_button_share }}"
+                        data-buttons-slideshow="{{ settings.product_image_gallery_full_screen_button_slideshow }}"
+                        data-buttons-fullscreen="{{ settings.product_image_gallery_full_screen_button_fullscreen }}"
+                        data-buttons-download="{{ settings.product_image_gallery_full_screen_button_download }}"
+                        data-buttons-thumbs="{{ settings.product_image_gallery_full_screen_button_thumbs }}"
+                        data-animation-effect="{{ settings.product_image_gallery_full_screen_animation_effect }}"
+                        data-animation-duration="{{ settings.product_image_gallery_full_screen_animation_duration }}"
+                        data-transition-effect="{{ settings.product_image_gallery_full_screen_transition_effect }}"
+                        data-slideshow-autostart="{{ settings.product_image_gallery_full_screen_slideshow_autostart }}"
+                        data-slideshow-speed="{{ settings.product_image_gallery_full_screen_slideshow_speed | times: 1000 }}"
+                    {% endif %}>
+
+                    <div class="product-video-play-icon {% if is_video %}d-block{% else %}d-none{% endif %}"></div>
+
+                    <img class="d-block w-100 h-auto rounded lazyload"
+                        src="{{ 'no-image.jpg' | asset_img_url: img_size, crop: 'center' }}"
+                        {% assign image_crop = settings.product_image_crop %}
+                        {% if image_crop contains 'high_res_1' or image_crop contains 'high_res_2' or image_crop contains 'high_res_3' %}
+                        {% assign resolution = image_crop | replace: "high_res_", "" %}
+                        data-src="{{ image.src | img_url: img_size, scale: resolution }}"
+                        {% else %}
+                        data-src="{{ image.src | img_url: img_size, crop: image_crop  }}"
+                        {% endif %}
+                        alt="{{ image.alt | escape }}"
+                        width="{{ settings.product_image_gallery_img_width }}"
+                        height="{{ settings.product_image_gallery_img_height }}"
+                        loading="lazy">
+                </a>
+            </div>
+        {% endfor %}
+        {% if settings.product_image_gallery_controls and product.images.size > 1 %}
+        <a class="carousel-control-prev" href="#{{ id }}" role="button" data-slide="prev"
+            aria-controls="product-image-gallery-{{ product.id }}">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">{{ 'misc.previous' | t }}</span>
+        </a>
+        <a class="carousel-control-next" href="#{{ id }}" role="button" data-slide="next" aria-controls="{{ id }}">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">{{ 'misc.next' | t }}</span>
+        </a>
+        {% endif %}
+    </div>
+    {% if settings.product_image_gallery_thumbnails and product.images.size > 1 %}
+    <ol class="list-unstyled mx-n1 my-2 row row-cols-{{ settings.product_image_gallery_thumbnails_row }}">
+        {% for image in product.images limit: settings.product_image_gallery_limit_images  %}
+        <a href="{{ image.src | img_url: '2048x' }}" data-target="#{{ id }}" data-slide-to="{{ forloop.index0 }}"
+            class="col px-1 py-1 {% if forloop.first %}active{% endif %}">
+            <div class="
+            position-relative overflow-hidden
+            {% if settings.product_image_gallery_border %}img-thumbnail{% else %} rounded{% endif %}
+            {{ settings.product_image_gallery_hover_effect }}">
+
+                {% if image.alt contains 'youtube.com' or image.alt contains 'vimeo.com' %}
+                    {% assign is_video = true %}
+                {% else %}
+                    {% assign is_video = false %}
+                {% endif %}
+
+                <div class="product-video-play-icon small {% if is_video %}d-block{% else %}d-none{% endif %}"></div>
+
+                <img class="img-fluid lazyload" src="{{ 'no-image.jpg' | asset_img_url: img_size, crop: 'center' }}"
+                    data-src="{{ image.src | img_url: img_size, crop: 'center' }}" alt="{{ image.alt | escape }}"
+                    width="{{ settings.product_image_gallery_img_width }}"
+                    height="{{ settings.product_image_gallery_img_height }}" loading="lazy">
+            </div>
+        </a>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</div>

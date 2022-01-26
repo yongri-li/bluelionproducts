@@ -1,0 +1,341 @@
+{% assign form_size = section.settings.form_size %}
+{% assign placeholder = section.settings.placeholder %}
+{% assign btn_color_primary = section.settings.btn_color_primary %}
+{% assign btn_variant_primary = section.settings.btn_variant_primary %}
+{% assign  btn_effect_primary = section.settings.btn_effect_primary %}
+<div class="modal fade" id="newsletter_modal_{{section.id}}" tabindex="-1" role="dialog" aria-labelledby="newsletter_modal_{{section.id}}" aria-hidden="true" popup-time="{{section.settings.time_to_open}}000">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{section.settings.newsletter_title}}</h5>
+        <button type="button" class="close hidenewsletter" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% if section.settings.image != blank %}
+      <div class="row">
+      <div class="col-md-12">
+      <div class="{% if section.settings.image_border %}img-thumbnail{% endif %} position-relative">
+       {% assign image_size = section.settings.image_width | append: 'x' | append: section.settings.image_height %}
+       {% assign image_cop = section.settings.image_crop %}          
+          <img class="img-fluid lazyload"
+            src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+            data-src="{{ section.settings.image | img_url: image_size, crop: image_crop }}"
+            loading="lazy">
+        </div>
+      </div>
+      <div class="col-md-12 mx-auto mt-10 mb-auto position-absolute text-center">
+        <div>
+        {% endif %}
+         {% if section.settings.heading != blank %}
+      <{{ section.settings.heading_size }} class="{{ section.settings.heading_size }} {{section.settings.heading_color}} text-center">
+        {{ section.settings.heading | escape }}
+      </{{ section.settings.heading_size }}>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      {% assign subheading_color = 'text-muted' %}
+      {% if section.settings.bg_color contains 'bg-dark' or section.settings.bg_color contains 'bg-primary' %}
+        {% assign subheading_color = 'text-white opacity-75' %}
+      {% endif %}
+      <div class="rte {{section.settings.subheading_color}} text-center">
+        {{ section.settings.subheading }}
+      </div>
+    {% endif %}
+       {% if section.settings.image != blank %}
+        </div>
+        </div>
+      </div>
+       {% render 'newsletter-popup' 
+        form_size:form_size,
+        placeholder:placeholder,
+        btn_color_primary:btn_color_primary,
+        btn_variant_primary:btn_variant_primary,
+        btn_effect_primary:btn_effect_primary
+        %}
+      {% else %}
+       {% render 'newsletter-popup' 
+        form_size:form_size,
+        placeholder:placeholder,
+        btn_color_primary:btn_color_primary,
+        btn_variant_primary:btn_variant_primary,
+        btn_effect_primary:btn_effect_primary
+        %}
+    </div>
+    {% endif %}
+          <div class="modal-footer text-muted {% if section.settings.image != blank %}pb-0 {% else %} pb-3 {% endif %}">
+        <a href="#" data-dismiss="modal" aria-label="Close" class="hidenewsletter ml-auto mr-auto">{{section.settings.button_label}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+
+{
+	"name": "Newsletter Popup",
+	"class": "newsletter-popup",
+	"settings": [
+		{
+			"type": "header",
+			"content": "General settings"
+		},
+		{
+			"type": "range",
+			"id": "time_to_open",
+			"label": "Time to show in seconds",
+			"min": 0,
+			"max": 12,
+			"step": 1,
+			"default": 3
+		},
+		{
+			"type": "select",
+			"id": "form_size",
+			"label": "Form size",
+			"default": "",
+			"options": [
+				{
+					"value": "-sm",
+					"label": "Small"
+				},
+				{
+					"value": "",
+					"label": "Normal"
+				},
+				{
+					"value": "-lg",
+					"label": "Large"
+				}
+			]
+		},
+		{
+			"type": "select",
+			"id": "btn_color_primary",
+			"label": "Button color",
+			"default": "btn-primary",
+			"options": [
+				{
+					"value": "btn-primary",
+					"label": "Primary"
+				},
+				{
+					"value": "btn-secondary",
+					"label": "Secondary"
+				}
+			]
+		},
+		{
+			"type": "select",
+			"id": "btn_variant_primary",
+			"label": "Button variant",
+			"default": "",
+			"options": [
+				{
+					"value": "",
+					"label": "Normal"
+				},
+				{
+					"value": "btn-outline",
+					"label": "Outline"
+				}
+			]
+		},
+		{
+			"type": "select",
+			"id": "btn_effect_primary",
+			"label": "Button hover effect",
+			"default": "",
+			"options": [
+				{
+					"value": "",
+					"label": "Disabled"
+				},
+				{
+					"value": "btn-shine",
+					"label": "Shine"
+				},
+				{
+					"value": "btn-ripple",
+					"label": "Ripple"
+				},
+				{
+					"value": "btn-expand",
+					"label": "Expand"
+				}
+			]
+		},
+		{
+			"type": "text",
+			"id": "newsletter_title",
+			"label": "Newsletter title",
+			"default": "Sign up"
+		},
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+		},
+		{
+			"type": "text",
+			"id": "image_width",
+			"info": "Leave empty to for full size",
+			"label": "Image width (px)",
+			"default": "600"
+		},
+		{
+			"type": "text",
+			"id": "image_height",
+			"info": "Leave empty to for full size",
+			"label": "Image height (px)",
+			"default": "600"
+		},
+		{
+			"type": "select",
+			"id": "image_crop",
+			"label": "Image crop position",
+			"default": "center",
+			"options": [
+				{
+					"value": "top",
+					"label": "Top"
+				},
+				{
+					"value": "center",
+					"label": "Center"
+				},
+				{
+					"value": "bottom",
+					"label": "Bottom"
+				},
+				{
+					"value": "left",
+					"label": "Left"
+				},
+				{
+					"value": "right",
+					"label": "Right"
+				}
+			]
+		},
+		{
+			"type": "checkbox",
+			"id": "image_border",
+			"label": "Border",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "heading",
+			"label": "Newsletter heading",
+			"default": "Subscribe and save"
+		},
+		{
+			"type": "select",
+			"id": "heading_size",
+			"label": "Heading Size",
+			"default": "h2",
+			"options": [
+				{
+					"value": "h1",
+					"label": "H1"
+				},
+				{
+					"value": "h2",
+					"label": "H2"
+				},
+				{
+					"value": "h3",
+					"label": "H3"
+				},
+				{
+					"value": "h4",
+					"label": "H4"
+				},
+				{
+					"value": "h5",
+					"label": "H5"
+				},
+				{
+					"value": "h6",
+					"label": "H6"
+				}
+			]
+		},
+		{
+			"type": "select",
+			"id": "heading_color",
+			"label": "Newsletter heading font color",
+			"default": "text-primary",
+			"options": [
+				{
+					"value": "text-primary",
+					"label": "Primary"
+				},
+				{
+					"value": "text-secondary",
+					"label": "Secondary"
+				},
+				{
+					"value": "text-light",
+					"label": "Light"
+				},
+				{
+					"value": "text-dark",
+					"label": "Dark"
+				},
+				{
+					"value": "text-white",
+					"label": "White"
+				}
+			]
+		},
+		{
+			"type": "richtext",
+			"id": "subheading",
+			"label": "Newsletter subheading",
+			"default": "<p>Be the first to get notified about our latest products.</p>"
+		},
+		{
+			"type": "select",
+			"id": "subheading_color",
+			"label": "Newsletter sub heading font color",
+			"default": "text-primary",
+			"options": [
+				{
+					"value": "text-primary",
+					"label": "Primary"
+				},
+				{
+					"value": "text-secondary",
+					"label": "Secondary"
+				},
+				{
+					"value": "text-light",
+					"label": "Light"
+				},
+				{
+					"value": "text-dark",
+					"label": "Dark"
+				},
+				{
+					"value": "text-white",
+					"label": "White"
+				}
+			]
+		},
+		{
+			"type": "text",
+			"id": "button_label",
+			"label": "Bottom message",
+			"default": "Maybe next time"
+		}
+	],
+	"presets": [
+		{
+			"name": "Newsletter Popup",
+			"category": "Text"
+		}
+	]
+}
+{% endschema %}

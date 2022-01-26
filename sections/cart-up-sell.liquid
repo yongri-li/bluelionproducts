@@ -1,0 +1,393 @@
+{% if section.settings.section_enabled %}
+{% assign discount = false %}
+{% if section.settings.discount and section.settings.discountamount != blank %}
+{% assign discount = true %}
+{% endif %}
+    <!-- Modal -->
+    <div 
+        class="modal fade animate__animated {{ section.settings.animation_entrance_class | escape }} {{ section.settings.animation_duration | escape }}" 
+        id="cart-upsell-modal" 
+        tabindex="-1" 
+        data-items-in-cart="{{ cart.item_count}}"
+        aria-labelledby="cart-upsell-modal-label" 
+        aria-hidden="true"
+        style="z-index: 1090;">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal header -->
+                <div class="modal-header">
+                    <h5 
+                        class="modal-title" 
+                        id="cart-upsell-modal-label" 
+                        style="line-height: normal;">
+                        {{ section.settings.title | escape }}
+                    </h5>
+                    <button 
+                        type="button" 
+                        class="close" 
+                        data-dismiss="modal"
+                        aria-label="{{ 'misc.close' | t }}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div 
+                        id="cart-up-sells-recommendations"
+                        data-product-id="{{ product.id }}" 
+                        data-limit="{{ section.settings.limit_products }}">
+
+                        <!-- Progress bar -->
+                        {% if section.settings.show_progress %}
+                            <div class="progress mb-3">
+                                <div 
+                                    class="progress-bar {% if section.settings.show_progress_striped %}progress-bar-striped progress-bar-animated{% endif %} {{ section.settings.progress_bg_color }}" 
+                                    data-bg-color="{{ section.settings.progress_bg_color }}"
+                                    data-bg-color-success="{{ section.settings.progress_bg_color_success }}"
+                                    role="progressbar" 
+                                    aria-valuenow="{{ section.settings.progress_value }}" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100" 
+                                    style="width: {{ section.settings.progress_value }}%">
+                                    {{ 'cross_sells.offer_expires_soon' | t }}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <!-- Notice -->
+                        <div class="rte alert alert-secondary mb-3">
+                        {{ section.settings.message }}
+                        </div>
+                        
+                        <ul class="product-list list-unstyled justify-content-center mx-n2 row row-cols-{{ section.settings.row_sm }} row-cols-lg-{{ section.settings.row_lg }}">
+                            {% for product in recommendations.products %}
+                                <li class="pb-2 px-2 my-3 text-center">
+                                    <a href="{{ product.url }}" class="theme-link-color d-block text-decoration-none">
+                                        <div class="position-relative overflow-hidden mb-2 {% if section.settings.image_border %}img-thumbnail{% else %} rounded {% endif %} {{ section.settings.image_hover_effect }}">
+                                            {% assign image_size = section.settings.image_width | append: 'x' | append: section.settings.image_height %}
+                                            <img 
+                                            class="product-cross-sells-product-img img-fluid" 
+                                            src="{{ product.featured_image | img_url: image_size, crop: 'center' }}" 
+                                            alt="{{ product.featured_image.alt }}"
+                                            width="{{ section.settings.image_width }}"
+                                            height="{{ section.settings.image_height }}" />
+                                        </div>
+                                        <p class="h6 product__title">
+                                            {{ product.title | escape }}
+                                        </p>
+                                    </a>
+                                    
+                                    {% form 'product', product, class: 'mb-0' %}
+                                        <select
+                                            name="id"
+                                            class="custom-select mb-3 {% if section.settings.small_form_control %}custom-select-sm {% endif %} {% if product.has_only_default_variant %}d-none{% endif %}">
+                                            {% for variant in product.variants %}
+                                            {% if variant.available %}
+                                                <option value="{{ variant.id }}" data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}">
+                                                {{ variant.title }} - {{ variant.price | money_with_currency }}
+                                                </option>
+                                            {% else %}
+                                                <option value="{{ variant.id }}" disabled="disabled" data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}">
+                                                {{ variant.title }} - {{ 'product.sold_out' | t }}
+                                                </option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
+
+                                        <button
+                                            class="{% if discount %}cross-sell-atc-btn{% endif %} add-to-cart-form-btn btn btn-primary d-inline-flex align-items-center justify-content-center flex-shrink-0 {{ settings.product_add_to_cart_form_btn_color }} {{ settings.product_add_to_cart_form_btn_variant }} {% if section.settings.small_form_control %}btn-sm {% endif %}"
+                                            data-animate-class="{{ settings.product_add_to_cart_form_cart_icon_animation_class }}"
+                                            data-text-view-cart="{{ 'product.view_cart' | t }}"
+                                            data-text-added-to-cart="{{ 'product.added_to_cart' | t }}"
+                                            data-text-add-to-cart="{{ 'product.add_to_cart' | t }}"
+                                            data-text-sold-out="{{ 'product.sold_out' | t }}"
+                                            data-text-unavailable="{{ 'product.unavailable' | t }}"
+                                            data-text-loading="{{ 'misc.loading' | t }}"
+                                            type="submit"
+                                            name="add"
+                                            {% if discount %}
+                                            data-cross-sell-discount="/cart?discount={{section.settings.discount}}"
+                                            data-discount-value="{{section.settings.discountamount}}"
+                                            data-cookie-time="{{section.settings.discounttime}}"
+                                            {% endif %}
+                                            {% unless product.available %}disabled{% endunless %}>
+                                            {% assign icon_class = 'add-to-cart-form-btn-cart-icon mr-2' %}
+            
+                                            {% case settings.product_add_to_cart_form_cart_icon %}
+                                                {% when 'icon-shopping-bag' %}
+                                                    {% render 'icon-shopping-bag' with size: 20, class: icon_class %}
+                                                {% when 'icon-shopping-basket' %}
+                                                    {% render 'icon-shopping-basket' with size: 20, class: icon_class %}
+                                                {% when 'icon-shopping-minecart' %}
+                                                    {% render 'icon-shopping-minecart' with size: 20, class: icon_class %}
+                                                {% else %}
+                                                    {% render 'icon-shopping-cart' with size: 20, class: icon_class %}
+                                            {% endcase %}
+
+                                            <span 
+                                                class="add-to-cart-form-btn-spinner spinner-border spinner-border-sm mr-2" 
+                                                role="status"
+                                                aria-hidden="true"
+                                                style="display: none;">
+                                            </span>
+
+                                            <span class="add-to-cart-form-btn-text">
+                                                {{ 'product.add_to_cart' | t }}
+                                            </span>
+                                        </button>
+                                    {% endform %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <h3 class="mr-auto d-none" id="cross-sell-discount-message-container">{{ section.settings.discount_message}}</h3>
+                    <a href="/cart" id="crosssell-tocart-btn" class="btn btn-secondary">
+                        {{ 'cart.general.view_cart' | t }}
+                    </a>
+                    <form method="post" action="/cart" id="crosssellto-checkout-btn" class="m-0">
+                        <button type="submit" name="checkout" class="btn btn-primary">
+                            {{ 'cart.general.checkout' | t }}
+                            {% render 'icon-chevrons-right' with size: 20 %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% schema %}
+{
+    "name": "Cart Upsell",
+    "class": "cart-up-sells",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Enable/Disable section"
+        },
+        {
+            "type": "checkbox",
+            "id": "section_enabled",
+            "label": "Enable section",
+            "default": true
+        },
+        {
+            "type": "header",
+            "content": "General settings"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "GREAT! Here is our offer for you..."
+        },
+        {
+            "type": "text",
+            "id": "discount",
+            "label": "Discount code"
+        },
+        {
+            "type": "text",
+            "id": "discountamount",
+            "info": "Enter a percentage example: 20%",
+            "label": "Discount amount"
+        },
+        {
+            "type": "range",
+            "id": "discounttime",
+            "label": "Discount cookie expiration in days",
+            "min": 1,
+            "max": 7,
+            "default": 1
+        },
+        {
+            "type": "text",
+            "id": "discount_message",
+            "label": "Discount Message",
+            "default": "You just saved [discount] Proceed to checkout!"
+        },
+        {
+            "type": "richtext",
+            "id": "message",
+            "label": "Message",
+            "default": "<p>Add any of the following products to your cart now and immediately be qualified for <b>20% discount</b> on your order's total.</p>"
+        },
+        {
+            "type": "range",
+            "id": "limit_products",
+            "label": "Limit products",
+            "min": 1,
+            "max": 8,
+            "default": 4
+        },
+        {
+            "type": "range",
+            "id": "row_sm",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "label": "Small screens (sm)",
+            "default": 2
+        },
+        {
+            "type": "range",
+            "id": "row_lg",
+            "min": 1,
+            "max": 6,
+            "step": 1,
+            "label": "Large screens (lg)",
+            "default": 4
+        },
+        {
+            "type": "text",
+            "id": "animation_entrance_class",
+            "label": "Animation entrance class",
+            "info": "Enter an animation class name from [Animate.css](https://animate.style).",
+            "default": "animate__fadeInUp"
+        },
+        {
+            "type": "select",
+            "id": "animation_duration",
+            "label": "Animation duration",
+            "default": "animate__fast",
+            "options": [
+                {
+                    "value": "animate__slower", "label": "Slower"
+                },
+                {
+                    "value": "animate__slow", "label": "Slow"
+                },
+                {
+                    "value": "", "label": "Normal"
+                },
+                {
+                    "value": "animate__fast", "label": "Fast"
+                },
+                {
+                    "value": "animate__faster", "label": "Faster"
+                }
+            ]
+        },
+        {
+            "type": "checkbox",
+            "id":  "small_form_control",
+            "label": "Small form elements",
+            "default": true
+        },
+        {
+            "type": "header",
+            "content": "Progress bar"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_progress",
+            "label": "Show progress bar",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_progress_striped",
+            "label": "Show progress bar stripes",
+            "default": true
+        },
+        {
+            "type": "select",
+            "id": "progress_bg_color",
+            "label": "Progress bar color",
+            "default": "bg-danger",
+            "options": [
+                { "value": "bg-primary", "label": "Primary" },
+                { "value": "bg-secondary", "label": "Secondary" },
+                { "value": "bg-success", "label": "Success" },
+                { "value": "bg-danger", "label": "Danger" },
+                { "value": "bg-info", "label": "Info" },
+                { "value": "bg-dark", "label": "Dark" },
+                { "value": "bg-warning text-body", "label": "Warning" },
+                { "value": "bg-light text-body", "label": "Light" },
+                { "value": "bg-white text-body", "label": "White" }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "progress_bg_color_success",
+            "label": "Progress bar success color",
+            "info": "Will change to this color when user add product to cart from the cross-sells",
+            "default": "bg-success",
+            "options": [
+                { "value": "bg-primary", "label": "Primary" },
+                { "value": "bg-secondary", "label": "Secondary" },
+                { "value": "bg-success", "label": "Success" },
+                { "value": "bg-danger", "label": "Danger" },
+                { "value": "bg-info", "label": "Info" },
+                { "value": "bg-dark", "label": "Dark" },
+                { "value": "bg-warning text-body", "label": "Warning" },
+                { "value": "bg-light text-body", "label": "Light" },
+                { "value": "bg-white text-body", "label": "White" }
+            ]
+        },
+        {
+            "type": "range",
+            "id": "progress_value",
+            "label": "Progress value (%)",
+            "min": 0,
+            "max": 100,
+            "default": 75
+        },
+        {
+            "type": "header",
+            "content": "Product image settings"
+        },
+        {
+            "type": "text",
+            "id": "image_width",
+            "label": "Image width (px)",
+            "default": "360"
+        },
+        {
+            "type": "text",
+            "id": "image_height",
+            "label": "Image height (px)",
+            "default": "360"
+        },
+        {
+            "type": "checkbox",
+            "id": "image_border",
+            "label": "Border",
+            "default": true
+        },
+        {
+            "type": "select",
+            "id":  "image_hover_effect",
+            "label": "Hover effect",
+            "default": "image-hover-shine",
+            "options": [
+                {
+                    "value": "image-hover", "label": "No effect"
+                },
+                {
+                    "value": "image-hover-fade-in", "label": "Fade in"
+                },
+                {
+                    "value": "image-hover-fade-out", "label": "Fade out"
+                },
+                {
+                    "value": "image-hover-scale-in", "label": "Scale in"
+                },
+                {
+                    "value": "image-hover-scale-out", "label": "Scale out"
+                },
+                {
+                    "value": "image-hover-flashing", "label": "Flashing"
+                },
+                {
+                    "value": "image-hover-shine", "label": "Shine"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

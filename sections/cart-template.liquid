@@ -1,0 +1,438 @@
+<div class="mt-8 container">
+
+  {% if cart.item_count > 0 %}
+
+    <form action="/cart" method="post" novalidate id="cart-form">
+
+      <div class="row">
+        <div class="col-lg-8">
+
+          <h1>{{ 'cart.general.title' | t }}</h1>
+          {% if section.settings.show_subtitle %}
+            <p class="text-muted">{{ 'cart.general.subtitle_html' | t }}</p>
+          {% endif %}
+          {% assign freeshipping = false %}
+          {%- for block in section.blocks -%}
+          {%- if block.type == 'free_shipping' -%}
+          {% assign freeshipping = true %}
+          {%- assign free_shipping_amount = block.settings.free_shipping_amount | times: 100 -%}
+          {%- assign cart_total = cart.total_price -%}
+          {%- assign remaining_amount = free_shipping_amount | minus: cart_total -%}
+          {%- assign free_shipping_lockedmsg = block.settings.free_shipping_lockedmsg -%}
+          {%- assign free_shipping_unlockedmsg = block.settings.free_shipping_unlockedmsg -%}
+          {%- assign free_ship_unlocked_style = block.settings.free_ship_unlocked_style -%}
+          {%- assign free_ship_locked_style = block.settings.free_ship_locked_style -%}
+          {%- render 'free-shipping' free_ship_locked_style:free_ship_locked_style, free_ship_unlocked_style:free_ship_unlocked_style, free_shipping_amount:free_shipping_amount, cart_total:cart_total, remaining_amount:remaining_amount, free_shipping_unlockedmsg:free_shipping_unlockedmsg, free_shipping_lockedmsg:free_shipping_lockedmsg  -%}
+          {%- endif -%}
+          {%- endfor -%}
+          <ul class="list-unstyled">
+            {% for item in cart.items %}
+              <li id="cart-item-{{ item.key | replace: ":", "_" }}" class="d-flex py-4 border-bottom cart-item" data-product-id="{{item.product.id}}">
+
+                {% if item.image != blank %}
+                  {% assign image_size = section.settings.image_width | append: 'x' | append: section.settings.image_height %}
+                  <a href="{{ item.url | within: collections.all }}" class="flex-shrink-0">
+                    <img class="img-fluid mr-3 {% if section.settings.image_border %}img-thumbnail{% endif %}" src="{{ item.image | img_url: image_size, crop: 'center'  }}" alt="{{ item.image.alt | escape }}" width="{{ section.settings.image_width }}" height="{{ section.settings.image_height }}">
+                  </a>
+                {% endif %}
+
+                <div class="flex-grow-1 mt-2">
+                  <h6>
+                    <a href="{{ item.url }}" class="theme-link-color">{{ item.product.title }}</a>
+                  </h6>
+
+                  <div
+                    class="cart-item-{{ item.key | replace: ":", "_" }}-price mt-1 mb-1 d-md-none"
+                    style="{{ settings.color_price | prepend: 'color: ' }}"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {{ item.line_price | money }}
+                  </div>
+
+                  {% unless item.product.has_only_default_variant %}
+                    <p class="mb-2 font-weight-bold">{{ item.variant.title }}</p>
+                  {% endunless %}
+          
+                  {% if section.settings.show_vendor %}
+                    <p class="text-muted">{{ item.vendor }}</p>
+                  {% endif %}
+
+                  {%- assign property_size = item.properties | size -%}
+                    
+                  {% if property_size > 0 %}
+                    {% for p in item.properties %}
+                      {% unless p.last == blank %}
+                      <span class="mb-0 font-weight-bold">{{ p.first }}:</span>
+
+                      {% if p.last contains '/uploads/' %}
+                        <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                      {% else %}
+                        {{ p.last }}<br>
+                      {% endif %}
+
+                      {% endunless %}
+                    {% endfor %}
+                  {% endif %}
+
+                  {% if section.settings.show_quantity %}
+                    <div class="input-group mt-3 mb-2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <label class="mb-0 text-muted small" for="updates_{{ item.key }}">
+                            {{ 'cart.label.qty' | t }}
+                          </label>
+                        </div>
+                      </div>
+                      <input
+                        class="form-control mr-2"
+                        size="10"
+                        type="number"
+                        name="updates[]"
+                        data-key="{{ item.key }}"
+                        value="{{ item.quantity }}"
+                        min="1"
+                        style="max-width: 60px"
+                        aria-label="{{ 'cart.label.quantity' | t }}"
+                      >
+                    </div>
+                  {% endif %}
+
+                  <a id="cart-item-{{ item.key | replace: ":", "_" }}-remove" class="small text-secondary text-decoration-underline" href="/cart/change?line={{ forloop.index }}&amp;quantity=0">
+                    {{ 'cart.general.remove' | t }}
+                  </a>
+
+                </div>
+
+                <div
+                  class="cart-item-{{ item.key | replace: ":", "_" }}-price mt-2 d-none d-md-block"
+                  style="{{ settings.color_price | prepend: 'color: ' }}"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {{ item.line_price | money }}
+                </div>
+
+              </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+
+        <div class="col-lg">
+
+          <div class="cart-summary mt-4 bg-light border rounded p-3 {% if section.settings.sticky_summary %}sticky-cart-summary{% endif %}">
+            <h2 class="h4 mb-3">{{ 'cart.general.summary' | t }} </h2>
+            {% if section.settings.note %}
+              <textarea rows="3" class="form-control mb-3" name="note" placeholder="{{ 'cart.general.note' | t }}" aria-label="{{ 'cart.general.note' | t }}">{{ cart.note }}</textarea>
+            {% endif %}
+            {% comment %}
+            <p class="cart-attribute__field">
+              <label>Delivery Option</label><br>
+              <input required class="required" type="radio" name="attributes[Delivery Option]" value="Local Pickup"{% if cart.attributes["Delivery Option"] == "Local Pickup" %} checked{% endif %}> <span>Local Pickup</span><br>
+              <input required class="required" type="radio" name="attributes[Delivery Option]" value="Deliver"{% if cart.attributes["Delivery Option"] == "Deliver" %} checked{% endif %}> <span>Deliver</span><br>
+            </p>
+            {% endcomment %}
+            {% for discount_application in cart.cart_level_discount_applications %}
+            Discount name: {{ discount_application.title }}
+            Savings: -{{ discount_application.total_allocated_amount | money }}
+            {% endfor %}
+            <p class="d-flex justify-content-between my-5">
+              <span>{{ 'cart.general.subtotal' | t }}</span>
+              <strong id="cart-subtotal">{{ cart.total_price | money }}</strong>
+            </p>
+            {% comment %}
+            <p class="d-none justify-content-between my-5 cart-discount-container">
+              <span>Discount</span>
+              <small id="cart-discount-code" class="text-muted"></small>
+              <strong id="cart-discount-amount"></strong>
+            </p>
+            
+            <p class="d-none justify-content-between my-5 cart-free-shipping">
+              <span>Shipping</span>
+              <strong id="free-shipping">{{ cart.currency.symbol }} 0.00</strong>
+            </p>
+            
+            <p class="d-none justify-content-between my-5 cart-discount-container">
+              <span>Total</span>
+              <strong id="cart-updated-total"></strong>
+            </p>
+            {% endcomment %}
+            {% if cart.total_discounts > 0 %}
+              <p>{{ 'cart.general.savings' | t }} {{ cart.total_discounts | money }}</p>
+            {% endif %}
+
+            <hr>
+
+            <p id="cart-text" class="text-muted text-center font-italic">{{ 'cart.general.shipping_at_checkout' | t }}</p>
+
+            <input type="submit" name="checkout" class="btn btn-primary btn-block" value="{{ 'cart.general.checkout' | t }}">
+
+            <noscript>
+              <input class="btn btn-link btn-block mt-2" type="submit" name="update" value="{{ 'cart.general.update' | t }}">
+            </noscript>
+
+          </div>
+
+        </div>
+
+      </div>
+    </form>
+
+  {% else %}
+    <h1>{{ 'cart.general.title' | t }}</h1>
+
+    {% comment %}
+    Cart empty state
+    {% endcomment %}
+<p class="text-muted">Your cart is currently empty. <a href="/">Continue browsing</a>.</p>
+
+    {% comment %}
+    Cart no cookies state
+    ---------------------
+    Browser cookies are required to use the cart. If cookies aren't enabled in the
+    browser a message is displayed prompting the user to enable them.
+    {% endcomment %}
+    <div class="supports-no-cookies">
+      <p class="alert alert-warning" role="alert">{{ 'cart.general.cookies_required' | t }}</p>
+    </div>
+  {% endif %}
+
+</div>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+	jQuery(document).ready(function($) {
+		// Update quantity for line items
+		$("input[name='updates[]']").on("keyup click", function() {
+			const qty = $(this).val()
+			const key = $(this).data('key')
+			// if (qty == 0) {
+			//   let result = confirm("Remove product from cart?")
+			//   if (!result) {
+			//     $("input[name='updates[]']").val(1)
+			//     return;
+			//   }
+			// }
+			jQuery.post('/cart/change.js', {
+				quantity: qty,
+				id: key
+			}, function(data) {
+				//console.log(data)
+				const subTotalPrice = data.items_subtotal_price
+				let itemPrice
+				if (subTotalPrice == 0)
+					location.reload()
+				data.items.forEach((item, i) => {
+					if (item.key == key)
+						itemPrice = item.final_line_price
+				});
+				$(`.cart-item-${key.replace(':', '_')}-price`).text(Shopify.formatMoney(itemPrice, ""))
+				$('#cart-subtotal').text(Shopify.formatMoney(subTotalPrice, ""))
+                {% if freeshipping %}
+				const free_shipping_bar = $("free_ship");
+				const free_shipping_message = $("free_ship").text().replace(/[^0-9\.]/g, '');
+				const free_shipping_data = $("#free-shipping").attr("data-amount-left");
+				const current_cart_amount = (subTotalPrice / 100);
+				const free_shipping_update = (free_shipping_data - current_cart_amount);
+				const unlocked_message = $("#free-shipping").attr("data-unclocked");
+				const locked_message = $("#free-shipping").attr("data-locked");
+				if (free_shipping_bar.length) {
+					if (current_cart_amount < free_shipping_data) {
+						$("#free-shipping").html(locked_message);
+						$("free_ship").text("$ " + free_shipping_update);
+					} else {
+						$("#free-shipping").html(unlocked_message);
+                      $(".cart-free-shipping").removeClass("d-none").addClass("d-flex");
+                      $("#cart-text").text("taxes calculated at checkout");
+					}
+				}
+              {% endif %}
+			}, 'json')
+		});
+	})
+})
+</script>
+
+{% javascript %}
+jQuery(document).ready(function ($) {
+
+  // Sticky summary
+  let header = $('#shopify-section-header')
+  let top = 20
+
+  if($(header).css('position') == 'sticky') {
+    top += header.outerHeight()
+  }
+
+  $('.sticky-cart-summary').css({
+    'position': 'sticky',
+    'top': top,
+    'z-index': 1019
+  })
+
+})
+{% endjavascript %}
+
+{% schema %}
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_subtitle",
+        "label": "Show subtitle",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "note",
+        "label": "Show note field",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity",
+        "label": "Show quanity",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_summary",
+        "label": "Sticky summary",
+        "info": "Fix summary details when page scrolls. Not applicable on mobile view",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Product image settings"
+      },
+      {
+        "type": "text",
+        "id": "image_width",
+        "label": "Image width (px)",
+        "default": "160"
+      },
+      {
+        "type": "text",
+        "id": "image_height",
+        "label": "Image height (px)",
+        "default": "160"
+      },
+      {
+        "type": "checkbox",
+        "id": "image_border",
+        "label": "Border",
+        "default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "free_shipping",
+        "name": "Free shipping",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "free_shipping_amount",
+            "label": "Purchase price to unclock free shipping"
+          },
+          {
+            "type": "text",
+            "id": "fontawesomeicon",
+            "label": "Icon",
+            "info": "Icons are from Fontawesome [Learn more](https://fontawesome.com/icons?d=gallery&m=free)"
+          },
+          {
+            "type": "richtext",
+            "id": "free_shipping_lockedmsg",
+            "label": "Message for unlocking free shipping",
+            "info": "Adjust where the cost shows up and use [amount] example 'Only [amount] away from free shipping'",
+            "default": "<p>You're only [amount] away from free shipping</p>"
+          },
+         {
+          "type": "select",
+          "id": "free_ship_locked_style",
+          "label": "Message goal color style",
+          "default": "alert-secondary",
+          "options": [
+            {
+              "value": "alert-primary", "label": "Primary"
+            },
+            {
+              "value": "alert-secondary", "label": "Secondary"
+            },
+            {
+              "value": "alert-success", "label": "Success"
+            },
+            {
+              "value": "alert-danger", "label": "Danger"
+            },
+            {
+              "value": "alert-warning", "label": "Warning"
+            },
+            {
+              "value": "alert-info", "label": "Info"
+            },
+            {
+              "value": "alert-light", "label": "Light"
+            },
+            {
+              "value": "alert-dark", "label": "Dark"
+            }
+          ]
+         },
+          {
+            "type": "richtext",
+            "id": "free_shipping_unlockedmsg",
+            "label": "Message that they've unlocked free shipping",
+            "default": "<p>You've unlocked free shipping!</p>"
+          },
+         {
+          "type": "select",
+          "id": "free_ship_unlocked_style",
+          "label": "Message unlocked color style",
+          "default": "alert-primary",
+          "options": [
+            {
+              "value": "alert-primary", "label": "Primary"
+            },
+            {
+              "value": "alert-secondary", "label": "Secondary"
+            },
+            {
+              "value": "alert-success", "label": "Success"
+            },
+            {
+              "value": "alert-danger", "label": "Danger"
+            },
+            {
+              "value": "alert-warning", "label": "Warning"
+            },
+            {
+              "value": "alert-info", "label": "Info"
+            },
+            {
+              "value": "alert-light", "label": "Light"
+            },
+            {
+              "value": "alert-dark", "label": "Dark"
+            }
+          ]
+         }
+        ]
+      }
+    ]
+  }
+  
+{% endschema %}

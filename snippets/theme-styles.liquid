@@ -1,0 +1,79 @@
+<style>
+    {{ settings.font_heading | font_face: font_display: 'swap'  }}
+    {{ settings.font_body | font_face: font_display: 'swap' }}
+
+    :root {
+      --color-primary: {{ settings.color_primary }};
+      --color-secondary: {{ settings.color_secondary }};
+
+      --color-body-bg: {{ settings.color_body_bg }};
+      --color-body-text: {{ settings.color_body_text }};
+      --color-heading: {{ settings.color_heading }};
+      --color-link: {{ settings.color_link }};
+      --color-link-hover: {{ settings.color_link_hover }};
+
+      --color-btn-primary: {{ settings.color_btn_primary }};
+      --color-btn-primary-hover: {{ settings.color_btn_primary_hover }};
+      --color-btn-secondary: {{ settings.color_btn_secondary }};
+      --color-btn-secondary-hover: {{ settings.color_btn_secondary_hover }};
+
+      --color-price: {{ settings.color_price }};
+      --color-sale: {{ settings.color_on_sale }};
+      --color-reviews-background: #000000;
+      --color-reviews-text: #ffffff;
+      --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      --nav-bar-background-custom: {{ settings.nav-bar-background-custom }}{{ settings.nav-bar-custom-transparent }};
+      --nav-bar-background-dropdown-custom: {{ settings.nav-bar-background-custom }};
+      --nav-bar-background-custom-blur: blur({{ settings.nav-bar-background-custom-blur }}px);
+      --nav-bar-navlink-color: {{ settings.nav-bar-navlink-color }};
+      --nav-bar-navlink-color-hover: {{ settings.nav-bar-navlink-color-hover }};
+
+    }
+.uploadkit-button {
+    display: inline-block !important;
+    font-weight: 400 !important;
+    color: #fff !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    border: 1px solid {{ settings.color_btn_primary }} !important;
+    padding: .375rem .75rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    border-radius: .25rem !important;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+    background:{{ settings.color_btn_primary }} !important;
+}
+      .uploadkit-button:hover {
+    display: inline-block !important;
+    font-weight: 400 !important;
+    color: #fff !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    border: 1px solid transparent{{ settings.color_btn_primary_hover }} !important;
+    padding: .375rem .75rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    border-radius: .25rem !important;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+    background:{{ settings.color_btn_primary_hover }} !important;
+}
+  </style>
+
+ <link
+   href="{{ 'theme.min.css' | asset_url }}"
+   rel="stylesheet"
+ />
+{% if settings.css_custom != blank %}
+<style>
+{{settings.css_custom}}
+</style>
+{% endif %}

@@ -1,0 +1,688 @@
+{% assign admin = false %}
+{% if customer %}
+{% if customer.tags contains 'Admin' %}
+{% assign admin = true %}
+{% endif %}
+{% endif %}
+{% if admin %}
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Orders to PDF</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <style>
+         #shopify-section-header {
+         display: none !important;
+         }
+         #shopify-section-footer {
+         display: none !important;
+         }
+         .isSelected {
+         border: 3px solid #1976d2 !important;
+         }
+         .notSelected {
+         border: 3px solid #ff0000 !important;
+         }
+         .invoice-title h2 {
+         margin-top: 4px !important;
+         }
+         .item-count-badge {
+         background-color: #1876d2 !important;
+         }
+         .item-count-li {
+         padding-top: 14px;
+         }
+         .sku-badge {
+         background: #f5f5f5;
+         color: black;
+         border-radius: 3px;
+         padding-top: 2px;
+         padding-bottom: 2px;
+         padding-right: 3px;
+         padding-left: 4px;
+         font-size: smaller;
+         font-weight: bolder;
+         margin-right: 3px;
+         width: fit-content;
+         max-width: 88px;
+         display: inline;
+         border: 1px solid #d6d6d6;
+         }
+         .list-group {
+         margin-bottom: 0px !important;
+         }
+         /* 
+         .product-image {
+         margin-top: 4% !important;
+         } */
+         .list-group-item {
+         white-space: nowrap;
+         }
+         .product_card {
+         max-height: 680px !important;
+         }
+         .invoice-title {
+         text-align: left;
+         }
+         .download-button-li {
+         margin-left: 8px;
+         padding-top: 7px;
+         }
+         #hidden_container {
+         display: none;
+         }
+         #hidden_value {
+         display: none;
+         }
+         .img-thumbnail {
+         width: 350px !important;
+         height: 350px !important;
+         }
+         .animated-background {
+         -webkit-animation-duration: 1.25s;
+         animation-duration: 1.25s;
+         -webkit-animation-fill-mode: forwards;
+         animation-fill-mode: forwards;
+         -webkit-animation-iteration-count: infinite;
+         animation-iteration-count: infinite;
+         -webkit-animation-name: placeHolderShimmer;
+         animation-name: placeHolderShimmer;
+         -webkit-animation-timing-function: linear;
+         animation-timing-function: linear;
+         background: #F6F6F6;
+         background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+         background-size: 800px 104px;
+         height: 96px;
+         position: relative;
+         }
+         @-webkit-keyframes placeHolderShimmer {
+         0% {
+         background-position: -468px 0;
+         }
+         100% {
+         background-position: 468px 0;
+         }
+         }
+         @keyframes placeHolderShimmer {
+         0% {
+         background-position: -468px 0;
+         }
+         100% {
+         background-position: 468px 0;
+         }
+         }
+         #order_results {
+         margin-top: 60px;
+         }
+         .navbar {
+         position: fixed !important;
+         width: 100%;
+         z-index: 2;
+         }
+         #messageus_button {
+         display: none;
+         }
+         .loading {
+         height: 100%;
+         width: 100%;
+         position: fixed;
+         background: #000000e6;
+         z-index: 9;
+         }
+         .loading-text {
+         text-align: center;
+         position: fixed;
+         top: 30%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         color: white;
+         font-size: 8rem;
+         }
+         [class*="loader-"] {
+         display: inline-block;
+         width: 1em;
+         height: 1em;
+         color: inherit;
+         vertical-align: middle;
+         pointer-events: none;
+         }
+         .loader-01 {
+         border: .2em dotted currentcolor;
+         border-radius: 50%;
+         animation: 1s loader-01 linear infinite;
+         }
+         @keyframes loader-01 {
+         0% {
+         transform: rotate(0deg);
+         }
+         100% {
+         transform: rotate(360deg);
+         }
+         }
+         ////////////////////////////////////////
+         .loader-02 {
+         border: .2em solid transparent;
+         border-left-color: currentcolor;
+         border-right-color: currentcolor;
+         border-radius: 50%;
+         animation: 1s loader-02 linear infinite;
+         }
+         .loader-42 {
+         width: 2em;
+         height: .66em;
+         border: .05em currentcolor solid;
+         border-radius: .1em;
+         background: linear-gradient(-60deg, transparent 0%, transparent 50%, currentcolor 50%, currentcolor 75%, transparent 75%, transparent);
+         background-size: 1em 2em;
+         background-position: 0 0;
+         animation: loader-42 0.8s infinite linear;
+         }
+         @keyframes loader-42 {
+         from { background-position: 0 0; }
+         to { background-position: -2em 0; }
+         }
+         .loader-20 {
+         background-color: transparent;
+         box-shadow: inset 0px 0px 0px 0.1em currentcolor;
+         border-radius: 50%;
+         position: fixed;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         color: white;
+         width: 250px;
+         height: 250px;
+         }
+         .loader-20:after, .loader-20:before {
+         position: absolute;
+         content: "";
+         background-color: currentcolor;
+         top: 50%;
+         left: 50%;
+         height: 0.1em;
+         transform-origin: left center;
+         }
+         .loader-20:after {
+         width: 116px;
+         -webkit-animation: loader-20 8s linear infinite;
+         animation: loader-20 8s linear infinite;
+         }
+         .loader-20:before {
+         width: 60px;
+         -webkit-animation: loader-20 11s linear infinite;
+         animation: loader-20 11s linear infinite;
+         }
+         @-webkit-keyframes loader-20 {
+         0% {
+         transform: rotate(0deg);
+         }
+         100% {
+         transform: rotate(360deg);
+         }
+         }
+         @keyframes loader-20 {
+         0% {
+         transform: rotate(0deg);
+         }
+         100% {
+         transform: rotate(360deg);
+         }
+         }
+        .noclick {
+         pointer-events: none;
+        }
+        .ordertype a span.open {
+          background:#ffea8a !important;
+          color:#202223 !important;
+          text-transform:capitalize !important;
+              display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 10px;
+        }
+        .ordertype a span.any {
+          background: #aee9d1 !important;
+          color:#202223 !important;
+          text-transform:capitalize !important;
+              display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 10px;
+        }
+        .ordertype a span.closed {
+         background:#e4e5e7 !important;
+         color:#202223 !important;
+          text-transform:capitalize !important;
+              display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 10px;
+        }
+        .ordertype a span.cancelled {
+          background:#e4e5e7 !important;
+          color:#202223 !important;
+          text-transform:capitalize !important;
+              display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 10px;
+        }
+      </style>
+   </head>
+   <body>
+      <div class="loading" id="loader">
+         <h1 class="loading-text">loading</h1>
+         <div class="loader-20">
+         </div>
+      </div>
+      <nav class="navbar navbar-default">
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                  data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <a class="navbar-brand" href="https://bluelionproducts.com">
+               <img class="img-responsive w-50"
+                  src="//cdn.shopify.com/s/files/1/0059/6823/2501/files/BLUE_LION_LONG_7105b6a4-83da-4af1-9ed5-3fba3b0a615a_x50.png?v=1573609263"
+                  style="width: 60%;">
+               </a>
+            </div>
+            <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false"
+               style="height: 1px;">
+               <ul class="nav navbar-nav navbar-left">
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false">Order Type<span class="caret"></span></a>
+                     <ul class="dropdown-menu">
+                        <li><a class="filter" data-filter="any" href="#" data-selected="unselected">any</a></li>
+                        <li><a class="filter" data-filter="open" href="#" data-selected="selected">open</a></li>
+                        <li><a class="filter" data-filter="closed" href="#" data-selected="unselected">closed</a></li>
+                        <li><a class="filter" data-filter="cancelled" href="#" data-selected="unselected">cancelled</a></li>
+                     </ul>
+                  </li>
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false"># of orders to show<span class="caret"></span></a>
+                     <ul class="dropdown-menu">
+                        <li><a class="limiter" data-limit="10" href="#" data-selected="selected">10</a></li>
+                        <li><a class="limiter" data-limit="15" href="#" data-selected="unselected">15</a></li>
+                        <li><a class="limiter" data-limit="25" href="#" data-selected="unselected">25</a></li>
+                        <li><a class="limiter" data-limit="45" href="#" data-selected="unselected">45</a></li>
+                        <li><a class="limiter" data-limit="65" href="#" data-selected="unselected">65</a></li>
+                        <li><a class="limiter" data-limit="85" href="#" data-selected="unselected">85</a></li>
+                        <li><a class="limiter" data-limit="250" href="#" data-selected="unselected">250</a></li>
+                     </ul>
+                  </li>
+                 <li class="ordertype"><a class="noclick" href="#"><span>Order Type Loaded: </span> <span class="open" id="order_type_loaded">Open</span></a></li>
+               </ul>
+               <ul class="nav navbar-nav navbar-right">
+                  <li class="item-count-li">Selected <span id="nav-items-selected" class="badge">0</span></li>
+                  <!-- <li class="download-button-li"><button id="generate" class="btn btn-primary">Generate</button></li> -->
+                  <li class="download-button-li">
+                     <!--                     <form id="ajax_send"> -->
+                     <div id="hidden_container"></div>
+                     <input type="text" id="hidden_value" name="html" value="">
+                     <!--                     <input type="submit" id="download" class="btn btn-primary" value="Download"> -->
+                     <!--                     </form> -->
+                     <button id="download" class="btn btn-primary">
+                        <div class="loader-01" id="download_pdf"></div>
+                        <div id="download_pdf_text">Download</div>
+                     </button>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+      <div class="container" id="container">
+         <!--       <textarea id="resulttext" style="width:100%;height350px;"></textarea> -->
+         <div class="row" id="order_results">
+         </div>
+         <div id="pdfviewer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+               <div class="modal-content">
+                  <iframe id="pdf_iframe" src="#" width="100%" height="90%">
+                  </iframe>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+         crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.0/js/bootstrap.min.js"
+         integrity="sha512-zPB3MveoWKlmrDNTKAPTx3h+QUsp8XLXF/6CoqIGd0DtNtp6y5n9REgwc72Ux16JElSOxyAhii/CNoiLedErfA=="
+         crossorigin="anonymous"></script>
+      <script>
+         $(document).ready(function() {
+             status = 'open';
+             orderammount = '10';
+             selected_orders = 0;
+             $('#download_pdf').hide();
+             function renderhtml(target, sku, order_number, first_name, last_name, prod_image, title, qty, variant_id) {
+                 var orderid = order_number.replace('#', '');
+                 html = `
+         <div data-target="` + target + `" class="product_card col-md-12 panel panel-default well notSelected">
+                         <div id="captureme">
+                             <div class="row">
+                                 <div class="col-md-12 text-center">
+                                     <div class="invoice-title">
+                                         <h2>Order</h2>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="row product-image">
+                                 <div class="col-md-12 text-center">
+                                     <img id="` + orderid + variant_id + `" data-product-id="` + target + `" data-variant-id="` + variant_id + `" src="` + prod_image + `" class="` + orderid + variant_id + ` animated-background img-responsive img-thumbnail">
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <ul class="list-group">
+                                        <li class="list-group-item">
+                                             <div class="sku-badge">
+                                                 Title
+                                             </div>
+                                             ` + title + `
+                                         </li>
+                                         <li class="list-group-item">
+                                             <div class="sku-badge">
+                                                 SKU
+                                             </div>
+                                             ` + sku + `
+                                         </li>
+                                         <li class="list-group-item">
+                                             <div class="sku-badge">
+                                                 Order Number
+                                             </div>
+                                             ` + order_number + `
+                                         </li>
+                                         <li class="list-group-item">
+                                             <div class="sku-badge">
+                                             Engraving 
+                                             </div>
+                                             MY CUSTOM TEXT
+                                         </li>
+                                         <li class="list-group-item">
+                                             <div class="sku-badge">
+                                             Quantity 
+                                             </div>
+                                             ` + qty + `
+                                         </li>
+                                         <li class="list-group-item">
+                                             <div class="sku-badge">
+                                                 Customer
+                                             </div>
+                                             ` + first_name + ` ` + last_name + `
+                                         </li>
+                                     </ul>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+         `
+                 $('#order_results').append(html);
+         
+             }
+         
+             function checkimages() {
+                 $('img.img-thumbnail').each(function() {
+                     var image = $(this).attr('id');
+                     if ($('.' + image).attr('data-product-id') != 'null') {
+                         var variant_id = $('.' + image).attr('data-variant-id');
+                         var product_id = $('.' + image).attr('data-product-id');
+         
+                         $.ajax({
+                             url: "https://api.ecomgraduates.com/bluelion/portal/images.php?auth=293c8cc4a44a832c1d9505566930e024&d=bluelionproducts.com&vid=" + variant_id,
+                             type: 'GET',
+                             dataType: 'json',
+                             async: false,
+                             cache: false,
+                             timeout: 30000,
+                             success: function(res) {
+                                 console.log(res.variant.image_id);
+                                 var image_image = res.variant.image_id;
+                               if (image_image) {
+                                 $.ajax({
+                                     url: "https://api.ecomgraduates.com/bluelion/portal/variantimage.php?auth=293c8cc4a44a832c1d9505566930e024&d=bluelionproducts.com&id=" + product_id + "&imgid=" + image_image,
+                                     type: 'GET',
+                                     dataType: 'json',
+                                     async: false,
+                                     cache: false,
+                                     timeout: 30000,
+                                     success: function(res) {
+                                         var prod_image_url = res.image.src;
+                                         var prod_image = prod_image_url.replace(".jpg", "_340x340.jpg");
+                                         var image_target = document.getElementById(image);
+                                         image_target.src = prod_image;
+                                         console.log('updated image');
+                                         $('.' + image).removeClass('animated-background');
+         
+                                     }
+                                 });
+         
+                            
+                         } else {
+                                
+                 $.ajax({
+                     url: "https://api.ecomgraduates.com/bluelion/portal/product.php?auth=293c8cc4a44a832c1d9505566930e024&d=bluelionproducts.com&id=" + product_id,
+                     type: 'GET',
+                     dataType: 'json',
+                     success: function(res) {
+                                         var prod_image_url = res.product.images[0].src;
+                                         var prod_image = prod_image_url.replace(".jpg", "_340x340.jpg");
+                                         var image_target = document.getElementById(image);
+                                         image_target.src = prod_image;
+                                         console.log('updated image');
+                                         $('.' + image).removeClass('animated-background');
+                         
+         
+         
+                     }
+                 });
+                                }
+                             }
+                         });
+         
+                     } else if ($('#' + image).attr('data-product-id') == "null") {
+                       var prod_image = "https://cdn.shopify.com/s/files/1/0059/6823/2501/files/noimage.png?v=1611681573";
+                               var image_target = document.getElementById(image);
+                                         image_target.src = prod_image;
+                                         $('.' + image).attr('src', prod_image);
+                                         console.log('is null');
+                                         $('.' + image).removeClass('animated-background');
+                     } else {
+                      var prod_image = "https://cdn.shopify.com/s/files/1/0059/6823/2501/files/noimage.png?v=1611681573";
+                               var image_target = document.getElementById(image);
+                                         image_target.src = prod_image;
+                                         console.log('updated image');
+                                         $('.' + image).removeClass('animated-background');
+                                         $('.' + image).removeClass('animated-background');
+                     } 
+                 });
+               
+               $('#loader').hide();
+         
+             }
+         
+             function updateItemCountBadge(badge_count) {
+                 if (badge_count > 0) {
+                     $('#nav-items-selected').addClass('item-count-badge');
+                 } else {
+                     $('#nav-items-selected').removeClass('item-count-badge');
+                 }
+             }
+         
+             function GetProductImages(id, vid) {
+                 var variant_image_id = vid;
+                 $.ajax({
+                     url: "https://api.ecomgraduates.com/bluelion/portal/images.php?auth=293c8cc4a44a832c1d9505566930e024&d=bluelionproducts.com&id=" + id,
+                     type: 'GET',
+                     dataType: 'json',
+                     success: function(res) {
+                         console.log(res.images);
+         
+         
+                     }
+                 });
+             }
+         
+             function parseOrders(data) {
+                 $.each(data, function(x, xitem) {
+                     $.each(xitem.line_items, function(i, item) {
+                         var target = item.product_id;
+                         var sku = item.sku;
+                         var order_number = xitem.name;
+                         var first_name = xitem.customer.first_name;
+                         var last_name = xitem.customer.last_name;
+                         var title = item.title;
+                         var qty = item.quantity;
+                         var prod_image = 'https://cdn.shopify.com/s/files/1/0059/6823/2501/files/loading.png?v=1611554964';
+                         var variant_id = item.variant_id;
+                         var product_id = item.product_id;
+                         renderhtml(target, sku, order_number, first_name, last_name, prod_image, title, qty, variant_id);
+                         //GetProductImages(target,variant_id);
+                     });
+                 });
+                 setTimeout(function() {
+                   $('#loader').show();
+                     checkimages();
+                 }, 1000);
+             }
+         
+             $('body').on('click', '.product_card', function() {
+                 if ($(this).hasClass('notSelected')) {
+                     $(this).removeClass('notSelected').addClass('isSelected');
+                     selected_orders++
+                     $('#nav-items-selected').text(selected_orders);
+                     updateItemCountBadge(selected_orders);
+                 } else {
+                     $(this).removeClass('isSelected').addClass('notSelected');
+                     selected_orders--
+                     $('#nav-items-selected').text(selected_orders);
+                     updateItemCountBadge(selected_orders);
+                 }
+             });
+         
+             $('.filter').click(function(status) {
+                 status = $(this).attr("data-filter");
+                 $("#order_type_loaded").attr('class', '');
+               $("#order_type_loaded").attr('class', status);
+               $("#order_type_loaded").text(status);
+                 $.ajax({
+                     url: "https://api.ecomgraduates.com/bluelion/portal/form.php?auth=293c8cc4a44a832c1d9505566930e024&d=bluelionproducts.com&l=" + orderammount + "&s=" + status,
+                     type: 'GET',
+                     dataType: 'json', // added data type
+                     success: function(res) {
+                         $('#order_results').empty();
+                         parseOrders(res.orders);
+                         console.log(res.orders);
+         
+                     }
+                 });
+             });
+         
+             $('.limiter').click(function(orderammount) {
+                 orderammount = $(this).attr("data-limit");
+                 $.ajax({
+                     url: "https://api.ecomgraduates.com/bluelion/portal/form.php?auth=293c8cc4a44a832c1d9505566930e024&d=bluelionproducts.com&l=" + orderammount + "&s=" + status,
+                     type: 'GET',
+                     dataType: 'json',
+                     success: function(res) {
+                         $('#order_results').empty();
+                         parseOrders(res.orders);
+                         //console.log(res.orders);
+         
+                     }
+                 });
+             });
+         
+             $.ajax({
+                 url: "https://api.ecomgraduates.com/bluelion/portal/form.php?auth=293c8cc4a44a832c1d9505566930e024&d=bluelionproducts.com&l=" + orderammount + "&s=" + status,
+                 type: 'GET',
+                 dataType: 'json',
+                 success: function(res) {
+                     //console.log(res);
+                     parseOrders(res.orders);
+                 }
+             });
+         
+             function GetPDF(HtmlData) {
+                 $.ajax({
+                     url: "https://api.ecomgraduates.com/bluelion/portal/render.php",
+                     type: 'POST',
+                     data: {
+                         html: HtmlData
+                     },
+                     dataType: 'json',
+                     success: function(pdf) {
+                         //console.log("url->",pdf);
+                        $('#download_pdf_text').text('Download');
+                       $('#pdf_iframe').attr('src', pdf);
+                       $('#download_pdf').hide();
+                         //window.open(pdf, '_blank');
+                       $('#pdfviewer').modal('show');
+         
+                     }
+                 });
+             }
+         
+             $('#download').click(function() {
+               $('#download_pdf').show();
+               $('#download_pdf_text').text('Generating');
+                 $("#hidden_container").empty();
+                 $(".product_card").each(function() {
+                     var blocks_selected = $(this).hasClass('isSelected');
+                     console.log(blocks_selected);
+                     if (blocks_selected) {
+                         var html = $(this)[0].outerHTML;
+                         $('#html_code_container').append(html);
+                         var all_pages = $('#hidden_container').html();
+                         console.log(all_pages);
+                         console.log(html);
+                         $('#hidden_container').append(html);
+                     } else {
+                         console.log('error');
+                     }
+         
+                 });
+                 var all_pages = $('#hidden_container').html();
+                 GetPDF(all_pages);
+             });
+
+         });
+             
+      </script>
+   </body>
+</html>
+{% else %}
+<b>Access Denied</b>
+{% endif %}

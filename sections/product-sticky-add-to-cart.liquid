@@ -1,0 +1,246 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+
+<div
+  id="sticky-add-to-cart"
+  class="py-3 {{ section.settings.background_color }} {% if section.settings.shadow %} shadow-sm{% endif %}"
+  aria-hidden="true">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+
+      {% if section.settings.show_image or section.settings.show_product_title %}
+        <div class="sticky-add-to-cart-title-wrapper d-flex align-items-center">
+          {% if section.settings.show_image %}
+            {% assign image_size = section.settings.image_width | append: 'x' | append: section.settings.image_height %}
+            <div class="
+              flex-shrink-0
+              position-relative
+              overflow-hidden
+              mr-3
+              {% if section.settings.image_border %}
+                img-thumbnail
+              {% else %}
+                rounded
+              {% endif %}
+            ">
+              <img
+                id="sticky-add-to-cart-img"
+                src="{{ featured_image.src | img_url: image_size, crop: 'center' }}"
+                alt="{{ featured_image.alt | escape }}">
+            </div>
+          {% endif %}
+          <div>
+            {% if section.settings.show_product_title %}
+              <h3 class="h5 mb-0">{{ product.title }}</h3>
+            {% endif %}
+            {% if section.settings.show_rating %}
+                <div class="d-none d-lg-block">
+                    <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                </div>
+            {% endif %}
+            <a
+                id="sticky-add-to-cart-variant-anchor"
+                href="#product-add-to-cart-form-area"
+                class="d-inline-block d-lg-none pt-1 text-decoration-none"
+                style="line-height: normal; color: {{ section.settings.price_color }}">
+
+                {% if product.has_only_default_variant %}
+                    {{ section.settings.default_variant_pretext }}
+                {% else %}
+                    <span id="sticky-add-to-cart-variant-anchor-title">
+                        {{ current_variant.title }}
+                    </span> - 
+                {% endif %}
+                    <span id="sticky-add-to-cart-variant-anchor-price">
+                        {{ current_variant.price | money }}
+                    </span>
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+
+      {% form 'product', product, id: 'sticky-add-to-cart-form', class: 'flex-shrink-0 mb-0 ml-3' %}
+
+        <div class="d-flex justify-content-center align-items-center">
+          {% if product.has_only_default_variant %}
+            <span class="mx-3 d-none d-lg-block lead" style="line-height: normal; color: {{ section.settings.price_color }}">
+                {{ section.settings.default_variant_pretext }}
+                {{ current_variant.price | money }}
+            </span>
+            <select
+                name="id"
+                class="d-none">
+                {% for variant in product.variants %}
+                    {% if variant.available %}
+                    <option
+                        value="{{ variant.id }}"
+                        {% if current_variant == variant %}selected{% endif %}
+                        data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}">
+                        {{ variant.title }} - {{ variant.price | money }}
+                    </option>
+                    {% else %}
+                    <option disabled="disabled" value="{{ variant.id }}"  data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}">
+                        {{ variant.title }} - {{ 'product.sold_out' | t }}
+                    </option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+        {% else %}
+        <select
+            name="id"
+            class="custom-select mr-2 d-none d-lg-block">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+                <option
+                    value="{{ variant.id }}"
+                    {% if current_variant == variant %}selected{% endif %}
+                    data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}">
+                  {{ variant.title }} - {{ variant.price | money }}
+                </option>
+              {% else %}
+                <option disabled="disabled" value="{{ variant.id }}"  data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}">
+                  {{ variant.title }} - {{ 'product.sold_out' | t }}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+          {% endif %}
+          <div class="form-group d-none">
+            <span class="sr-only">{{ 'product.quantity' | t }}</span>
+            <input
+                type="number"
+                class="add-to-cart-form-qty form-control"
+                size="20"
+                name="quantity"
+                value="1"
+                min="1"
+                {% unless product.available %}disabled{% endunless %}
+                aria-label="">
+          </div>
+
+            <button
+                class="add-to-cart-form-btn btn d-flex align-items-center justify-content-center flex-shrink-0 {{ settings.product_add_to_cart_form_btn_color }} {{ settings.product_add_to_cart_form_btn_variant }} {{ settings.product_add_to_cart_form_btn_size }}"
+                data-animate-class="{{ settings.product_add_to_cart_form_cart_icon_animation_class }}"
+                data-text-view-cart="{{ 'product.view_cart' | t }}"
+                data-text-added-to-cart="{{ 'product.added_to_cart' | t }}"
+                data-text-add-to-cart="{{ 'product.add_to_cart' | t }}"
+                data-text-sold-out="{{ 'product.sold_out' | t }}"
+                data-text-unavailable="{{ 'product.unavailable' | t }}"
+                data-text-loading="{{ 'misc.loading' | t }}"
+                type="submit"
+                name="add"
+                {% unless product.available %}disabled{% endunless %}>
+
+                    {% assign icon_class = 'add-to-cart-form-btn-cart-icon mr-2' %}
+
+                    {% case settings.product_add_to_cart_form_cart_icon %}
+                        {% when 'icon-shopping-bag' %}
+                            {% render 'icon-shopping-bag' with size: 20, class: icon_class %}
+                        {% when 'icon-shopping-basket' %}
+                            {% render 'icon-shopping-basket' with size: 20, class: icon_class %}
+                        {% when 'icon-shopping-minecart' %}
+                            {% render 'icon-shopping-minecart' with size: 20, class: icon_class %}
+                        {% else %}
+                            {% render 'icon-shopping-cart' with size: 20, class: icon_class %}
+                    {% endcase %}
+
+                <span
+                    class="add-to-cart-form-btn-spinner spinner-border spinner-border-sm mr-2"
+                    role="status"
+                    aria-hidden="true"
+                    style="display: none;">
+                </span>
+
+                <span class="add-to-cart-form-btn-text">
+                    {{ 'product.add_to_cart' | t }}
+                </span>
+            </button>
+        </div>
+      {% endform %}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sticky Add to Cart",
+  "settings": [
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        {
+          "value": "bg-white text-muted border-bottom", "label": "White"
+        },
+        {
+          "value": "bg-light text-muted border-bottom", "label": "Light"
+        },
+        {
+          "value": "bg-dark text-white", "label": "Dark"
+        },
+        {
+          "value": "bg-primary text-white", "label": "Primary"
+        }
+      ],
+      "default": "bg-dark text-white"
+    },
+    {
+      "type": "checkbox",
+      "id": "shadow",
+      "label": "Shadow",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show product image",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "image_with",
+      "label": "Image width (px)",
+      "default": "48"
+    },
+    {
+      "type": "text",
+      "id": "image_height",
+      "label": "Image height (px)",
+      "default": "48"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_border",
+      "label": "Image border",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_title",
+      "label": "Show product title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating",
+      "default": true
+    },
+    {
+        "type": "color",
+        "id": "price_color",
+        "label": "Price color",
+        "default": "#00E676"
+    },
+    {
+        "type": "text",
+        "id": "default_variant_pretext",
+        "label": "Default variant pretext",
+        "default": "Only:"
+    }
+  ]
+}
+{% endschema %}

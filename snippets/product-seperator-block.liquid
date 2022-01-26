@@ -1,0 +1,6 @@
+<div class="{% if block.settings.container %} container {% else %} container-fluid {% endif %}">
+  <hr 
+    class="{{ block.settings.margin_top | prepend: 'mt-' }} {{ block.settings.margin_bottom | prepend: 'mb-' }}" 
+    style="{{ block.settings.color | prepend: 'border-color: ' }}"
+  >
+</div>

@@ -1,0 +1,18 @@
+{% if cart_total >= free_shipping_amount  %}
+<div class="alert {{free_ship_unlocked_style}}" role="alert" id="free-shipping">
+  {% assign un_locked_message = free_shipping_unlockedmsg | replace: "<p", '<p class="text-center pb-0 pt-0 mb-0 mt-0"' %}
+  {{un_locked_message}}
+</div>
+{% else %}
+{% assign total_left = remaining_amount | money | prepend: "<free_ship>" | append: "</free_ship>" %}
+{% assign locked_message = free_shipping_lockedmsg | replace: "[amount]", total_left | replace: "<p", '<p id="free-shipping-ammount" class="text-center pb-0 pt-0 mb-0 mt-0"' %} 
+<div class="alert 
+     {{free_ship_locked_style}}" 
+     role="alert" 
+     id="free-shipping" 
+     data-amount-left="{{free_shipping_amount | divided_by: 100 }}" 
+     data-unclocked="{{free_shipping_unlockedmsg| replace: "<p", '<p class="text-center pb-0 pt-0 mb-0 mt-0"' | escape }}"
+     data-locked="{{locked_message | escape }}">
+  {{locked_message}}
+</div>
+{% endif %}

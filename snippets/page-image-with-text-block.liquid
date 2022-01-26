@@ -1,0 +1,52 @@
+<div class="row align-items-center {{ block.settings.image_alignment }}">
+    <div class="col{{ block.settings.breakpoint }} mb-3">
+      {% if block.settings.button_label != blank and block.settings.button_link != blank %}
+      <a href="{{ block.settings.button_link }}" class="d-inline-block text-decoration-none text-center">
+        {% endif %}
+        <div class="
+          position-relative
+          overflow-hidden
+          {% if block.settings.image_border %}img-thumbnail{% endif %}
+          {% if block.settings.image_circle %}rounded-circle{% endif %}
+          {{ block.settings.image_hover_effect }}
+        ">
+          {% if block.settings.image != blank %}
+          {% assign image_size = block.settings.image_width | append: 'x' | append: block.settings.image_height %}
+          <img class="img-fluid lazyload {% if block.settings.image_circle %}rounded-circle{% endif %}"
+            src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+            data-src="{{ block.settings.image | img_url: image_size, crop: 'center'  }}"
+            alt="{{ block.settings.image.alt | escape }}" width="{{ block.settings.image_width }}"
+            height="{{ block.settings.image_height }}" loading="lazy">
+          {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg bg-light' }}
+          {% endif %}
+        </div>
+        {% if block.settings.button_label != blank and block.settings.button_link != blank %}
+      </a>
+      {% endif %}
+    </div>
+    <div class="col{{ block.settings.breakpoint }}">
+      {% if block.settings.subheading != blank %}
+      <{{ block.settings.subheading_size }}
+        class="{% if block.settings.submute %}text-muted{% endif %} {{ block.settings.sub_margin_bottom | prepend: 'mb-' }} {{ block.settings.sub_letter_spacing | prepend: 'letter-spacing-' }}">
+        {{ block.settings.subheading | escape }}
+      </{{ block.settings.subheading_size }}>
+      {% endif %}
+      {% if block.settings.heading != blank %}
+      <{{ block.settings.heading_size }} class="">
+        {{ block.settings.heading | escape }}
+      </{{ block.settings.heading_size }}>
+      {% endif %}
+
+      {% if block.settings.content != blank %}
+      <div class="rte mb-4">{{ block.settings.content }}</div>
+      {% endif %}
+
+      {% if block.settings.button_label != blank and block.settings.button_link != blank %}
+      <a href="{{ block.settings.button_link }}"
+        class="btn {{ block.settings.btn_color }} {{ block.settings.btn_variant }} {{ block.settings.btn_size }} {{block.settings.btn_effect}} {% if block.settings.btn-block %}btn-block{% endif %}">
+        {{ block.settings.button_label | escape }}
+      </a>
+      {% endif %}
+    </div>
+  </div>

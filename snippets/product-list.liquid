@@ -1,0 +1,282 @@
+{% assign allow_wholesale = false %}
+{% assign alt_purchase = false %}
+{% if customer %}
+{% if customer.tags != '' %}
+{% assign allow_wholesale = true %}
+      {% capture ctags %}
+      {{- customer.tags | split: ","  | replace: '"', "" | replace: "]", "" | replace: "[", "" | replace: "\", "" | replace: ",", "" | replace: "default_order", "" -}}
+      {% endcapture %}
+  {% assign show_collection = ctags | strip %}
+{% if customer.tags contains 'default_order' %}
+{% assign alt_purchase = true %}
+{% endif %}
+{% endif %}
+{% endif %}  
+<ul id="AjaxinateContainer" class="
+  product-list
+  list-unstyled
+  mx-n2
+  {{ section.settings.gutter_horizontal | prepend: 'mx-sm-n' }}
+  row
+  row-cols-{{ section.settings.row }}
+  row-cols-sm-{{ section.settings.row_sm }}
+  row-cols-md-{{ section.settings.row_md }}
+  row-cols-lg-{{ section.settings.row_lg }}
+  row-cols-xl-{{ section.settings.row_xl }}"
+>
+  {% if allow_wholesale %}
+  {% for product in product_list limit: section.settings.limit %}
+{% assign product_collection = product.collections.first %}
+    {% if product_collection.handle contains show_collection %}
+    {% if product.featured_image != blank %}
+      <li class="
+        product-item
+        pb-2
+        px-2
+        {{ section.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ section.settings.gutter_vertical | prepend: 'my-' }}
+        {% if section.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ product.url }}" class="theme-link-color d-block text-decoration-none">
+
+          <div class="
+            position-relative
+            overflow-hidden
+            mb-3
+            {% if section.settings.image_border %}img-thumbnail{% endif %}
+            {% if section.settings.image_circle %}rounded-circle{% endif %}
+            {{ section.settings.image_hover_effect }}
+          ">
+            {% assign image_size = section.settings.image_width | append: 'x' | append: section.settings.image_height %}
+            <img
+              class="product-item-img img-fluid lazyload {% if section.settings.image_circle %}rounded-circle{% endif %}"
+              src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+              {% if image_crop contains 'high_res_1' or image_crop contains 'high_res_2' or image_crop contains 'high_res_3' %}
+              {% assign resolution = image_crop | replace: "high_res_", "" %}
+              data-src="{{ product.featured_image | img_url: image_size, scale: resolution }}"
+              {% else %}
+              data-src="{{ product.featured_image | img_url: image_size, crop: image_crop  }}"
+              {% endif %}
+              alt="{{ product.featured_image.alt | escape }}"
+              width="{{ section.settings.image_width }}"
+              height="{{ section.settings.image_height }}"
+              loading="lazy"
+            >
+
+            {% if section.settings.show_discount_badge and product.compare_at_price > product.price %}
+              <small class="product-discount-badge badge-right" style="background-color: {{ settings.color_on_sale }}">
+                {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | money_without_currency | times: 100 | remove: '.0' | prepend: '-' | append: '%' }}
+              </small>
+            {% endif %}
+            {% if settings.wishlist_enable %}
+            {% assign product_handle = product.handle %}
+            {% render 'wishlist-button' product_handle:product_handle %}
+            {% endif %}
+          </div>
+
+          {% if section.settings.show_product_title %}
+            <p class="{{ section.settings.product_title_size }}  mb-{{section.settings.product_title_margin_bottom}}">
+              {{ product.title | escape }}
+            </p>
+          {% endif %}
+
+          {% if section.settings.show_price %}
+            <p class="{{ prod_margin_bottom | prepend: 'mb-' }}" style="color: {{ settings.color_price }}">
+              {% if product.compare_at_price > product.price %}
+                <s class="text-muted opacity-75 mr-1">{{ product.compare_at_price | money }}</s>
+                {% if product.price_varies %}
+                  {%- assign sale_price = product.price | money -%}
+                  {{ 'product.on_sale_from_html' | t: price: sale_price }}
+                {% else %}
+                  {{ 'product.on_sale' | t }}
+                  {{ product.price | money }}
+                {% endif %}
+              {% else %}
+                {% if product.price_varies and from %}
+                  {%- assign price = product.price | money -%}
+                  {{ 'product.from_text_html' | t: price: price }}
+                {% else %}
+                  {{ product.price | money }}
+                {% endif %}
+              {% endif %}
+            </p>
+          {% endif %}
+
+        </a>
+
+        <!-- Add to cart form -->
+        {% if section.settings.show_add_to_cart_form %}
+            {% render 'product-add-to-cart-form' with product: product, show_qty: section.settings.add_to_cart_form_show_qty, show_inventory: section.settings.add_to_cart_form_show_inventory %}
+        {% endif %}
+
+         <!-- Quick view -->
+         {% if section.settings.quick_view_enabled %}
+            <a
+                class="btn-quick-view btn {{ settings.product_quick_view_btn_color }} {{ settings.product_quick_view_btn_variant }} {{ settings.product_quick_view_btn_size }} mb-3"
+                href="{{ product.url | within: collection }}"
+                role="button"
+                data-text-quick-view="{{ 'product.quick_view' | t }}"
+                data-text-loading="{{ 'misc.loading' | t }}">
+                <span
+                    class="btn-quick-view-spinner spinner-border spinner-border-sm mr-2"
+                    role="status"
+                    aria-hidden="true"
+                    style="display: none;">
+                </span>
+                <span class="btn-quick-view-text text-uppercase">
+                    {{ 'product.quick_view' | t }}
+                </span>
+            </a>
+        {% endif %}
+
+      </li>
+    {% endif %}
+
+  {% else %}
+
+    {% for i in (1..section.settings.limit) %}
+      <li class="pb-4 px-2 my-3 text-center">
+        
+          <div class="overflow-hidden mb-3 img-thumbnail">
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light' }}
+          </div>
+          <h6>
+            {{ 'onboarding.product_title' | t }}
+          </h6>
+          <p class="mb-3" style="color: {{ settings.color_price }}">{{ 1999 | money }}</p>
+       
+      </li>
+    {% endfor %}
+{% endif %}
+  {% endfor %}
+  
+  {% else %}
+  
+  {% for product in product_list limit: section.settings.limit %}
+
+    {% if product.featured_image != blank %}
+      <li class="
+        product-item
+        pb-2
+        px-2
+        {{ section.settings.gutter_horizontal | prepend: 'px-sm-' }}
+        {{ section.settings.gutter_vertical | prepend: 'my-' }}
+        {% if section.settings.align_center %}text-center{% endif %}
+      ">
+        <a href="{{ product.url }}" class="theme-link-color d-block text-decoration-none">
+
+          <div class="
+            position-relative
+            overflow-hidden
+            mb-3
+            {% if section.settings.image_border %}img-thumbnail{% endif %}
+            {% if section.settings.image_circle %}rounded-circle{% endif %}
+            {{ section.settings.image_hover_effect }}
+          ">
+            {% assign image_size = section.settings.image_width | append: 'x' | append: section.settings.image_height %}
+            <img
+              class="product-item-img img-fluid lazyload {% if section.settings.image_circle %}rounded-circle{% endif %}"
+              src="{{ 'no-image.jpg' | asset_img_url: image_size, crop: 'center' }}"
+              {% if image_crop contains 'high_res_1' or image_crop contains 'high_res_2' or image_crop contains 'high_res_3' %}
+              {% assign resolution = image_crop | replace: "high_res_", "" %}
+              data-src="{{ product.featured_image | img_url: image_size, scale: resolution }}"
+              {% else %}
+              data-src="{{ product.featured_image | img_url: image_size, crop: image_crop  }}"
+              {% endif %}
+              alt="{{ product.featured_image.alt | escape }}"
+              width="{{ section.settings.image_width }}"
+              height="{{ section.settings.image_height }}"
+              loading="lazy"
+            >
+
+            {% if section.settings.show_discount_badge and product.compare_at_price > product.price %}
+              <small class="product-discount-badge badge-right" style="background-color: {{ settings.color_on_sale }}">
+                {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | money_without_currency | times: 100 | remove: '.0' | prepend: '-' | append: '%' }}
+              </small>
+            {% endif %}
+            {% if settings.wishlist_enable %}
+            {% assign product_handle = product.handle %}
+            {% render 'wishlist-button' product_handle:product_handle %}
+            {% endif %}
+          </div>
+
+          {% if section.settings.show_product_title %}
+            <p class="{{ section.settings.product_title_size }}  mb-{{section.settings.product_title_margin_bottom}}">
+              {{ product.title | escape }}
+            </p>
+          {% endif %}
+
+          {% if section.settings.show_price %}
+            <p class="{{ prod_margin_bottom | prepend: 'mb-' }}" style="color: {{ settings.color_price }}">
+              {% if product.compare_at_price > product.price %}
+                <s class="text-muted opacity-75 mr-1">{{ product.compare_at_price | money }}</s>
+                {% if product.price_varies %}
+                  {%- assign sale_price = product.price | money -%}
+                  {{ 'product.on_sale_from_html' | t: price: sale_price }}
+                {% else %}
+                  {{ 'product.on_sale' | t }}
+                  {{ product.price | money }}
+                {% endif %}
+              {% else %}
+                {% if product.price_varies and from %}
+                  {%- assign price = product.price | money -%}
+                  {{ 'product.from_text_html' | t: price: price }}
+                {% else %}
+                  {{ product.price | money }}
+                {% endif %}
+              {% endif %}
+            </p>
+          {% endif %}
+
+        </a>
+
+        <!-- Add to cart form -->
+        {% if section.settings.show_add_to_cart_form %}
+            {% render 'product-add-to-cart-form' with product: product, show_qty: section.settings.add_to_cart_form_show_qty, show_inventory: section.settings.add_to_cart_form_show_inventory %}
+        {% endif %}
+
+         <!-- Quick view -->
+         {% if section.settings.quick_view_enabled %}
+            <a
+                class="btn-quick-view btn {{ settings.product_quick_view_btn_color }} {{ settings.product_quick_view_btn_variant }} {{ settings.product_quick_view_btn_size }} mb-3"
+                href="{{ product.url | within: collection }}"
+                role="button"
+                data-text-quick-view="{{ 'product.quick_view' | t }}"
+                data-text-loading="{{ 'misc.loading' | t }}">
+                <span
+                    class="btn-quick-view-spinner spinner-border spinner-border-sm mr-2"
+                    role="status"
+                    aria-hidden="true"
+                    style="display: none;">
+                </span>
+                <span class="btn-quick-view-text text-uppercase">
+                    {{ 'product.quick_view' | t }}
+                </span>
+            </a>
+        {% endif %}
+
+      </li>
+    {% endif %}
+
+  {% else %}
+
+    {% for i in (1..section.settings.limit) %}
+      <li class="pb-4 px-2 my-3 text-center">
+        
+          <div class="overflow-hidden mb-3 img-thumbnail">
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg bg-light' }}
+          </div>
+          <h6>
+            {{ 'onboarding.product_title' | t }}
+          </h6>
+          <p class="mb-3" style="color: {{ settings.color_price }}">{{ 1999 | money }}</p>
+       
+      </li>
+    {% endfor %}
+
+  {% endfor %}
+  
+  {% endif %}
+</ul>

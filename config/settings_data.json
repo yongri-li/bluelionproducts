@@ -1,0 +1,1501 @@
+{
+  "current": {
+    "conversiolicense": "",
+    "css_custom": "",
+    "js_custom": "",
+    "chat": false,
+    "color_primary": "#556dc7",
+    "color_secondary": "#455a64",
+    "color_body_bg": "#ffffff",
+    "color_body_text": "#212529",
+    "color_heading": "#000000",
+    "color_link": "#556dc7",
+    "color_link_hover": "#205823",
+    "color_btn_primary": "#556dc7",
+    "color_btn_primary_hover": "#556dc7",
+    "color_btn_secondary": "#455a64",
+    "color_btn_secondary_hover": "#303f46",
+    "color_price": "#d32f2f",
+    "color_on_sale": "#e39a0b",
+    "font_heading": "fira_sans_n4",
+    "font_body": "raleway_n4",
+    "share_image": "shopify:\/\/shop_images\/BLUE_LION_LONG_7105b6a4-83da-4af1-9ed5-3fba3b0a615a.png",
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_pinterest": true,
+    "share_whatsapp": false,
+    "social_twitter_link": "",
+    "social_facebook_link": "https:\/\/www.facebook.com\/bluelionproducts",
+    "social_pinterest_link": "",
+    "social_instagram_link": "https:\/\/www.instagram.com\/bluelionproducts\/",
+    "social_snapchat_link": "",
+    "social_tumblr_link": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": "",
+    "favicon": "shopify:\/\/shop_images\/favicon_77d00b95-5510-4681-b88e-2f654f5c0616.png",
+    "scroll_to_top": true,
+    "scroll_top_height": 30,
+    "scroll_top_btn_color": "btn-primary",
+    "scroll_top_btn_variant": "",
+    "scroll_top_btn_size": "btn-sm",
+    "scroll_top_animation_in": "animate__fadeInUp",
+    "scroll_top_animation_out": "animate__fadeOutUp",
+    "scroll_top_animation_time": "",
+    "scroll_to_top_btn_effect": "",
+    "cookie_consent": true,
+    "wishlist_enable": false,
+    "email_marketing_integration": "default",
+    "use_ajax_mail": true,
+    "klaviyo_id": "",
+    "klaviyo_api_key": "",
+    "mailchimp_form_url": "",
+    "live_visitors": false,
+    "visit_min": "10",
+    "visit_max": "35",
+    "visit_delay": 5,
+    "fontawesomeiconvisit": "far fa-eye",
+    "visit_text": "there are currently [visitors] viewing this product",
+    "removed_collections": "frontpage, bcrew",
+    "toast_position": "bottom-right",
+    "toast_animation_exit": "animate__backOutDown",
+    "toast_animation_duration": "",
+    "product_quick_view_btn_color": "btn-primary",
+    "product_quick_view_btn_variant": "btn-outline",
+    "product_quick_view_btn_size": "btn-sm",
+    "product_quick_view_modal_size": "modal-lg",
+    "product_quick_view_animation_entrance_class": "animate__fadeInUp",
+    "product_quick_view_animation_duration": "animate__faster",
+    "product_image_gallery_controls": true,
+    "product_image_gallery_thumbnails": false,
+    "product_image_gallery_limit_images": "100",
+    "product_image_gallery_thumbnails_row": 4,
+    "product_image_gallery_interval": 5,
+    "product_image_gallery_transition": "slide carousel-fade",
+    "product_image_gallery_special_effect": "",
+    "product_image_gallery_hover_effect": "img-hover-shine",
+    "product_image_crop": "center",
+    "product_image_gallery_border": true,
+    "product_image_gallery_img_width": "480",
+    "product_image_gallery_img_height": "480",
+    "product_image_gallery_badge_discount_type": "percentage",
+    "product_image_gallery_full_screen_enable": true,
+    "product_image_gallery_full_screen_img_width": "2048",
+    "product_image_gallery_full_screen_img_height": "0",
+    "product_image_gallery_full_screen_button_zoom": true,
+    "product_image_gallery_full_screen_button_share": true,
+    "product_image_gallery_full_screen_button_slideshow": true,
+    "product_image_gallery_full_screen_button_fullscreen": true,
+    "product_image_gallery_full_screen_button_download": false,
+    "product_image_gallery_full_screen_button_thumbs": true,
+    "product_image_gallery_full_screen_animation_effect": "zoom",
+    "product_image_gallery_full_screen_animation_duration": "350",
+    "product_image_gallery_full_screen_transition_effect": "zoom-in-out",
+    "product_image_gallery_full_screen_transition_duration": "350",
+    "product_image_gallery_full_screen_slideshow_autostart": false,
+    "product_image_gallery_full_screen_slideshow_speed": 1,
+    "product_add_to_cart_form_bg_color": true,
+    "product_add_to_cart_form_show_qty": true,
+    "product_add_to_cart_form_show_inventory": false,
+    "product_add_to_cart_form_low_stock_indicator": "10",
+    "product_add_to_cart_form_btn_color": "btn-primary",
+    "product_add_to_cart_form_btn_variant": "",
+    "product_add_to_cart_form_btn_size": "",
+    "product_add_to_cart_form_show_cart_icon": true,
+    "product_add_to_cart_form_cart_icon": "icon-shopping-bag",
+    "product_add_to_cart_form_cart_icon_animation_enabled": true,
+    "product_add_to_cart_form_cart_icon_animation_class": "animate__tada",
+    "checkout_header_image": "",
+    "checkout_logo_image": "shopify:\/\/shop_images\/BLUE_LION_LONG_7105b6a4-83da-4af1-9ed5-3fba3b0a615a.png",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#fff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_accent_color": "#556dc7",
+    "checkout_button_color": "#556dc7",
+    "checkout_error_color": "#e32c2b",
+    "custom_defer_async": "",
+    "toast_delay": 15,
+    "toast_animation_entrance": "animate__backInUp",
+    "product_quick_view_show_desc": true,
+    "product_quick_view_product_desc_length": "140",
+    "product_quick_view_show_add_to_cart_form": true,
+    "product_quick_view_show_qty_add_to_cart_form": true,
+    "product_quick_view_show_social_sharing": true,
+    "product_quick_view_enabled": true,
+    "button_primary": "#1976d2",
+    "button_secondary": "#455a64",
+    "color_headings": "#357cc3",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "announcement_enabled": false,
+          "announcement_homepage": false,
+          "announcement_color": "bg-primary text-white",
+          "announcement_text": "Free Local Pickup | Free Shipping on Orders Over $75!",
+          "announcement_link_url": "",
+          "announcement_link_text": "Learn more",
+          "logo": "shopify:\/\/shop_images\/BLUE_LION_LONG_7105b6a4-83da-4af1-9ed5-3fba3b0a615a.png",
+          "logo_height": "50",
+          "logo_height_mobile": "30",
+          "image_svg": "",
+          "menu": "impulse-header-menu",
+          "menu_position": "mr-auto",
+          "menu_animation_in": "",
+          "menu_animation_duration": "animate__faster",
+          "navbar_color": "bg-light navbar-light",
+          "container": true,
+          "sticky": true,
+          "shadow_style": "shadow",
+          "cart_icon": "icon-shopping-cart",
+          "cart_minicart_image_show": true,
+          "cart_minicart_image_width": "64",
+          "cart_minicart_image_height": "64",
+          "cart_minicart_image_border": true,
+          "cart_minicart_image_hover_effect": "image-hover-shine",
+          "currency_converter_enable": false,
+          "currency_converter_show_filter": true,
+          "currency_converter_show_flag": true,
+          "currency_converter_detect_ip": true,
+          "navbar_expand": "navbar-expand-lg"
+        }
+      },
+      "product-template": {
+        "type": "product-template",
+        "blocks": {
+          "1599720924629": {
+            "type": "product_desc",
+            "settings": {
+              "title": "Details",
+              "fontawesomeicon": ""
+            }
+          },
+          "2b15d6bf-86bd-4e27-964c-ca66bb9eae4e": {
+            "type": "font",
+            "settings": {
+              "font": "Dancing Script"
+            }
+          },
+          "e93ef928-2f3d-410f-89a9-b2f7f65dcee4": {
+            "type": "font",
+            "settings": {
+              "font": "Bebas Neue"
+            }
+          },
+          "c9451a63-0ebd-40d4-b7af-98f8a92dafca": {
+            "type": "font",
+            "settings": {
+              "font": "Kaushan Script"
+            }
+          },
+          "18c4efdf-7fda-4fbe-ae2d-80cab97fe610": {
+            "type": "font",
+            "settings": {
+              "font": "Balthazar"
+            }
+          },
+          "c907a513-1ce7-44e4-8ba3-9cde9cba574c": {
+            "type": "font",
+            "settings": {
+              "font": "Open Sans"
+            }
+          },
+          "9708a5d9-3e26-44ff-bb78-e41fbffc3be6": {
+            "type": "qty_discount",
+            "settings": {
+              "qty_discount_limit": "6",
+              "qty_discount_code": "5OFF",
+              "qty_discount_ammount": "05",
+              "qty_discount_title": "[format]Buy 6 - [\/format][before] [each]"
+            }
+          },
+          "78909e51-9d20-4f61-aac4-7291f914e305": {
+            "type": "qty_discount",
+            "settings": {
+              "qty_discount_limit": "12",
+              "qty_discount_code": "10OFF",
+              "qty_discount_ammount": "10",
+              "qty_discount_title": "[format]Buy 12 - [\/format][before] [each]"
+            }
+          },
+          "2e523a18-2103-4808-bd2c-e22c46f41aec": {
+            "type": "qty_discount",
+            "settings": {
+              "qty_discount_limit": "24",
+              "qty_discount_code": "15OFF",
+              "qty_discount_ammount": "15",
+              "qty_discount_title": "[format]Buy 24 - [\/format][before] [each]"
+            }
+          }
+        },
+        "block_order": [
+          "1599720924629",
+          "2b15d6bf-86bd-4e27-964c-ca66bb9eae4e",
+          "e93ef928-2f3d-410f-89a9-b2f7f65dcee4",
+          "c9451a63-0ebd-40d4-b7af-98f8a92dafca",
+          "18c4efdf-7fda-4fbe-ae2d-80cab97fe610",
+          "c907a513-1ce7-44e4-8ba3-9cde9cba574c",
+          "9708a5d9-3e26-44ff-bb78-e41fbffc3be6",
+          "78909e51-9d20-4f61-aac4-7291f914e305",
+          "2e523a18-2103-4808-bd2c-e22c46f41aec"
+        ],
+        "settings": {
+          "container": true,
+          "show_discount_badge": true,
+          "product_title_small_font": true,
+          "show_vendor": false,
+          "show_payment_icons": false,
+          "trust_badge_width": "",
+          "trust_badge_height": "",
+          "trust_badge_margin_top": 0,
+          "trust_badge_margin_bottom": 4,
+          "trust_badge_border": true,
+          "trust_badge_hover_affect": "image-hover-shine",
+          "show_share_buttons": true,
+          "show_tags": false,
+          "use_swatches": true,
+          "swatch_image": true,
+          "product_content": "tabs",
+          "breakpoint": "-md",
+          "discount_percentage_text_badge_bgcolor": "badge-primary",
+          "discount_percentage_text_badge_color": "#2aff00",
+          "discount_percentage_text_badge_weight": "font-weight-bold",
+          "discount_percentage_text_color": "#2aff00",
+          "discount_percentage_text_weight": "font-weight-bold",
+          "discount_total_color": "#2aff00",
+          "discount_total_weight": "font-weight-bold",
+          "discount_each_color": "#e20000",
+          "discount_each_weight": "font-weight-bold",
+          "discount_before_color": "#000000",
+          "discount_before_weight": "font-weight-bold",
+          "discount_text_before_all_color": "#000000",
+          "discount_text_before_all_weight": "font-weight-bold"
+        }
+      },
+      "product-recommendations": {
+        "type": "product-recommendations",
+        "settings": {
+          "enable_product_reccomendations": false,
+          "heading": "You may also like",
+          "subheading": "<p>Write something catchy here.<\/p>",
+          "limit": 4,
+          "row": 2,
+          "row_sm": 2,
+          "row_md": 3,
+          "row_lg": 4,
+          "row_xl": 4,
+          "heading_size": "h2",
+          "heading_alignment": "text-left",
+          "container": true,
+          "align_center": true,
+          "show_product_title": true,
+          "show_discount_badge": true,
+          "show_price": true,
+          "show_add_to_cart_form": false,
+          "add_to_cart_form_show_qty": false,
+          "quick_view_enabled": true,
+          "product_title_size": "h6",
+          "image_width": "360",
+          "image_height": "360",
+          "image_border": true,
+          "image_circle": false,
+          "image_hover_effect": "image-hover-shine",
+          "margin_top": 4,
+          "margin_bottom": 2,
+          "gutter_horizontal": 2,
+          "gutter_vertical": 3
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-1": {
+            "type": "text",
+            "settings": {
+              "title": "Satisfaction Guarantee",
+              "content": ""
+            }
+          },
+          "footer-2": {
+            "type": "text",
+            "settings": {
+              "title": "We Are Available 24\/7",
+              "content": ""
+            }
+          },
+          "1599848974394": {
+            "type": "text",
+            "settings": {
+              "title": "2,000+ Happy Customers",
+              "content": ""
+            }
+          }
+        },
+        "block_order": [
+          "footer-1",
+          "footer-2",
+          "1599848974394"
+        ],
+        "settings": {
+          "bg_color": "bg-secondary text-white",
+          "container": true,
+          "show_social_icons": true,
+          "show_payment_icons": true,
+          "menu": "footer",
+          "padding_top": 6,
+          "padding_bottom": 3,
+          "margin_top": 0,
+          "margin_bottom": 0,
+          "powered_by": false,
+          "designed_by": false
+        }
+      },
+      "1598989622547": {
+        "type": "carousel",
+        "blocks": {
+          "1598989622547-0": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/BLP_Hero-2.jpg",
+              "caption_heading": "",
+              "caption_text": "<p>   <\/p>",
+              "button_url": "shopify:\/\/collections\/drinkware",
+              "button_text": "SHOP ALL",
+              "caption_backdrop": true,
+              "caption_heading_size": "h3",
+              "btn_color": "btn-primary",
+              "btn_variant": "",
+              "btn_size": "btn-lg"
+            }
+          }
+        },
+        "block_order": [
+          "1598989622547-0"
+        ],
+        "settings": {
+          "heading": "",
+          "heading_size": "h2",
+          "heading_alignment": "text-center",
+          "controls": false,
+          "indicators": false,
+          "container": false,
+          "image_height_aspect_ratio": 0.4,
+          "img_min_height": "360",
+          "transition": "slide",
+          "zoom_effect": false,
+          "interval": 5,
+          "progress_bar": false,
+          "margin_top": 0,
+          "margin_bottom": 8,
+          "full_height": false,
+          "lazyload": true,
+          "slider_animation_in": "",
+          "slider_animation_duration": "animate__faster"
+        }
+      },
+      "1599048454133": {
+        "type": "collection-list",
+        "blocks": {
+          "1599048454133-1": {
+            "type": "collection",
+            "settings": {
+              "collection": "personalized-tumbler"
+            }
+          },
+          "1599048454133-2": {
+            "type": "collection",
+            "settings": {
+              "collection": "personalized-bottle"
+            }
+          },
+          "1601225338794": {
+            "type": "collection",
+            "settings": {
+              "collection": "can-coolers"
+            }
+          },
+          "1602591349109": {
+            "type": "collection",
+            "settings": {
+              "collection": "wine-tumblers"
+            }
+          }
+        },
+        "block_order": [
+          "1599048454133-1",
+          "1599048454133-2",
+          "1601225338794",
+          "1602591349109"
+        ],
+        "settings": {
+          "heading": "CUSTOM DRINKWARE",
+          "subheading": "<p>Choose from one of our base designs or upload your own.<\/p>",
+          "row": 2,
+          "row_sm": 2,
+          "row_md": 4,
+          "row_lg": 4,
+          "row_xl": 4,
+          "heading_size": "h2",
+          "heading_alignment": "text-center",
+          "container": true,
+          "align_center": true,
+          "show_collection_title": true,
+          "collection_title_size": "h6",
+          "show_collection_count": false,
+          "show_collection_desc": false,
+          "collection_desc_truncate": "200",
+          "image_width": "320",
+          "image_height": "320",
+          "image_border": false,
+          "image_circle": false,
+          "image_hover_effect": "image-hover-flashing",
+          "margin_top": 0,
+          "margin_bottom": 6,
+          "gutter_horizontal": 3,
+          "gutter_vertical": 3
+        }
+      },
+      "collection-template": {
+        "type": "collection-template",
+        "settings": {
+          "container": true,
+          "show_tags": false,
+          "show_filters": true,
+          "sort_by": true,
+          "results_per_page": 24,
+          "enable_infinite_scroll": false,
+          "infinite_scroll_mode": "scroll",
+          "infinite_scroll_btn_color": "btn-secondary",
+          "infinite_scroll_btn_variant": "btn-outline",
+          "infinite_scroll_btn_size": "btn-lg",
+          "show_title": true,
+          "heading_size": "h2",
+          "heading_alignment": "text-left",
+          "heading_margin_bottom": 0,
+          "heading_letter_spacing": 0,
+          "show_sub_title": true,
+          "sub_heading_alignment": "text-left",
+          "sub_margin_bottom": 0,
+          "sub_letter_spacing": 3,
+          "show_collection_image": false,
+          "collection_image_alignment": "flex-row",
+          "collection_image_width": "600",
+          "collection_image_height": "600",
+          "product_image_crop": "center",
+          "collection_image_border": true,
+          "row": 2,
+          "row_sm": 2,
+          "row_md": 3,
+          "row_lg": 4,
+          "row_xl": 4,
+          "align_center": true,
+          "show_product_title": true,
+          "show_discount_badge": true,
+          "show_price": false,
+          "show_from": true,
+          "prod_price_margin_bottom": 0,
+          "show_add_to_cart_form": true,
+          "add_to_cart_form_show_qty": false,
+          "add_to_cart_form_show_inventory": false,
+          "quick_view_enabled": true,
+          "product_title_size": "h6",
+          "product_title_margin_bottom": 3,
+          "image_width": "480",
+          "image_height": "480",
+          "image_border": false,
+          "image_circle": false,
+          "image_hover_effect": "image-hover-shine",
+          "margin_top": 0,
+          "margin_bottom": 6,
+          "prod_items_margin_top": 0,
+          "prod_items_margin_bottom": 6,
+          "gutter_horizontal": 2,
+          "gutter_vertical": 3
+        }
+      },
+      "product-image-with-text": {
+        "type": "product-image-with-text",
+        "settings": {
+          "section_enabled": false,
+          "image_width": "600",
+          "image_height": "400",
+          "image_border": true,
+          "image_circle": false,
+          "image_alignment": "flex-row",
+          "image_hover_effect": "image-hover-shine",
+          "heading": "Image with text",
+          "heading_size": "h2",
+          "content": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+          "button_label": "Learn more",
+          "button_link": "#",
+          "btn_color": "btn-primary",
+          "btn_variant": "",
+          "btn_size": "",
+          "container": true,
+          "breakpoint": "-md",
+          "margin_top": 9,
+          "margin_bottom": 6
+        }
+      },
+      "product-instagram": {
+        "type": "product-instagram",
+        "settings": {
+          "section_enabled": true,
+          "username": "bluelionproducts",
+          "title": "Shopify on Instagram",
+          "btn_text": "Follow",
+          "limit": 12,
+          "likes": true,
+          "comments": true,
+          "bg_color": "bg-light",
+          "thumbnail_size": "0",
+          "follow_btn_color": "btn-primary",
+          "follow_btn_variant": "",
+          "follow_btn_size": ""
+        }
+      },
+      "product-brands": {
+        "type": "product-brands",
+        "blocks": {
+          "1599905257228": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905327969": {
+            "type": "image",
+            "settings": {}
+          },
+          "1599905333774": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905344282": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905354915": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905362001": {
+            "type": "image",
+            "settings": {}
+          },
+          "1599905367967": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905374746": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905381565": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905388799": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905395189": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          },
+          "1599905402873": {
+            "type": "image",
+            "settings": {
+              "url": "#"
+            }
+          }
+        },
+        "block_order": [
+          "1599905257228",
+          "1599905327969",
+          "1599905333774",
+          "1599905344282",
+          "1599905354915",
+          "1599905362001",
+          "1599905367967",
+          "1599905374746",
+          "1599905381565",
+          "1599905388799",
+          "1599905395189",
+          "1599905402873"
+        ],
+        "settings": {
+          "section_enabled": false,
+          "heading": "Brands you already love",
+          "heading_size": "h4",
+          "container": false,
+          "speed": 50,
+          "image_height": "90",
+          "margin_top": 0,
+          "margin_bottom": 6
+        }
+      },
+      "product-carousel": {
+        "type": "product-carousel",
+        "blocks": {
+          "1599905844172": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Cup_Hero.jpg",
+              "caption_heading": "",
+              "caption_text": "",
+              "button_text": "",
+              "caption_backdrop": true,
+              "caption_heading_size": "h4",
+              "btn_color": "btn-primary",
+              "btn_variant": "",
+              "btn_size": ""
+            }
+          }
+        },
+        "block_order": [
+          "1599905844172"
+        ],
+        "settings": {
+          "section_enabled": true,
+          "heading": "PERSONALIZE YOUR CUPS",
+          "heading_size": "h2",
+          "heading_alignment": "text-center",
+          "controls": true,
+          "indicators": true,
+          "container": true,
+          "image_height_aspect_ratio": 0.4,
+          "img_min_height": "280",
+          "transition": "slide carousel-fade",
+          "zoom_effect": false,
+          "interval": 5,
+          "progress_bar": true,
+          "pause_hover": false,
+          "margin_top": 6,
+          "margin_bottom": 8,
+          "full_height": false
+        }
+      },
+      "product-rich-text": {
+        "type": "product-rich-text",
+        "settings": {
+          "section_enabled": false,
+          "heading": "Talk about your brand",
+          "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
+          "button_label": "Learn more",
+          "button_link": "#",
+          "container": true,
+          "alignment": "text-left",
+          "heading_size": "h2",
+          "btn_color": "btn-primary",
+          "btn_variant": "",
+          "btn_size": "",
+          "margin_top": 0,
+          "margin_bottom": 9
+        }
+      },
+      "product-featured-product": {
+        "type": "product-featured-product",
+        "settings": {
+          "section_enabled": false,
+          "product": "",
+          "show_product_title": true,
+          "product_title_size": "h2",
+          "show_image_gallery": true,
+          "show_product_desc": true,
+          "product_desc_truncate": "175",
+          "show_product_price": true,
+          "show_discount_badge": true,
+          "show_add_to_cart_form": true,
+          "show_share_buttons": true,
+          "breakpoint": "-md",
+          "margin_top": 0,
+          "margin_bottom": 6
+        }
+      },
+      "product-video": {
+        "type": "product-video",
+        "settings": {
+          "section_enabled": false,
+          "video_id": "t8H2iQAirOs",
+          "video_desc": "Write something to shortly describe your video.",
+          "container": true,
+          "max_width": "920",
+          "border_radius": "8",
+          "margin_top": 0,
+          "margin_bottom": 6
+        }
+      },
+      "product-cross-sells": {
+        "type": "product-cross-sells",
+        "settings": {
+          "section_enabled": false,
+          "title": "GREAT! Here is our offer for you...",
+          "discount": "",
+          "discountamount": "",
+          "discounttime": 1,
+          "discount_message": "You just saved [discount] Proceed to checkout!",
+          "message": "<p>Add any of the following products to your cart now and immediately be qualified for <strong>20% discount <\/strong>on your order&#x27;s total.<\/p>",
+          "limit_products": 4,
+          "row_sm": 2,
+          "row_lg": 4,
+          "animation_entrance_class": "animate__lightSpeedInLeft",
+          "animation_duration": "animate__fast",
+          "small_form_control": true,
+          "show_progress": true,
+          "show_progress_striped": true,
+          "progress_bg_color": "bg-success",
+          "progress_bg_color_success": "bg-success",
+          "progress_value": 75,
+          "image_width": "360",
+          "image_height": "360",
+          "image_border": true,
+          "image_hover_effect": "image-hover-shine"
+        }
+      },
+      "cart-template": {
+        "type": "cart-template",
+        "settings": {
+          "show_subtitle": true,
+          "note": true,
+          "show_vendor": false,
+          "show_quantity": true,
+          "sticky_summary": true,
+          "image_width": "160",
+          "image_height": "160",
+          "image_border": true
+        }
+      },
+      "product-up-sells": {
+        "type": "product-up-sells",
+        "settings": {
+          "section_enabled": false,
+          "mode": "tag",
+          "title": "Can we recommend the following add-ons?!",
+          "message": "<p>Add any of the following products to your cart now and immediately be qualified for <strong>20% discount<\/strong> on your order&#x27;s total.<\/p>",
+          "row_sm": 2,
+          "row_lg": 5,
+          "animation_entrance_class": "animate__backInDown",
+          "animation_duration": "animate__fast",
+          "small_form_control": true,
+          "show_progress": true,
+          "progress_bg_color": "bg-danger",
+          "progress_bg_color_success": "bg-success",
+          "progress_value": 75,
+          "image_width": "360",
+          "image_height": "360",
+          "image_border": true,
+          "image_hover_effect": "image-hover-shine"
+        }
+      },
+      "product-sticky-add-to-cart": {
+        "type": "product-sticky-add-to-cart",
+        "settings": {
+          "background_color": "bg-dark text-white",
+          "shadow": true,
+          "show_image": true,
+          "image_with": "48",
+          "image_height": "48",
+          "image_border": false,
+          "show_product_title": true,
+          "show_rating": true,
+          "price_color": "#00e676",
+          "default_variant_pretext": "Only:"
+        }
+      },
+      "product-bundle": {
+        "type": "product-bundle",
+        "settings": {
+          "heading": "Frequently Bought Together",
+          "subheading": "<p>Buy the following products together and qualify for a FREE GIFT from us<\/p>",
+          "heading_size": "h2",
+          "heading_alignment": "text-center",
+          "container": true,
+          "bg_light": true,
+          "limit": 4,
+          "row": 2,
+          "row_sm": 2,
+          "row_md": 3,
+          "row_lg": 4,
+          "row_xl": 4,
+          "align_center": true,
+          "show_product_title": true,
+          "show_price": true,
+          "show_discount_badge": true,
+          "product_title_size": "h6",
+          "image_width": "360",
+          "image_height": "360",
+          "image_border": true,
+          "image_circle": false,
+          "image_hover_effect": "image-hover-shine",
+          "margin_top": 6,
+          "margin_bottom": 6,
+          "gutter_horizontal": 2,
+          "gutter_vertical": 3
+        }
+      },
+      "1601224759327": {
+        "type": "image-with-text",
+        "settings": {
+          "image": "shopify:\/\/shop_images\/mb2.jpg",
+          "image_svg": "",
+          "image_width": "600",
+          "image_height": "600",
+          "image_border": false,
+          "image_circle": false,
+          "image_alignment": "flex-row",
+          "image_hover_effect": "image-hover-shine",
+          "heading": "YOUR DESIGN. YOUR PRODUCT.",
+          "heading_size": "h2",
+          "subheading": "",
+          "submute": false,
+          "subheading_size": "h5",
+          "sub_margin_bottom": 3,
+          "sub_letter_spacing": 3,
+          "content": "<p>We take your design ideas and turn them into reality! Tell us what you are looking for or upload your own design. Every product we sell is personalized for you.<\/p>\n<p><\/p>",
+          "button_label": "CREATE NOW",
+          "button_link": "shopify:\/\/collections\/your-design",
+          "btn_color": "btn-primary",
+          "btn_variant": "",
+          "btn_size": "",
+          "btn-block": false,
+          "btn_effect": "",
+          "container": true,
+          "breakpoint": "-md",
+          "margin_top": 0,
+          "margin_bottom": 6
+        }
+      },
+      "1601224814009": {
+        "type": "image-with-text",
+        "settings": {
+          "image": "shopify:\/\/shop_images\/mb1.jpg",
+          "image_svg": "",
+          "image_width": "600",
+          "image_height": "600",
+          "image_border": false,
+          "image_circle": false,
+          "image_alignment": "flex-row-reverse",
+          "image_hover_effect": "image-hover-shine",
+          "heading": "HOW IT WORKS",
+          "heading_size": "h2",
+          "subheading": "",
+          "submute": false,
+          "subheading_size": "h5",
+          "sub_margin_bottom": 3,
+          "sub_letter_spacing": 3,
+          "content": "<p>1. Create your own product or select a popular design<br>2. We send you an approval mock up<br>3. We personalize and ship<\/p>",
+          "button_label": "LEARN MORE",
+          "button_link": "shopify:\/\/pages\/about-us",
+          "btn_color": "btn-primary",
+          "btn_variant": "",
+          "btn_size": "",
+          "btn-block": false,
+          "btn_effect": "",
+          "container": true,
+          "breakpoint": "-md",
+          "margin_top": 0,
+          "margin_bottom": 6
+        }
+      },
+      "1601224857613": {
+        "type": "image-with-text",
+        "settings": {
+          "image": "shopify:\/\/shop_images\/Blush.jpg",
+          "image_svg": "",
+          "image_width": "600",
+          "image_height": "600",
+          "image_border": false,
+          "image_circle": false,
+          "image_alignment": "flex-row",
+          "image_hover_effect": "image-hover-shine",
+          "heading": "NEED INSPIRATION?",
+          "heading_size": "h2",
+          "subheading": "",
+          "submute": false,
+          "subheading_size": "h5",
+          "sub_margin_bottom": 3,
+          "sub_letter_spacing": 3,
+          "content": "<p>Browse popular products and designs created by our customers.<\/p>\n<p><\/p>",
+          "button_label": "POPULAR DESIGNS",
+          "button_link": "shopify:\/\/collections\/popular-designs",
+          "btn_color": "btn-primary",
+          "btn_variant": "",
+          "btn_size": "",
+          "btn-block": false,
+          "btn_effect": "",
+          "container": true,
+          "breakpoint": "-md",
+          "margin_top": 0,
+          "margin_bottom": 6
+        }
+      },
+      "image-blocks": {
+        "type": "image-blocks",
+        "blocks": {
+          "1601307023642": {
+            "type": "icons",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Untitled-1.jpg",
+              "image_width": "600",
+              "image_height": "600",
+              "image_border": false,
+              "image_circle": false,
+              "image_hover_effect": "image-hover-shine",
+              "heading": "1. PLACE AN ORDER",
+              "content": "<p>Choose a blank product that you want personalized.<\/p>",
+              "button_label": "",
+              "container": true,
+              "alignment": "text-center",
+              "heading_size": "h2",
+              "btn_color": "btn-primary",
+              "btn_variant": "",
+              "btn_size": "",
+              "margin_top": 0,
+              "margin_bottom": 6
+            }
+          },
+          "1601307045044": {
+            "type": "icons",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/AdobeStock_258913003.jpg",
+              "image_width": "600",
+              "image_height": "600",
+              "image_border": false,
+              "image_circle": false,
+              "image_hover_effect": "image-hover-shine",
+              "heading": "2. WE CUSTOMIZE FOR YOU",
+              "content": "<p>Tell us your design ideas or upload your own design.<\/p>",
+              "button_label": "",
+              "container": true,
+              "alignment": "text-center",
+              "heading_size": "h2",
+              "btn_color": "btn-primary",
+              "btn_variant": "",
+              "btn_size": "",
+              "margin_top": 0,
+              "margin_bottom": 6
+            }
+          },
+          "1601307056463": {
+            "type": "icons",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Untitled-2.jpg",
+              "image_width": "600",
+              "image_height": "600",
+              "image_border": false,
+              "image_circle": false,
+              "image_hover_effect": "image-hover-shine",
+              "heading": "3. ENJOY EVERYDAY",
+              "content": "<p>We deliver your very own personalized mug within 7-10 days<\/p>",
+              "button_label": "",
+              "container": true,
+              "alignment": "text-center",
+              "heading_size": "h2",
+              "btn_color": "btn-primary",
+              "btn_variant": "",
+              "btn_size": "",
+              "margin_top": 0,
+              "margin_bottom": 6
+            }
+          }
+        },
+        "block_order": [
+          "1601307023642",
+          "1601307045044",
+          "1601307056463"
+        ],
+        "settings": {
+          "bg_color": "",
+          "container": true,
+          "padding_top": 6,
+          "padding_bottom": 11,
+          "margin_top": 0,
+          "margin_bottom": 0
+        }
+      },
+      "video": {
+        "type": "video",
+        "settings": {
+          "video_id": "",
+          "video_desc": "",
+          "container": false,
+          "max_width": "960",
+          "border_radius": "8",
+          "margin_top": 6,
+          "margin_bottom": 6
+        }
+      },
+      "contact-map": {
+        "type": "contact-map",
+        "settings": {
+          "heading": "",
+          "heading_size": "h2",
+          "heading_alignment": "text-center",
+          "paragraph": "",
+          "embed": ""
+        }
+      },
+      "contact-text-blocks": {
+        "type": "contact-text-blocks",
+        "settings": {
+          "row": 2,
+          "row_sm": 2,
+          "row_md": 3,
+          "row_lg": 4,
+          "row_xl": 4
+        }
+      },
+      "faq-page": {
+        "type": "faq-page",
+        "blocks": {
+          "1601310998553": {
+            "type": "text",
+            "settings": {
+              "open": false,
+              "category": "",
+              "subheading": "",
+              "heading_alignment": "text-left",
+              "heading_size": "h2",
+              "title": "Q: How do I check the status of my order?",
+              "content": "<p>A: Upon placing your order, please allow up to 3 business days to have your order processed. One of our graphic designers will send you a mock up for your item prior to placing the item into production. Once you approve the design,&nbsp;your ordered item(s) and package(s) will be shipped out as soon as possible. Once your order has been shipped, you will receive a tracking number to your order. You may also visit our website at any time and click on our&nbsp;Order Status&nbsp;page to find the real-time update of your shipment. If you did not receive the order tracking number or did not find any updates under our order Status page please email marcy@bluelionproducts.com or use the message us button on our website&nbsp;and we&nbsp;update you on the status of your order.<\/p>"
+            }
+          },
+          "1601311008912": {
+            "type": "text",
+            "settings": {
+              "open": false,
+              "category": "",
+              "subheading": "",
+              "heading_alignment": "text-left",
+              "heading_size": "h2",
+              "title": "Q: How long does shipping take?",
+              "content": "<p>A: We ship our products to you from Fargo, ND. It will normally take around 14 business days to receive your completed order. Please contact us using the message us button on our site prior to ordering if you need your items delivered sooner than 14 days.<\/p>"
+            }
+          },
+          "1601311018918": {
+            "type": "text",
+            "settings": {
+              "open": false,
+              "category": "",
+              "subheading": "",
+              "heading_alignment": "text-left",
+              "heading_size": "h2",
+              "title": "Q: Do you ship Internationally?",
+              "content": "<p>A:&nbsp;No. We only ship domestically in the United States.<\/p>"
+            }
+          },
+          "1601311025770": {
+            "type": "text",
+            "settings": {
+              "open": false,
+              "category": "",
+              "subheading": "",
+              "heading_alignment": "text-left",
+              "heading_size": "h2",
+              "title": "Q: Is your website secure with my personal information?",
+              "content": "<p>A: Absolutely! We use SSL security to ensure all your personal information is encrypted. We do not store your credit card information and it will be used one-time only upon purchasing&nbsp;of&nbsp;your product. Then your credit card information will be purged.<\/p>"
+            }
+          },
+          "1601311031981": {
+            "type": "text",
+            "settings": {
+              "open": false,
+              "category": "",
+              "subheading": "",
+              "heading_alignment": "text-left",
+              "heading_size": "h2",
+              "title": "Q: How do I order on your website?",
+              "content": "<p>A: Simply find the product you'd want and click the 'Add To Cart' button. Fill in your shipping and billing information and we'll have your order shipped to you as soon as possible!<\/p>"
+            }
+          },
+          "1601311038178": {
+            "type": "text",
+            "settings": {
+              "open": false,
+              "category": "",
+              "subheading": "",
+              "heading_alignment": "text-left",
+              "heading_size": "h2",
+              "title": "Q: Do you provide a quality guarantee for all the products being sold?",
+              "content": "<p>A: Absolutely! If you do not like the product or find damages to the product, contact us immediately! We do all we can to ensure your best shopping experience. You can simply email marcy@bluelionproducts.com or chat directly with us using the message us button and we'll get it addressed!<\/p>"
+            }
+          },
+          "1601311044802": {
+            "type": "text",
+            "settings": {
+              "open": false,
+              "category": "",
+              "subheading": "",
+              "heading_alignment": "text-left",
+              "heading_size": "h2",
+              "title": "Q: Do you offer a refund if I don't like the product?",
+              "content": "<p>A:Refunds are not eligible for personalized items. If there is a problem with the quality of the product, please contact us to discuss the issue.<\/p>\n<p>Typically, we only replace items if they are defective or damaged. If you need to exchange it for the same item, send us an email with pictures at marcy@bluelionproducts.com. We will discuss return shipping for defective or damaged items.<\/p>\n<p>Simply visit our&nbsp;refund policy page&nbsp;for complete details. If you have any additional questions that have not been addressed in our FAQ. Please contact us and we will get back to you as soon as possible. You can contact us at our contact page or send an to marcy@bluelionproducts.com or chat with us directly using the message us button on our website.<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "1601310998553",
+          "1601311008912",
+          "1601311018918",
+          "1601311025770",
+          "1601311031981",
+          "1601311038178",
+          "1601311044802"
+        ],
+        "settings": {
+          "heading": "Frequently Asked Questions",
+          "subheading": "",
+          "container": true,
+          "heading_size": "h2",
+          "heading_alignment": "text-left",
+          "bg_color": "bg-light text-muted",
+          "padding_top": 6,
+          "padding_bottom": 3,
+          "margin_top": 0,
+          "margin_bottom": 0
+        }
+      },
+      "chat-widget": {
+        "type": "chat-widget",
+        "settings": {
+          "open_tab": true,
+          "hide_mobile": false,
+          "chat_link": "",
+          "alignment": "float-right",
+          "margin_bottom": 2,
+          "margin_lr": 2,
+          "image": "",
+          "image_svg": "",
+          "svg_color": "#1976d2",
+          "image_size": "60",
+          "image_border": true,
+          "image_border_radius": "",
+          "image_hover_effect": "image-hover-shine",
+          "chat_animation_entrance": "animate__fadeInUp",
+          "chat_animation_duration": ""
+        }
+      },
+      "list-collections-template": {
+        "type": "list-collections-template",
+        "settings": {
+          "heading": "Collections",
+          "subheading": "",
+          "heading_size": "h1",
+          "heading_alignment": "text-left",
+          "container": true,
+          "results_per_page": 20,
+          "removed_collections": "frontpage",
+          "row": 2,
+          "row_sm": 2,
+          "row_md": 3,
+          "row_lg": 4,
+          "row_xl": 4,
+          "align_center": true,
+          "show_collection_title": true,
+          "collection_title_size": "h6",
+          "show_collection_count": false,
+          "show_collection_desc": false,
+          "collection_desc_truncate": "200",
+          "image_width": "320",
+          "image_height": "320",
+          "image_border": false,
+          "image_circle": false,
+          "image_hover_effect": "image-hover-shine",
+          "gutter_horizontal": 3,
+          "gutter_vertical": 3
+        }
+      },
+      "1602424813074": {
+        "type": "collection-list",
+        "blocks": {
+          "1602424813074-0": {
+            "type": "collection",
+            "settings": {
+              "collection": "blanket"
+            }
+          },
+          "1602424813074-1": {
+            "type": "collection",
+            "settings": {
+              "collection": "cake-pan"
+            }
+          },
+          "1602424813074-2": {
+            "type": "collection",
+            "settings": {
+              "collection": "cutting-boards"
+            }
+          },
+          "1602424813074-3": {
+            "type": "collection",
+            "settings": {
+              "collection": "coasters"
+            }
+          }
+        },
+        "block_order": [
+          "1602424813074-0",
+          "1602424813074-1",
+          "1602424813074-2",
+          "1602424813074-3"
+        ],
+        "settings": {
+          "heading": "FOR THE HOME",
+          "subheading": "<p>Make it special<\/p>",
+          "row": 2,
+          "row_sm": 2,
+          "row_md": 4,
+          "row_lg": 4,
+          "row_xl": 4,
+          "heading_size": "h2",
+          "heading_alignment": "text-center",
+          "container": true,
+          "align_center": true,
+          "show_collection_title": true,
+          "collection_title_size": "h6",
+          "show_collection_count": false,
+          "show_collection_desc": false,
+          "collection_desc_truncate": "200",
+          "image_width": "320",
+          "image_height": "320",
+          "image_border": false,
+          "image_circle": false,
+          "image_hover_effect": "image-hover-flashing",
+          "margin_top": 0,
+          "margin_bottom": 6,
+          "gutter_horizontal": 3,
+          "gutter_vertical": 3
+        }
+      },
+      "1602425295455": {
+        "type": "collection-list",
+        "blocks": {
+          "1602425295455-0": {
+            "type": "collection",
+            "settings": {
+              "collection": "necklace"
+            }
+          },
+          "e8634358-5863-4916-9fd3-29a45ca84811": {
+            "type": "collection",
+            "settings": {
+              "collection": "hats"
+            }
+          },
+          "16d1b29c-ce38-4c4b-9d7f-2e190d8edbc6": {
+            "type": "collection",
+            "settings": {
+              "collection": "keychains"
+            }
+          },
+          "fae8fba0-c834-488c-b102-cfb637bf56f5": {
+            "type": "collection",
+            "settings": {
+              "collection": ""
+            }
+          }
+        },
+        "block_order": [
+          "1602425295455-0",
+          "e8634358-5863-4916-9fd3-29a45ca84811",
+          "16d1b29c-ce38-4c4b-9d7f-2e190d8edbc6",
+          "fae8fba0-c834-488c-b102-cfb637bf56f5"
+        ],
+        "settings": {
+          "heading": "ACCESSORIES",
+          "subheading": "<p>Personalized for any occasion<\/p>",
+          "row": 3,
+          "row_sm": 3,
+          "row_md": 3,
+          "row_lg": 3,
+          "row_xl": 3,
+          "heading_size": "h2",
+          "heading_alignment": "text-center",
+          "container": true,
+          "align_center": true,
+          "show_collection_title": true,
+          "collection_title_size": "h6",
+          "show_collection_count": false,
+          "show_collection_desc": false,
+          "collection_desc_truncate": "200",
+          "image_width": "320",
+          "image_height": "320",
+          "image_border": false,
+          "image_circle": false,
+          "image_hover_effect": "image-hover-flashing",
+          "margin_top": 0,
+          "margin_bottom": 6,
+          "gutter_horizontal": 3,
+          "gutter_vertical": 3
+        }
+      },
+      "cookie-consent": {
+        "type": "cookie-consent",
+        "settings": {
+          "cc_enable": false,
+          "cc_position": "",
+          "cc_static": false,
+          "cc_type": "",
+          "cc_theme": "",
+          "cc_popup_background_color": "",
+          "cc_popup_text_color": "",
+          "cc_button_background_color": "",
+          "cc_button_text_color": "",
+          "cc_link_type": false,
+          "cc_link_page": "",
+          "consent_message": "This website uses cookies to target ads, and ensure you get the best experience on our website.",
+          "consent_dismiss": "Got it!",
+          "consent_url_text": "Learn more",
+          "consent_allow": "Allow cookies",
+          "consent_deny": "Deny",
+          "consent_policy": "Cookiepolicy"
+        }
+      },
+      "about-image": {
+        "type": "about-image",
+        "settings": {
+          "container": false,
+          "img_min_height": "280",
+          "enable_parallax": "true",
+          "orientation": "down",
+          "scale": 150,
+          "image_border": true,
+          "image_circle": false,
+          "image_alignment": "flex-row",
+          "margin_top": 0,
+          "margin_bottom": 6
+        }
+      },
+      "about-team": {
+        "type": "about-team",
+        "settings": {
+          "heading": "",
+          "paragraph": "",
+          "heading_size": "h2",
+          "thumbnail_style": "rounded"
+        }
+      },
+      "about-text": {
+        "type": "about-text",
+        "settings": {
+          "text": "<p>Want to say hi?! Visit our <a href=\"\/pages\/contact-us\">Contact us<\/a> page to get in touch with us.<\/p>"
+        }
+      },
+      "api": {
+        "type": "api",
+        "blocks": {
+          "6811c1a9-54a4-4628-a43d-a0c6f7973a21": {
+            "type": "authorized_stores",
+            "settings": {
+              "allowed_store_urls": "ecomgraduates.com"
+            }
+          },
+          "ab97e508-9bb6-43e9-bcbb-9f0c90765f08": {
+            "type": "authorized_stores",
+            "settings": {
+              "allowed_store_urls": "mywebsite.com"
+            }
+          },
+          "39cdf40c-e046-4764-ac40-f5ef177ee5f3": {
+            "type": "authorized_stores",
+            "settings": {
+              "allowed_store_urls": "somewebsite.com"
+            }
+          }
+        },
+        "block_order": [
+          "6811c1a9-54a4-4628-a43d-a0c6f7973a21",
+          "ab97e508-9bb6-43e9-bcbb-9f0c90765f08",
+          "39cdf40c-e046-4764-ac40-f5ef177ee5f3"
+        ],
+        "settings": {}
+      },
+      "free-shipping": {
+        "type": "free-shipping",
+        "blocks": {
+          "df1144d8-85bf-49e8-a538-084127e90880": {
+            "type": "announcement",
+            "settings": {
+              "shipping_count": true,
+              "announce_text": "Free Local Pickup | Free Shipping on Orders Over $100!",
+              "announce_link_text": "link",
+              "announce_link": "",
+              "announce_text_shadow_direction_x": -20,
+              "announce_text_shadow_direction_y": -20,
+              "announce_text_shadow_blur": 0,
+              "announce_text_shadow_color": "rgba(0,0,0,0)",
+              "announce_text_font": "raleway_n7",
+              "announce_text_align": "center",
+              "announce_text_underline": false,
+              "announce_text_color": "#ffffff",
+              "announce_text_size": 16,
+              "announce_text_size_mobile": 14,
+              "announce_text_weight": 500,
+              "announce_link_color": "#ffffff",
+              "announce_link_underline": true,
+              "announce_link_color_hover": "#328af3"
+            }
+          }
+        },
+        "block_order": [
+          "df1144d8-85bf-49e8-a538-084127e90880"
+        ],
+        "settings": {
+          "enable_announcement": true,
+          "show_again": false,
+          "home_page_only": false,
+          "enable_gradient": false,
+          "color_1": "#556dc7",
+          "color_2": "#556dc7",
+          "gradient_direction": "to right top",
+          "free_shipping_threshold": "75",
+          "free_qualified": "Your order qualifies for <strong>Free Shipping<\/strong>",
+          "free_not_qualified": "Add <strong>[price]<\/strong> to get free shipping"
+        }
+      },
+      "1618678192ec7782bf": {
+        "type": "judgeme_carousel_section",
+        "settings": {
+          "maxwidth": 1080
+        }
+      }
+    },
+    "content_for_index": [
+      "1598989622547",
+      "1601224759327",
+      "1601224814009",
+      "1601224857613",
+      "1599048454133",
+      "1602424813074",
+      "1602425295455",
+      "1618678192ec7782bf"
+    ]
+  },
+  "presets": {
+    "Default": {
+      "content_for_index": []
+    }
+  }
+}
