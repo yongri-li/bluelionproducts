@@ -274,7 +274,7 @@
                                             {{ pages[page_handle].content }}
                                         </div>
                                     {% else %}
-                                        <h6 class="dropdown-header">{{ child_link.title }}</h6>
+                                        <a href="{{ child_link.url }}" class="dropdown-header">{{ child_link.title }}</a>
                                         {% for child_2_link in child_link.links %}
                                             <li>
                                                 {% if child_2_link.title contains "--divider" %}

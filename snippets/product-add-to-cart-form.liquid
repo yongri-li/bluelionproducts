@@ -89,7 +89,7 @@
 
     {% assign form_class = 'product-add-to-cart-form rounded mb-4' %}
     {% if settings.product_add_to_cart_form_bg_color %}
-        {% assign form_class = 'bg-light py-4 px-2 px-lg-4 ' | append: form_class %}
+        {% assign form_class = 'bg-light px-2 px-lg-4 ' | append: form_class %}
     {% endif %}
 
     {% form 'product', product, class: form_class %}
@@ -158,8 +158,18 @@
             {% for option in product.options_with_values %}
                 {% assign option_name = option.name | handleize %}
 
+                {% assign use_swatch = false %}
+
                 {% if section.settings.use_swatches and option_name == 'color' or option.name == 'colour' %}
-                    <h5 class="h6 mb-1 opacity-75">{{ option.name }}</h5>
+                    {% assign use_swatch = true %}
+                {% endif %}
+
+                {% if template contains 'collection' %}
+                    {% assign use_swatch = true %}
+                {% endif %}
+
+                {% if use_swatch %}
+                    <h5 class="h6 mb-1 opacity-75 option-label">{{ option.name }}</h5>
                     <div class="d-flex flex-wrap mx-n1 mb-3">
                         {% for value in option.values %}
                         {% assign swatch_image = value | handleize | prepend: 'swatch-' | append: '.png' %}
@@ -178,10 +188,9 @@
                                     style="
                                         width: 32px;
                                         height: 32px;
-                                        background-color: {{ value | handleize | replace: '-', '' }};
-                                        {% if section.settings.swatch_image %}
+                                        background-color: {{ value | handleize | replace: '-', '' }};                                        
                                         background-image: url({{ swatch_image | asset_img_url: '32x32', crop: 'center' }})
-                                        {% endif %}
+                                        
                                     ">
                                     <span class="sr-only">{{ value | escape }}</span>
                                 </label>
