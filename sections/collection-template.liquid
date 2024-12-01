@@ -185,7 +185,7 @@
 
     {% paginate collection.products by section.settings.results_per_page %}
 
-      <div class="
+      <div class="collection-content 
            {{ section.settings.prod_items_margin_top | prepend: 'mt-' }}
            {{ section.settings.prod_items_margin_bottom | prepend: 'mb-' }}
           ">
@@ -193,6 +193,84 @@
         {% assign from = section.settings.show_from %}
         {% assign image_crop = section.settings.product_image_crop %}
         {% assign prod_margin_bottom = section.settings.prod_price_margin_bottom %}
+        <div class="collection-filter-sidebar">
+          <div class="modal-header">
+            <h5 class="modal-title" id="collection-filter-modal-label">
+                {{ 'products.filter_products' | t }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+              {% for tag in collection.all_tags %}
+                  {% if tag contains '__' %}
+
+                      {% assign header        = tag | split: '__' | first | capitalize %}
+                      {% assign prevIndex     = forloop.index0 | minus: 1 %}
+                      {% assign nextIndex     = forloop.index0 | plus: 1 %}
+                      {% assign prevHeader    = collection.all_tags[prevIndex] | split: '__' | first | capitalize %}
+                      {% assign nextHeader    = collection.all_tags[nextIndex] | split: '__' | first | capitalize %}
+
+                      {% if header != prevHeader %}
+                          <div class="py-1">
+                              <button
+                                  class="btn btn-light btn-block font-weight-bold"
+                                  type="button"
+                                  data-toggle="collapse"
+                                  data-target="#filter-collapse-{{ header | handleize }}"
+                                  aria-expanded="true"
+                                  aria-controls="filter-collapse-{{ header | handleize }}">
+                                  {{ header }}
+                              </button>
+
+                              <div class="collapse show" id="filter-collapse-{{ header | handleize }}">
+                                  <div class="custom-control custom-radio my-1 mt-3">
+                                      <input
+                                          type="radio"
+                                          name="filter-tag-{{ header | handleize }}"
+                                          id="filter-header-{{ header | handleize }}"
+                                          class="custom-control-input"
+                                          checked>
+                                      <label class="custom-control-label d-block" for="filter-header-{{ header | handleize }}">
+                                          {{ 'misc.all' | t }}
+                                      </label>
+                                  </div>
+                      {% endif %}
+
+                                  <div class="custom-control custom-radio my-1">
+                                      <input
+                                          type="radio"
+                                          name="filter-tag-{{ header | handleize }}"
+                                          id="filter-tag-{{ tag | handleize }}"
+                                          class="custom-control-input"
+                                          data-tag="{{ tag | handleize }}"
+                                          {% if current_tags contains tag %}checked{% endif %}>
+                                      <label class="custom-control-label d-block" for="filter-tag-{{ tag | handleize }}">
+                                          {{ tag | split: '__' | last }}
+                                      </label>
+                                  </div>
+
+                      {% if header != nextHeader %}
+                                  <div class="py-2"></div>
+                              </div>
+                          </div>
+                      {% endif %}
+
+                  {% endif %}
+              {% endfor %}
+          </div>
+          <div class="modal-footer">
+              <button
+                  id="collection-filter-apply-btn"
+                  type="button"
+                  class="btn btn-primary"
+                  data-collection-url="{{ collection.url }}">
+                  {{ 'misc.apply' | t }}
+              </button>
+          </div>
+          </div>
         {% render 'product-list' with product_list: product_list, image_crop:image_crop, from:from, prod_margin_bottom:prod_margin_bottom %}
       </div>
 
